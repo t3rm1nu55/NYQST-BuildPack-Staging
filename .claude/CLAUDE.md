@@ -45,6 +45,7 @@ packs/V2M/              ← V2M source files (reference, repo_audit)
 methodology/            ← consolidation methodology from Standards
 insights/               ← 7 design insights from Standards
 scripts/                ← import script
+v4/                     ← consolidated V4 outputs (populated as meta-issues resolve)
 .github/ISSUE_TEMPLATE/ ← templates for new issues
 ```
 
@@ -62,3 +63,4 @@ scripts/                ← import script
 - Do not close V4 meta-issues without documenting the decision in the issue body
 - Update `meta/TODO.md` at end of every session
 - After completing any run, execute its Refresh Checkpoint (see `meta/PLAN.md`)
+- When closing a V4 meta-issue, update affected files in `v4/` per the File Artifacts checklist and add a `v4/CHANGELOG.md` entry
