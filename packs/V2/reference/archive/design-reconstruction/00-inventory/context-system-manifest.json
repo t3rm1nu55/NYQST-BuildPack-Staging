@@ -1,0 +1,596 @@
+[
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/reports/01_observed_surface.md",
+    "basename": "01_observed_surface.md",
+    "primary_topic": "Observable frontend stack, routes, API surface, entity model, and feature flags from Next.js bundles and saved HTML",
+    "document_type": "context-analysis",
+    "streaming_events_documented": [],
+    "schemas_found": [
+      {
+        "name": "Entity types",
+        "format": "Zod discriminated union",
+        "source": "_app-7122b4604941924b.js",
+        "variants": [
+          "WEB_PAGE",
+          "EXTERNAL_API_DATA",
+          "GENERATED_CONTENT",
+          "USER_QUERY_PART",
+          "GENERATED_REPORT",
+          "GENERATED_PRESENTATION",
+          "INTRA_ENTITY_SEARCH_RESULT",
+          "EXTRACTED_ENTITY",
+          "SEARCH_PLAN",
+          "KNOWLEDGE_BASE",
+          "WEBSITE",
+          "GENERATED_DOCUMENT"
+        ]
+      },
+      {
+        "name": "External API providers",
+        "format": "enum",
+        "variants": [
+          "brave",
+          "fin_doc",
+          "firecrawl",
+          "quartr",
+          "polygon",
+          "kalshi",
+          "crunchbase",
+          "fred",
+          "quiver"
+        ]
+      }
+    ],
+    "api_endpoints_documented": [
+      "/api/chat/message/stream",
+      "/api/chat/message",
+      "/api/chat/retry",
+      "/api/chat/list",
+      "/api/chat/user-message/generate-title",
+      "/api/chat/trace-link",
+      "/api/artifact/download",
+      "/api/artifact/download-public",
+      "/api/share",
+      "/api/share/valid",
+      "/api/browser-use/user-input-done",
+      "/api/website/status",
+      "/api/deploy",
+      "/api/session",
+      "/api/subscription-info",
+      "/api/user-usage",
+      "/api/account",
+      "/api/account/personal-info",
+      "/api/suggestions/homepage-batch",
+      "/api/suggestions/prompt"
+    ],
+    "agent_behaviors_documented": [],
+    "data_structures": [
+      "Entity with report_subtype (final_report, scratch_pad, other)",
+      "Website with generation_status (in_progress, complete, failed) and optional deployed/demo URLs"
+    ],
+    "quantitative_findings": {
+      "entity_types_count": 12,
+      "external_api_providers_count": 9,
+      "deliverable_types_enabled": 4,
+      "app_routes_documented": 8,
+      "api_endpoints_observed": 56
+    },
+    "key_signals": [
+      "Next.js with Tailwind CSS and Zod runtime validation; PostHog analytics + A/B experiments",
+      "Sanity CMS integration; Ory Kratos identity hints visible in internal API route",
+      "First-class entity model (12 types) maps tool outputs (search, crawl, finance) as referenceable artifacts",
+      "Feature flags drive deliverables (website, slides, documents, code) and report variants (enhanced, multi-section streaming)",
+      "No-auth allowlist enables anonymous access to /reports, /content-library, /share/*, /report/preview/*, /website/*",
+      "Multi-tenant scoping via workspace; workspace landing page visible; citation rendering in chat UI",
+      "UTM tracking shows Airtable Superagent launch campaign integration",
+      "File upload, browser-use human-in-loop, and per-run artifact storage all present"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/reports/02_streaming_protocol.md",
+    "basename": "02_streaming_protocol.md",
+    "primary_topic": "NDJSON event stream protocol for chat messages and orchestration telemetry",
+    "document_type": "streaming-spec",
+    "streaming_events_documented": [
+      "stream_start",
+      "heartbeat",
+      "done",
+      "ERROR",
+      "message_delta",
+      "ai_message",
+      "message_is_answer",
+      "chat_title_generated",
+      "clarification_needed",
+      "update_message_clarification_message",
+      "task_update",
+      "pending_sources",
+      "node_tools_execution_start",
+      "node_tool_event",
+      "update_subagent_current_action",
+      "node_report_preview_start",
+      "node_report_preview_delta",
+      "node_report_preview_done",
+      "browser_use_start",
+      "browser_use_stop",
+      "browser_use_await_user_input",
+      "references_found"
+    ],
+    "schemas_found": [
+      {
+        "name": "NDJSON response envelope",
+        "format": "JSON",
+        "structure": {
+          "data": {
+            "type": "<event_type>",
+            "description": "discriminated union on type"
+          },
+          "timestamp": "number (milliseconds)"
+        }
+      },
+      {
+        "name": "stream_start event",
+        "fields": ["chat_id", "workspace_id", "user_message_id"]
+      },
+      {
+        "name": "task_update event",
+        "fields": ["plan_set_id", "plan_id", "status", "plan_set"]
+      },
+      {
+        "name": "node_tools_execution_start event",
+        "fields": ["node_id", "tool_ids", "total_tools"]
+      },
+      {
+        "name": "node_tool_event event",
+        "fields": ["event_name", "node_id", "tool_id", "metadata", "timestamp"]
+      },
+      {
+        "name": "node_report_preview_* events",
+        "fields": ["preview_id", "section_id", "report_title", "report_user_query", "final_report", "delta", "content"]
+      },
+      {
+        "name": "browser_use_* events",
+        "fields": ["browser_session_id", "browser_stream_url", "agent_message"]
+      },
+      {
+        "name": "done event",
+        "fields": ["message", "has_async_entities_pending"]
+      },
+      {
+        "name": "ERROR event",
+        "fields": ["error_type", "error_message"]
+      }
+    ],
+    "api_endpoints_documented": [
+      {
+        "method": "GET",
+        "path": "/api/chat/message/stream",
+        "params": ["message_stream_id"],
+        "auth": "credentials: include (cookie)",
+        "headers": ["Connection: keep-alive", "cache-control: no-cache", "X-Gradient-Browser-Client: 1", "X-Gradient-Workspace-Id: optional"]
+      }
+    ],
+    "agent_behaviors_documented": [
+      "Plan generation and task creation (task_update events)",
+      "Node-based execution with batched tool invocation",
+      "Tool telemetry via node_tool_event",
+      "Human-in-loop interrupts via browser_use_await_user_input",
+      "Report preview streaming with optional multi-section support",
+      "Citation buffering during token streaming (delays rendering until [ ] brackets closed)"
+    ],
+    "data_structures": [
+      "discriminated union on data.type (22 variants)",
+      "plan_set object with plan_id hierarchy",
+      "tool_ids array with total_tools count",
+      "reference record array (external_url, title, provider metadata)"
+    ],
+    "quantitative_findings": {
+      "event_types_count": 22,
+      "lifecycle_events": 4,
+      "message_content_events": 6,
+      "planning_execution_events": 5,
+      "report_preview_events": 3,
+      "browser_use_events": 3,
+      "timeout_seconds": 30,
+      "max_retries": 5,
+      "retry_backoff_formula": "min(1000 * 2^(retry-1), 30000) ms"
+    },
+    "key_signals": [
+      "NDJSON framing over plain fetch() with explicit enum validation (Zod discriminated union)",
+      "Stream lifecycle: stream_start -> [plan/tool/delta events] -> terminal (done/ERROR/clarification_needed)",
+      "Orchestration IDs: plan_set_id, plan_id, node_id, tool_id form hierarchical execution graph",
+      "Dual message types: message_delta (streaming) vs ai_message (structured), both can include citations",
+      "Plan-task model: task_update includes full plan_set object, enabling UI to show plan structure",
+      "Async entity completion: done.has_async_entities_pending allows answer to complete while background work continues",
+      "Explicit human-in-loop: browser_use_await_user_input pauses for /api/browser-use/user-input-done resume",
+      "Replay persistence: ReplayStream mode in client implies events stored per message_stream_id, enabling time-travel UI"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/reports/03_agent_orchestration_inference.md",
+    "basename": "03_agent_orchestration_inference.md",
+    "primary_topic": "Inferred backend orchestration architecture and execution model from client contract analysis",
+    "document_type": "protocol-analysis",
+    "streaming_events_documented": [
+      "task_update",
+      "pending_sources",
+      "node_tools_execution_start",
+      "node_tool_event",
+      "update_subagent_current_action",
+      "node_report_preview_start",
+      "node_report_preview_delta",
+      "node_report_preview_done",
+      "browser_use_start",
+      "browser_use_await_user_input"
+    ],
+    "schemas_found": [
+      {
+        "name": "Orchestration ID hierarchy",
+        "format": "inferred",
+        "structure": {
+          "message_stream_id": "run identifier",
+          "plan_set_id": "planning scope (multiple plans/tasks)",
+          "plan_id": "subgraph/phase id",
+          "node_id": "execution unit",
+          "tool_id": "tool invocation identity",
+          "tool_type": "tool name/type"
+        }
+      },
+      {
+        "name": "Terminology mapping to common runtimes",
+        "frameworks": ["LangGraph", "Temporal", "custom orchestrator"],
+        "mappings": [
+          "plan_set_id -> thread/run id",
+          "plan_id -> subgraph/phase",
+          "node_id -> step/node",
+          "tool_id -> tool_call_id",
+          "ReplayStream -> checkpoint replay"
+        ]
+      }
+    ],
+    "api_endpoints_documented": [
+      "/api/chat/message",
+      "/api/chat/message/stream",
+      "/api/browser-use/user-input-done",
+      "/api/deploy",
+      "/api/website/status"
+    ],
+    "agent_behaviors_documented": [
+      "Run creation: user message -> returns message_stream_id",
+      "Planner: generates plan_set (multiple plans/tasks), emits task_update and pending_sources",
+      "Executor: schedules nodes that invoke tools (possibly parallel); emits node_tools_execution_start, node_tool_event, update_subagent_current_action",
+      "Synthesis: emits message_delta (streaming), then done; includes references_found and citations/entities",
+      "Deliverable generators: report previews via node_report_preview_*, websites/presentations as stored entities",
+      "Durable history: ReplayStream enables replay of persisted event list",
+      "Human-in-loop: browser_use_await_user_input pauses, /api/browser-use/user-input-done resumes"
+    ],
+    "data_structures": [
+      "Event log (append-only per message_stream_id)",
+      "Run state materialization (served to /tasks/*, replay)",
+      "Tool invocation records (idempotent, keyed by tool_id)",
+      "Plan set with hierarchical plan/node/tool structure"
+    ],
+    "quantitative_findings": {
+      "confidence_levels": {
+        "durable_execution_traits": "medium-high",
+        "plan_executor_inferred": "high",
+        "langgraph_alignment": "conceptual_similarity",
+        "temporal_alignment": "conceptual_similarity"
+      },
+      "signals_pointing_to_event_sourcing": 2
+    },
+    "key_signals": [
+      "Orchestration IDs prove hierarchical graph: plan_set -> plan -> node -> tool execution",
+      "Task_update event includes full plan_set object, enabling UI to render entire plan graph",
+      "Two independent signals of event-sourcing: (1) ReplayStream in client, (2) done.has_async_entities_pending",
+      "Human-in-loop semantics: browser_use_await_user_input + resume endpoint = interrupt + Command pattern",
+      "No direct library proof in JS bundles, but shape aligns with LangGraph (persistence via checkpoints, interrupts, streaming)",
+      "Tool invocation tracking via node_id + tool_id suggests idempotent execution model",
+      "Update_subagent_current_action (per plan/node) enables progress UI without full plan re-stream",
+      "Reference architecture: API -> Orchestrator -> Event log + Entity store + Tool runners + Browser-use service"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/reports/04_prompt_and_output_formats.md",
+    "basename": "04_prompt_and_output_formats.md",
+    "primary_topic": "Output format contracts (citations, GML tags) and inferred system prompt constraints",
+    "document_type": "context-analysis",
+    "streaming_events_documented": [
+      "message_delta",
+      "references_found",
+      "node_report_preview_*"
+    ],
+    "schemas_found": [
+      {
+        "name": "GML tag set (16 tags)",
+        "format": "React component map",
+        "tags": [
+          "gml-row",
+          "gml-primarycolumn",
+          "gml-sidebarcolumn",
+          "gml-halfcolumn",
+          "gml-inlinecitation",
+          "gml-chartcontainer",
+          "gml-gradientinsightbox",
+          "gml-infoblockmetric",
+          "gml-infoblockevent",
+          "gml-infoblockstockticker",
+          "gml-viewreport",
+          "gml-viewwebsite",
+          "gml-viewpresentation",
+          "gml-viewgenerateddocument",
+          "gml-downloadfile",
+          "gml-blockquote"
+        ]
+      },
+      {
+        "name": "Citation binding model",
+        "format": "inferred",
+        "structure": {
+          "model_output": "inline citations [1] / [2]",
+          "gml-inlinecitation": "{ identifier?: string }",
+          "entity_store": "lookup by citationIdentifier"
+        }
+      },
+      {
+        "name": "Report preview streaming schema",
+        "fields": [
+          "preview_id",
+          "section_id (optional, multi-section)",
+          "final_report (boolean)",
+          "report_title",
+          "report_user_query",
+          "content (final)",
+          "delta (incremental)"
+        ]
+      }
+    ],
+    "api_endpoints_documented": [
+      "/api/suggestions/prompt"
+    ],
+    "agent_behaviors_documented": [
+      "Plain answer streaming with inline bracket citations [n]",
+      "Report generation with GML-structured output",
+      "Multi-section report streaming (section_id in preview events)",
+      "Deliverable mode selection (normal vs super_report)",
+      "Structural healing: invalid GML tag nesting auto-corrected (hoist or remove)",
+      "Citation buffering: delays rendering until [ ] bracket pairs close"
+    ],
+    "data_structures": [
+      "GML tag hierarchy: row -> (primarycolumn | sidebarcolumn | halfcolumn) -> widgets",
+      "Citation record: { external_url, title, provider metadata }",
+      "Preview event: { preview_id, section_id?, final_report, report_title, report_user_query, content|delta }"
+    ],
+    "quantitative_findings": {
+      "gml_tags_count": 16,
+      "layout_tags": 4,
+      "widget_tags": 9,
+      "artifact_viewer_tags": 4,
+      "deliverable_types": [
+        "report",
+        "slides",
+        "website",
+        "document",
+        "code"
+      ]
+    },
+    "key_signals": [
+      "GML custom tag set is primary report output format (not Markdown; not HTML)",
+      "Healing logic indicates model frequently produces imperfect nesting; system corrects auto-hoist/remove",
+      "Citation model: bracket citations in plain text [n] map to entity identifiers via gml-inlinecitation props",
+      "Report preview streaming supports multi-section generation with optional section_id",
+      "Deliverable toggle (normal vs super_report) gates enhanced report generation; monthly credit consumption",
+      "/api/suggestions/prompt exists but content not in snapshot; system prompt templates not observable",
+      "User-facing copy ('browses, codes, acts') hints at agent capabilities: web automation + code gen + user approval",
+      "Output format enforcement: system prompt likely requires [n] bracket format + valid GML tag nesting"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/reports/05_validation_playbook.md",
+    "basename": "05_validation_playbook.md",
+    "primary_topic": "Methodology for confirming/denying inferences via live DevTools captures and NDJSON parsing",
+    "document_type": "protocol-analysis",
+    "streaming_events_documented": [],
+    "schemas_found": [],
+    "api_endpoints_documented": [
+      "/api/chat/message/stream",
+      "/api/browser-use/user-input-done",
+      "/api/chat/trace-link",
+      "/api/website/status"
+    ],
+    "agent_behaviors_documented": [],
+    "data_structures": [],
+    "quantitative_findings": {
+      "validation_steps": 7,
+      "checkpoints_in_hypothesis_checklist": 7
+    },
+    "key_signals": [
+      "DevTools Network tab validation: GET /api/chat/message/stream?message_stream_id=..., response chunked NDJSON",
+      "NDJSON parsing: each line validates as { data: { type: ... }, timestamp: ... }",
+      "Trace validation: /api/chat/trace-link response reveals tracing backend (LangSmith/other)",
+      "Event sequence capture: full run trace enables correlation of nodes/tools/references/previews",
+      "Human-in-loop capture: observe browser_use_start -> browser_use_await_user_input -> /api/browser-use/user-input-done sequence",
+      "Deliverable observation: note which events stream per deliverable type (report vs slides vs website vs document)",
+      "Included bash snippet for lightweight NDJSON line extraction: node -e parsing of type field",
+      "7-point hypothesis checklist covers NDJSON framing, workspace header, node_tools_execution_start, subagent_current_action, replay, GML tags, trace link"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/reports/README.md",
+    "basename": "README.md",
+    "primary_topic": "Overview and reading guide for the 5-report series on Superagent reverse engineering",
+    "document_type": "context-analysis",
+    "streaming_events_documented": [],
+    "schemas_found": [],
+    "api_endpoints_documented": [],
+    "agent_behaviors_documented": [],
+    "data_structures": [],
+    "quantitative_findings": {
+      "total_reports": 5,
+      "evidence_sources": 3,
+      "privacy_note": "raw HTML contains __NEXT_DATA__ with session/user data"
+    },
+    "key_signals": [
+      "Suggested reading order: 01 (surface) -> 02 (protocol) -> 03 (inference) -> 04 (formats) -> 05 (validation)",
+      "Primary evidence: 3 JS bundles (774-* stream client, 1889-* report renderer, _app-* entity schemas) + feature flags + extracted signals",
+      "Snapshot scope: client-side only (Next.js bundles, saved HTML); server code, DB schema, prompt templates not visible",
+      "Privacy: uses sanitized next_data_sanitized.json instead of raw HTML to avoid sharing __NEXT_DATA__ embedded state",
+      "Reverse engineering goal: document observable protocol + infer backend architecture from client contract",
+      "Key files: 774-* (NDJSON stream + event schema), 1889-* (GML renderer + healing), _app-* (entity + reference types)"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/reports/data/extracted_signals.json",
+    "basename": "extracted_signals.json",
+    "primary_topic": "Raw extraction of API endpoints, headers, and GML tags from JS bundles",
+    "document_type": "data-extract",
+    "streaming_events_documented": [],
+    "schemas_found": [],
+    "api_endpoints_documented": [
+      "56 distinct /api/* paths (see api_endpoints array)"
+    ],
+    "agent_behaviors_documented": [],
+    "data_structures": [
+      "api_endpoints: array of 56 path strings",
+      "headers: array of header names (including x-gradient-*, x-sanity-*, x-posthog-*)",
+      "gml_tags: array of 18 GML component tag names"
+    ],
+    "quantitative_findings": {
+      "api_endpoints_count": 56,
+      "headers_count": 49,
+      "gml_tags_count": 18,
+      "groups": {
+        "chat_streaming": 4,
+        "artifacts_sharing": 4,
+        "browser_use": 1,
+        "websites": 2,
+        "user_session_billing": 4,
+        "suggestions_prompts": 2
+      }
+    },
+    "key_signals": [
+      "56 API endpoints extracted directly from bundle strings",
+      "Headers include tenant scoping (x-gradient-workspace-id), browser client marker, Sanity project reference",
+      "PostHog analytics headers: x-posthog-distinct-id, x-posthog-session-id, x-posthog-utm-*",
+      "GML tag set stable across v1 and v2 extractions (18 tags total, minor differences)",
+      "Key chat endpoints: /api/chat/message, /api/chat/message/stream, /api/chat/trace-link",
+      "Billing/subscription endpoints: /api/subscription-info, /api/user-usage, /api/subscribe",
+      "Website deployment endpoints: /api/deploy, /api/website/status"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/reports/data/extracted_signals_v2.json",
+    "basename": "extracted_signals_v2.json",
+    "primary_topic": "Refined extraction of API endpoints, headers, and GML tags from JS bundles (v2 version)",
+    "document_type": "data-extract",
+    "streaming_events_documented": [],
+    "schemas_found": [],
+    "api_endpoints_documented": [
+      "58 distinct /api/* paths"
+    ],
+    "agent_behaviors_documented": [],
+    "data_structures": [
+      "api_endpoints: array of 58 path strings (refined from v1)",
+      "headers: array of header names (49 headers, includes x-full in v2)",
+      "gml_tags: array of 18 GML component tag names"
+    ],
+    "quantitative_findings": {
+      "api_endpoints_count": 58,
+      "headers_count": 49,
+      "gml_tags_count": 18,
+      "additions_from_v1": [
+        "/api/chat/citation_download",
+        "/api/chat/user-message/open-uploads",
+        "header: x-full"
+      ]
+    },
+    "key_signals": [
+      "v2 refinement adds citation_download and user-message upload endpoints",
+      "Stable GML tag set across extractions (18 tags repeated)",
+      "Header set consistent: x-gradient-*, x-sanity-*, x-posthog-*, standard HTTP/NextJS headers",
+      "New feature signals: citation download capability, user message uploads (likely for file context)",
+      "X-Full header presence suggests rendering variation flag",
+      "Endpoint grouping consistent: chat, artifacts, browser-use, websites, session, billing, suggestions"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/reports/data/next_data_sanitized.json",
+    "basename": "next_data_sanitized.json",
+    "primary_topic": "Feature flags, CMS config, analytics bootstrap, and session state from Next.js __NEXT_DATA__",
+    "document_type": "data-extract",
+    "streaming_events_documented": [],
+    "schemas_found": [
+      {
+        "name": "Feature flags (creditDocAnalysisAppFlags)",
+        "flags": [
+          "codeDeliverableEnabled",
+          "customReportTemplateUIEnabled",
+          "disableUnauthedChatAccess",
+          "documentDeliverableEnabled",
+          "editableReportUIEnabled",
+          "emailNotificationsEnabled",
+          "enableViewLibraryReports",
+          "enhancedReportEnabled",
+          "fileUploadEnabled",
+          "multiSectionReportStreamingEnabled",
+          "personalizedSuggestionsV0Enabled",
+          "slideDeliverableEnabled",
+          "superSlidesGenerationEnabled",
+          "tableOfContentsUIEnabled",
+          "useCaseFaviconEnabled",
+          "websiteDeliverableEnabled"
+        ]
+      },
+      {
+        "name": "Sanity CMS config",
+        "fields": ["projectId: 4jpbu6z4", "dataset: production"]
+      },
+      {
+        "name": "PostHog bootstrap",
+        "fields": ["featureFlags (20+)", "isIdentifiedId", "personProperties", "sessionId"]
+      }
+    ],
+    "api_endpoints_documented": [],
+    "agent_behaviors_documented": [],
+    "data_structures": [
+      "initialReduxState: requests.queries cache",
+      "Feature flag structure: boolean gates + string configs",
+      "PostHog featureFlags: A/B test variants (e.g., report_layout_variant: sidebar)",
+      "Page URLs: auth.superagent.com endpoints for login/logout/workspace selection",
+      "noAuthPathAllowlist: regex and literal string paths"
+    ],
+    "quantitative_findings": {
+      "feature_flags_total": 16,
+      "deliverable_types_enabled": [
+        "code",
+        "document",
+        "slide",
+        "website"
+      ],
+      "posthog_feature_tests": 20,
+      "posthog_feature_variants": {
+        "report_layout_variant": "sidebar",
+        "website-redesign-2026": "redesign",
+        "home_page_version": "v2",
+        "share-thumbnails-enabled": true,
+        "show_homepage_use_cases": false,
+        "enable_multi_section_report_streaming": true,
+        "use-cases-visible": true,
+        "landing_page_test": "control"
+      },
+      "utm_tracking": {
+        "utm_campaign": "superagentlaunchairtable",
+        "utm_source": "airtable"
+      }
+    },
+    "key_signals": [
+      "Deliverables: code, document, slide, website all enabled; codeDeliverableEnabled indicates code gen feature",
+      "Enhanced reports: enhancedReportEnabled + multiSectionReportStreamingEnabled suggest two-tier report generation",
+      "Sanity CMS present: projectId 4jpbu6z4 dataset production indicates content management for templates/prompts",
+      "PostHog A/B testing active: 20+ feature flags in bootstrap for testing report layout, homepage, website redesign",
+      "Report layout variant: sidebar layout being tested (vs alternative)",
+      "UTM tracking shows Airtable Superagent launch campaign (Jan 2026)",
+      "Auth URLs use auth.superagent.com subdomain (separate auth service/Kratos/external OIDC)",
+      "No-auth allowlist: public access to reports, content-library, shared reports/websites, with regex patterns for dynamic routes"
+    ]
+  }
+]

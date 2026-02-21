@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NYQST Insight",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "insight_id",
+    "project_id",
+    "statement",
+    "status",
+    "evidence_ids",
+    "created_at"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "insight_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "statement": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "DRAFT",
+        "REVIEWED",
+        "PUBLISHED",
+        "ARCHIVED"
+      ]
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "linked_crm_entity_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "linked_model_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "stale": {
+      "type": "boolean"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

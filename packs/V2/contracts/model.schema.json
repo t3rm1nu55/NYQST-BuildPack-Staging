@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NYQST Model + Validation",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "model_id",
+    "project_id",
+    "name",
+    "version",
+    "schema",
+    "rules"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "model_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "schema": {
+      "type": "object"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "validation_runs": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NYQST App Definition",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "app_id",
+    "project_id",
+    "name",
+    "type",
+    "version",
+    "status",
+    "inputs",
+    "context_pack",
+    "engine",
+    "outputs",
+    "triggers"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "app_id": {
+      "type": "string",
+      "description": "UUID"
+    },
+    "project_id": {
+      "type": "string",
+      "description": "UUID"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "VIEW",
+        "AGENT",
+        "ANALYSIS",
+        "WORKFLOW"
+      ]
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "DRAFT",
+        "PUBLISHED",
+        "ARCHIVED"
+      ]
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/InputField"
+      }
+    },
+    "context_pack": {
+      "$ref": "context_pack.schema.json"
+    },
+    "engine": {
+      "$ref": "#/$defs/AppEngine"
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/OutputMapping"
+      }
+    },
+    "triggers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Trigger"
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "InputField": {
+      "type": "object",
+      "required": [
+        "key",
+        "label",
+        "kind",
+        "required"
+      ],
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "TEXT",
+            "NUMBER",
+            "DATE",
+            "SELECT",
+            "MULTISELECT",
+            "BOOLEAN",
+            "JSON"
+          ]
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "default": {},
+        "source": {
+          "type": "string",
+          "description": "For SELECT kinds: e.g., BUNDLES, CRM_ENTITIES, MODEL_VERSIONS"
+        },
+        "validation": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    "AppEngine": {
+      "type": "object",
+      "required": [
+        "engine_type",
+        "ref"
+      ],
+      "properties": {
+        "engine_type": {
+          "type": "string",
+          "enum": [
+            "AGENT",
+            "WORKFLOW",
+            "QUERY",
+            "PIPELINE"
+          ]
+        },
+        "ref": {
+          "type": "string",
+          "description": "Reference to agent/workflow/pipeline id"
+        },
+        "config": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    "OutputMapping": {
+      "type": "object",
+      "required": [
+        "output_type",
+        "target"
+      ],
+      "properties": {
+        "output_type": {
+          "type": "string",
+          "enum": [
+            "NOTEBOOK_PAGE",
+            "CANVAS_BLOCK",
+            "EVIDENCE",
+            "INSIGHT",
+            "MODEL_UPDATE",
+            "DASHBOARD_REFRESH",
+            "ARTIFACT"
+          ]
+        },
+        "target": {
+          "type": "string",
+          "description": "Where to write (path/id)."
+        },
+        "link_to_run": {
+          "type": "boolean",
+          "default": true
+        },
+        "metadata": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Trigger": {
+      "type": "object",
+      "required": [
+        "trigger_type"
+      ],
+      "properties": {
+        "trigger_type": {
+          "type": "string",
+          "enum": [
+            "MANUAL",
+            "SCHEDULE",
+            "EVENT"
+          ]
+        },
+        "schedule_cron": {
+          "type": "string"
+        },
+        "event_type": {
+          "type": "string",
+          "description": "e.g., BUNDLE_VERSION_CREATED, VALIDATION_FAILED"
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "config": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

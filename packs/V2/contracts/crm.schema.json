@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NYQST CRM Entities",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "entity_id",
+    "project_id",
+    "entity_type",
+    "name"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "entity_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "entity_type": {
+      "type": "string",
+      "enum": [
+        "COMPANY",
+        "PERSON",
+        "ASSET",
+        "CONTRACT",
+        "OTHER"
+      ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "attributes": {
+      "type": "object"
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "to_entity_id",
+          "relationship_type"
+        ],
+        "properties": {
+          "to_entity_id": {
+            "type": "string"
+          },
+          "relationship_type": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

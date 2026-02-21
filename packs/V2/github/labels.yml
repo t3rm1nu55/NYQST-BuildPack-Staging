@@ -1,0 +1,89 @@
+# GitHub labels (recommended)
+
+- name: priority:P0
+  color: d73a4a
+  description: Blocking / must-fix before other work
+
+- name: wave:0
+  color: 0e8a16
+  description: Wave 0 (planner/fan-out + run events baseline)
+
+- name: wave:1
+  color: 0e8a16
+  description: Wave 1 (GenUI + ReportPanel + plan UX)
+
+- name: wave:2
+  color: 0e8a16
+  description: Wave 2 (deliverables + context)
+
+- name: wave:3
+  color: 0e8a16
+  description: Wave 3 (polish + clarification + overlay)
+
+- name: backend
+  color: 1d76db
+  description: Backend (FastAPI, DB, jobs)
+
+- name: frontend
+  color: 5319e7
+  description: Frontend (React/Vite)
+
+- name: infra
+  color: c5def5
+  description: Infrastructure / deployment / compose / CI
+
+- name: security
+  color: b60205
+  description: Security / auth / RBAC / secrets
+
+- name: quality
+  color: fbca04
+  description: Evals, tests, observability, reliability
+
+- name: mcp
+  color: 0052cc
+  description: MCP tool layer
+
+- name: connectors
+  color: 0052cc
+  description: External connectors / integrations
+
+- name: context
+  color: 0e8a16
+  description: Context packs, indexing, retrieval
+
+- name: deliverables
+  color: 0e8a16
+  description: Report/website/slides/document generation
+
+- name: canvas
+  color: 5319e7
+  description: Analysis canvas
+
+- name: rag
+  color: 0e8a16
+  description: Retrieval (OpenSearch/embeddings)
+
+- name: enterprise
+  color: 5319e7
+  description: SSO/RBAC/audit/billing
+
+- name: domain:docuintelli
+  color: 006b75
+  description: DocuIntelli module
+
+- name: domain:leasecd
+  color: 006b75
+  description: Lease CD module
+
+- name: domain:debt
+  color: 006b75
+  description: Debt module
+
+- name: domain:regsygnal
+  color: 006b75
+  description: RegSygnal module
+
+- name: domain:propsygnal
+  color: 006b75
+  description: PropSygnal module

@@ -1,0 +1,1209 @@
+[
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/00_INDEX.md",
+    "basename": "00_INDEX.md",
+    "primary_topic": "PRD Suite Navigation and Document Architecture",
+    "document_type": "prd",
+    "product_requirements": [
+      "Comprehensive product documentation suite for NYQST platform",
+      "Navigation guide with audience-specific reading paths",
+      "Product hierarchy defining platform modules and variants"
+    ],
+    "architectural_decisions": [
+      "Three-layer architecture: Platform → Products → Enterprise Shell",
+      "Platform-first, then products approach to delivery",
+      "ADR Notes embedded within relevant documents for decision tracking"
+    ],
+    "technology_choices": [],
+    "user_scenarios": [
+      "Executives starting with executive summary, then vision and roadmap",
+      "Engineering team starting with executive summary, then architecture and platform modules",
+      "Sales team starting with executive summary, then vision and products"
+    ],
+    "domain_concepts": [
+      "NYQST Platform - deterministic agentic infrastructure",
+      "PropSygnal - commercial real estate product variant",
+      "RegSygnal - regulatory intelligence product variant",
+      "Cognitive ERP - core positioning concept",
+      "Platform modules - Research, Document Management, Analysis, Modelling, Knowledge, Organisational Insight"
+    ],
+    "cross_references": [
+      "Relates to all PRD documents (01-10)",
+      "ADR Notes appear in docs 03, 04, 06",
+      "Planning documents bridge PRD with execution",
+      "Canonical references: PLATFORM_REFERENCE_DESIGN.md, UI_ARCHITECTURE.md"
+    ],
+    "key_signals": [
+      "Living document status (version 1.0, last updated 2026-01-25)",
+      "Clear document architecture with update frequencies specified",
+      "11-document PRD suite as authoritative source for what and why",
+      "ADR Notes flagged for deeper exploration during implementation"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/01_EXECUTIVE_SUMMARY.md",
+    "basename": "01_EXECUTIVE_SUMMARY.md",
+    "primary_topic": "Strategic Imperative and Commercial Proposition",
+    "document_type": "prd",
+    "product_requirements": [
+      "Sovereign platform providing operational certainty for agentic workforces",
+      "Six integrated platform modules (Research, Document, Analysis, Modelling, Knowledge, Insight)",
+      "Two product variants: PropSygnal (real estate) and RegSygnal (regulatory)",
+      "Investment ~$200k/annum commercial proposition",
+      "Complete evidence trails for all calculations and decisions"
+    ],
+    "architectural_decisions": [
+      "Core thesis: Intelligence is commodity, context is asset",
+      "Infrastructure focus over tools positioning",
+      "AI for translation, deterministic engines for truth",
+      "Ontologies as core assets enabling context injection"
+    ],
+    "technology_choices": [],
+    "user_scenarios": [
+      "Organizations with fiduciary responsibilities requiring auditability",
+      "Mid-cap enterprises $500M-$10B AUM",
+      "Teams of 20-200 knowledge workers",
+      "Deal flow processing with evidence trails",
+      "Covenant compliance monitoring"
+    ],
+    "domain_concepts": [
+      "Cognitive ERP - infrastructure for enterprise AI",
+      "Agentic workforce - digital workers with structure and governance",
+      "The 30 Graduates Problem - untrained agents create entropy",
+      "Power and Control - agents provide power, structure provides control",
+      "Ontology as asset - the Graph that makes context injection possible"
+    ],
+    "cross_references": [
+      "Builds on 02_VISION.md for strategic context",
+      "References 03_PLATFORM.md for module details",
+      "Links to 07_ROADMAP.md for delivery timeline",
+      "Foundational for all other PRD documents"
+    ],
+    "key_signals": [
+      "Decoupling in market between Tools (fluid) and Infrastructure (rigid)",
+      "Historical parallels: Steam Engine → Assembly Line; Microchip → ERP; Agent → Cognitive ERP",
+      "Value stack: Intelligence (commodity) vs Ontology (asset) vs Instance (asset)",
+      "Two implementation packages: Accelerate and Preserve for different risk appetites"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/02_VISION.md",
+    "basename": "02_VISION.md",
+    "primary_topic": "Strategic Thesis and Long-Term Vision",
+    "document_type": "prd",
+    "product_requirements": [
+      "Infrastructure supporting agentic workforces with structure and governance",
+      "Competitive advantage through structured context over raw AI capability",
+      "Operationalize trust through explicit verification and repeatability",
+      "Sovereignty over knowledge rather than rental from models"
+    ],
+    "architectural_decisions": [
+      "Domain-first approach rather than chat-first",
+      "Agent-Assisted Mapping for claims and verification",
+      "Separation of knowledge from employee (ontology captures context)",
+      "Hybrid system: commodity AI for grunt work, proprietary infrastructure for reasoning"
+    ],
+    "technology_choices": [],
+    "user_scenarios": [
+      "CEO/Investment Committee relying on software for major decisions",
+      "Regulated industries requiring evidence trails",
+      "Organizations managing complex portfolios with high scrutiny",
+      "Teams requiring institutional knowledge preservation"
+    ],
+    "domain_concepts": [
+      "The Architecture of Commercial Truth",
+      "Agent-Assisted Mapping - claims and verification cycles",
+      "Sovereignty and Repeatability - context captured in ontology persists",
+      "Market Position - infrastructure for enterprise AI in regulated industries",
+      "Competitive Differentiation - architectural discipline over technical capability"
+    ],
+    "cross_references": [
+      "Extends 01_EXECUTIVE_SUMMARY.md with deeper strategic context",
+      "Informs 03_PLATFORM.md module design",
+      "Drives 05_USERS.md persona requirements",
+      "Underpins 06_ARCHITECTURE.md technical decisions"
+    ],
+    "key_signals": [
+      "Three-horizon timeline: Near-term (2026) establish platform, Medium-term (2027) expand and launch RegSygnal, Long-term (2028+) standard infrastructure",
+      "Historical parallels establish pattern: Power requires Control",
+      "Market decoupling: Tools (fluid, statistical) vs Infrastructure (rigid, deterministic)",
+      "Core differentiation: discipline of high-end data engineering productized for mid-market"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/03_PLATFORM.md",
+    "basename": "03_PLATFORM.md",
+    "primary_topic": "Platform Modules and Core Capabilities",
+    "document_type": "prd",
+    "product_requirements": [
+      "Six integrated modules forming the Cognitive ERP: Research, Document Management, Analysis, Modelling, Knowledge & Domain, Organisational Insight",
+      "Research module with fast search, deep research, repeatable scraping",
+      "Document Management with file storage, versioning, bundle organization, tough source ingestion",
+      "Analysis with infinite canvas for visual exploration",
+      "Modelling with provable methods and data provenance",
+      "Knowledge & Domain with ontologies and domain models",
+      "Organisational Insight with dashboards and decision support"
+    ],
+    "architectural_decisions": [
+      "Core infrastructure with agentic system, skills framework, session management, assisted workflows",
+      "Distinction between Workflows (governed, predefined) and Agents (exploratory, user-directed)",
+      "Long-running agent patterns: Initializer Agent → Incremental Progress Agent with session bridging",
+      "Indexing as substrate capability not module-owned",
+      "Document processing pipeline with multi-tier approach (Fast, LLM, Vision, Agent)",
+      "Background Copilot for continuous opportunity detection",
+      "Dynamic views enabling agent-generated visualizations and business apps"
+    ],
+    "technology_choices": [
+      "Camunda Community Edition for workflow governance",
+      "Docling, LlamaParse, Unstructured.io for document processing",
+      "Merkle trees and semantic chunking for indexing",
+      "TreeSitter for code-aware parsing",
+      "LangGraph as agent runtime",
+      "MCP (Model Context Protocol) for tool integration",
+      "Context7-style domain model library for specialist work"
+    ],
+    "user_scenarios": [
+      "Research workflows with fast search and deep dives",
+      "Document processing from scanned PDFs and legacy formats",
+      "Covenant calculation with full audit trails",
+      "Portfolio analysis with visual relationship exploration",
+      "Regulatory requirement extraction and modeling"
+    ],
+    "domain_concepts": [
+      "Skills - discrete, reusable, versioned capabilities",
+      "Sessions - user + project/objective + compute realm bindings",
+      "Workflows vs Agents - distinction between governed and exploratory work",
+      "Index Service - substrate capability for search and retrieval",
+      "Dynamic Views - agent-generated visualizations and business applications",
+      "Context Management - email ingestion and organizational context building"
+    ],
+    "cross_references": [
+      "Details implementation of platform concept from 01_EXECUTIVE_SUMMARY.md",
+      "Provides module-level breakdown for 06_ARCHITECTURE.md",
+      "Specifies ADR Notes for detailed decisions in adr/ folder",
+      "Referenced by 04_PRODUCTS.md for variant-specific capabilities"
+    ],
+    "key_signals": [
+      "13 ADR Notes flagged for detailed exploration (Session/VM, Workflow Engine, Indexing, Classification, Domain Model Library, CDM Integration, Background Copilot, Dynamic Views, Agent-Generated Apps, Context Management, MCP Workflow, Long-Running Agents, Tool Design Standards, Document Processing)",
+      "Design principle: Evidence by default, AI for translation, engines for truth",
+      "Connector pattern: Connector + Skill + Agent + Workflow structure is reusable",
+      "Context management service with email ingestion and client/project matching"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/04_PRODUCTS.md",
+    "basename": "04_PRODUCTS.md",
+    "primary_topic": "Product Variants: PropSygnal and RegSygnal",
+    "document_type": "prd",
+    "product_requirements": [
+      "PropSygnal: AI-powered platform for full real estate investment lifecycle (acquisition through exit)",
+      "Five PropSygnal product areas: Investment & Acquisitions, Development & Project Management, Asset Management, Debt & Credit (MVP), Property Management",
+      "RegSygnal: Transforms regulatory documents into executable compliance logic",
+      "RegSygnal three areas: Regulatory Intelligence, Reporting Validation, Compliance Modelling",
+      "Two implementation packages: Accelerate (throughput-focused) and Preserve (auditability-focused)"
+    ],
+    "architectural_decisions": [
+      "Platform-first architecture with variants building on core capabilities",
+      "PropSygnal debt monitoring MVP as foundation for real estate variant",
+      "RegSygnal extension-based architecture (Common Plane, Regulatory Analysis Extension, Enterprise Analysis)",
+      "Lifecycle data continuity from acquisition through disposition"
+    ],
+    "technology_choices": [
+      "ISDA CDM (Common Data Model) structures for derivatives data",
+      "Building Passport integration for golden thread documentation",
+      "Property management system integrations (Yardi, MRI - Phase 2+)",
+      "Market data providers (CoStar, Bloomberg - Phase 3+)"
+    ],
+    "user_scenarios": [
+      "Investment Analyst screening deal flow and preparing IC memos",
+      "Asset Manager monitoring covenant compliance and quarterly reporting",
+      "Development Manager tracking cost and programme with BSA compliance",
+      "Property Manager handling leasing, operations, and compliance",
+      "Compliance Officer tracking regulatory requirements and gaps",
+      "Regulatory Analyst interpreting requirements and implementing controls",
+      "Technology Lead implementing compliance systems"
+    ],
+    "domain_concepts": [
+      "DSCR, LTV, ICR, Debt Yield - core covenant calculations",
+      "Rent Roll, Operating Statement, Loan Agreement - key documents",
+      "Development Dashboard, Building Safety Act compliance",
+      "Regulatory Intelligence, Reporting Validation, Compliance Modelling",
+      "EMIR, MiFID II, SFTR, Basel III, BCBS 239 - target regulations"
+    ],
+    "cross_references": [
+      "Variants leverage platform modules from 03_PLATFORM.md",
+      "Users defined in detail in 05_USERS.md",
+      "Roadmap specified in 07_ROADMAP.md",
+      "Metrics for success in 08_METRICS.md"
+    ],
+    "key_signals": [
+      "PropSygnal MVP focus: Debt & Credit foundation with evidence trails",
+      "RegSygnal architecture flagged for ADR on extension boundaries",
+      "Full lifecycle coverage across both Accelerate and Preserve packages",
+      "Two distinct implementation modes serving different risk appetites"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/05_USERS.md",
+    "basename": "05_USERS.md",
+    "primary_topic": "User Personas and Requirements",
+    "document_type": "prd",
+    "product_requirements": [
+      "Support mid-cap enterprises ($500M-$10B AUM) with fiduciary responsibilities",
+      "Teams of 20-200 knowledge workers",
+      "Nine detailed personas across PropSygnal and RegSygnal",
+      "Universal pain points: document processing, data fragmentation, reporting burden, institutional knowledge loss",
+      "Universal AI requirements: explainability, accuracy over speed, integration, auditability, appropriate confidence"
+    ],
+    "architectural_decisions": [
+      "Trust hierarchy: Never confidently wrong → Catch what humans miss → Faster than manual → Easy to verify → Learns from feedback",
+      "User journey from skeptical trial → cautious adoption → confident usage → advocacy",
+      "Persona-to-module mapping enabling targeted feature development"
+    ],
+    "technology_choices": [],
+    "user_scenarios": [
+      "Investment Analyst: deal screening, data extraction, DD coordination (2-5 years experience)",
+      "Investment Director: deal review, team oversight, IC preparation (8-15 years)",
+      "Asset Manager: covenant monitoring, reporting, lease management (5-12 years, 10-30 assets)",
+      "Fund/Portfolio Manager: portfolio visibility, investor reporting (15-25 years, 50-200 assets)",
+      "Property Manager: operations, compliance, tenant management (3-10 years, 5-20 buildings)",
+      "Financial Controller: fund accounting, covenant monitoring, audit coordination (10-20 years)",
+      "Compliance Officer: regulatory tracking, gap analysis, policy management (10-20 years)",
+      "Regulatory Analyst: requirement interpretation, implementation mapping (3-8 years)",
+      "Technology Lead: requirement specs, compliance systems, traceability (8-15 years)"
+    ],
+    "domain_concepts": [
+      "Information overload - 20-50 IMs per week, each 50-200 pages",
+      "Data extraction hell - manual pulling from PDFs into spreadsheets",
+      "Model building repetition - same structure rebuilt for each deal",
+      "Due diligence coordination - tracking 50+ documents across 10+ workstreams",
+      "Institutional knowledge loss - expertise trapped in individual heads",
+      "Covenant monitoring - proactive notification of breach risks",
+      "Compliance requirements - thousands of pages of new requirements annually"
+    ],
+    "cross_references": [
+      "Maps to platform modules (03_PLATFORM.md) for capability alignment",
+      "Informs product features in 04_PRODUCTS.md",
+      "Drives metrics definition in 08_METRICS.md",
+      "Shapes roadmap prioritization in 07_ROADMAP.md"
+    ],
+    "key_signals": [
+      "Common pain point hierarchy: document processing, data fragmentation, reporting, knowledge loss, time pressure",
+      "Universal trust requirements: explainability, accuracy, integration, auditability, calibrated confidence",
+      "Four-stage user journey with platform response at each stage",
+      "Persona-to-module mapping enables data-driven feature prioritization"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/06_ARCHITECTURE.md",
+    "basename": "06_ARCHITECTURE.md",
+    "primary_topic": "Technical Architecture and Design Principles",
+    "document_type": "prd",
+    "product_requirements": [
+      "Seven core architecture principles: single source of truth, ephemeral compute, schema-on-read, everything inspectable, pointers not mutations, policy-driven levels of care, index is substrate",
+      "Kernel objects: Tenancy/Identity/Access, Work Context, Artifact Substrate, Runs, Agents/Sessions, Index Service, Evidence/Claims/Decisions",
+      "Agent architecture with agent definitions, sessions, knowledge management, playbooks, skills framework",
+      "Support for orchestration runtime (LangGraph) with checkpointing and human-in-the-loop patterns"
+    ],
+    "architectural_decisions": [
+      "LangGraph as primary orchestration runtime, with clear boundary separating checkpoints (operational) from kernel (authoritative)",
+      "Session architecture binding user + project/objective + compute context",
+      "Index Service with contract-first interface and pluggable backends",
+      "Document processing with canonical DocIR intermediate representation",
+      "Connectors as first-class producers/consumers in platform contracts",
+      "Multi-provider model architecture without vendor coupling",
+      "Approval gates and governance with policy-driven levels of care",
+      "Human-in-the-loop patterns using LangGraph interrupts"
+    ],
+    "technology_choices": [
+      "LangGraph 0.2.0+ for orchestration",
+      "PostgreSQL + pgvector for relational + vector search",
+      "OpenSearch or pgvector for hybrid search backends",
+      "Content-addressed artifact storage",
+      "Merkle trees for change detection",
+      "DocIR as canonical document intermediate representation",
+      "Vercel AI SDK for frontend streaming",
+      "Zod/JSON Schema for contracts"
+    ],
+    "user_scenarios": [
+      "Research sessions with deep investigation workflows",
+      "Analysis sessions with pinned inputs and iterative extraction",
+      "Document processing from scanned PDFs and legacy formats",
+      "Covenant monitoring with calculation evidence trails",
+      "Regulatory requirement extraction and modeling"
+    ],
+    "domain_concepts": [
+      "Artifact substrate - immutable, content-addressed filesystem semantics",
+      "Manifest and Pointer - versioning and mutation patterns",
+      "Run ledger - append-only audit stream",
+      "Session - scoped agent execution context",
+      "Index Service - substrate knowledge plane",
+      "Evidence, Claims, Decisions - trust primitives",
+      "Policy templates - governance configuration",
+      "Levels of care - approval gate configurations"
+    ],
+    "cross_references": [
+      "Implements principles from 02_VISION.md",
+      "Technical realization of platform modules from 03_PLATFORM.md",
+      "Specifies 13 ADR Topics requiring detailed decision records",
+      "Informs UI design in UI_ARCHITECTURE.md",
+      "Referenced by PLATFORM_REFERENCE_DESIGN.md for detailed specifications"
+    ],
+    "key_signals": [
+      "13 ADR Topics flagged: Session/VM, Knowledge, Playbook, Task vs Workflow, CRM/PM Integration, MCP Marketplace, Research UI, Workbench UI, Analysis Canvas, Cross-Session Analysis, Checkpointing, Human-in-the-Loop, Generative UI",
+      "Strong kernel / weak periphery design tension",
+      "LangGraph checkpoint/kernel boundary is explicit and critical",
+      "Policy-driven governance as architectural principle not feature"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/07_ROADMAP.md",
+    "basename": "07_ROADMAP.md",
+    "primary_topic": "Phased Delivery Plan and Timeline",
+    "document_type": "prd",
+    "product_requirements": [
+      "Platform foundation (Q1 2026): core infrastructure, agentic system, analysis component",
+      "Platform complete + PropSygnal Debt MVP (Q2 2026): all modules operational, single asset covenant monitoring",
+      "PropSygnal expansion (Q3 2026): asset management, investment & acquisitions, portfolio scale",
+      "PropSygnal full suite (Q4 2026): development & project management, property management, full lifecycle",
+      "Ecosystem & RegSygnal (2027+): API access, integrations, RegSygnal v1"
+    ],
+    "architectural_decisions": [
+      "Platform-first approach: establish core infrastructure before product features",
+      "Validated-first approach: build platform foundation thoroughly before scaling features",
+      "Phased risk mitigation: maintain low technical debt for pivoting flexibility",
+      "Modular integration: complete platform modules before end-to-end use cases"
+    ],
+    "technology_choices": [],
+    "user_scenarios": [
+      "Q1 2026: Asset managers monitoring single properties for covenant compliance",
+      "Q2 2026: Portfolio managers viewing 50+ assets with covenant monitoring",
+      "Q3 2026: Investment analysts screening deal flow and preparing IC memos",
+      "Q4 2026: Property managers handling full operational lifecycle",
+      "2027+: Compliance teams modeling regulatory requirements"
+    ],
+    "domain_concepts": [
+      "Debt Service Coverage Ratio (DSCR) - key covenant metric",
+      "Covenant calculation - core PropSygnal MVP capability",
+      "Portfolio scale - multi-asset, multi-facility processing",
+      "Lifecycle integration - data flow from acquisition through exit",
+      "Regulatory intelligence - RegSygnal core domain"
+    ],
+    "cross_references": [
+      "Timeline driven by product requirements in 04_PRODUCTS.md",
+      "Metrics for phase success in 08_METRICS.md",
+      "Risk mitigations from 09_RISKS.md",
+      "Architecture constraints from 06_ARCHITECTURE.md"
+    ],
+    "key_signals": [
+      "Four-phase approach (Phase 0-3) plus ecosystem phase",
+      "Phase 0 focus: artifact substrate, run ledger, authentication, MCP tools, agent runtime, document ingestion, analysis canvas, assisted workflows",
+      "Phase 1 MVP: single asset covenant monitoring with evidence trails",
+      "Phase 2-3: expand to portfolio scale and full lifecycle",
+      "Risk-adjusted timeline with contingency for technical uncertainties"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/08_METRICS.md",
+    "basename": "08_METRICS.md",
+    "primary_topic": "Success Metrics and KPIs",
+    "document_type": "prd",
+    "product_requirements": [
+      "Accuracy metrics: extraction accuracy 95%+, calculation accuracy 100%, claim accuracy 95%+, false positive <10%, false negative <5%",
+      "Trust metrics: decreasing verification rate over time, override rate <15%, confidence calibration >0.9, evidence click-through >50%",
+      "Efficiency metrics: time to first output <5 min, time saved 80%+ vs manual, workflow completion -50%, rework rate <10%",
+      "Adoption metrics: DAU/WAU growing, feature adoption >50%, session duration stable/growing, return rate >80%",
+      "System health: uptime 99.9%, response time P50 <500ms, P99 <2s, error rate <0.1%"
+    ],
+    "architectural_decisions": [
+      "Accuracy before trust before efficiency - metric hierarchy prioritizes correctness",
+      "Anti-metrics: no raw throughput optimization, no feature count focus, no autonomous AI without trust",
+      "Hierarchical success criteria by phase with specific targets",
+      "Run ledger enables all measurements through event tracking"
+    ],
+    "technology_choices": [],
+    "user_scenarios": [
+      "Phase 1: Proving extraction accuracy and covenant calculation correctness",
+      "Phase 2: Demonstrating portfolio-scale reporting and alert accuracy",
+      "Phase 3: Validating compliance tracking and gap analysis accuracy",
+      "Ongoing: Trust calibration through feedback loops"
+    ],
+    "domain_concepts": [
+      "Accuracy hierarchy - calculations > extractions > claims",
+      "Trust calibration - correlation between confidence and actual accuracy",
+      "Confidence scoring - quantified certainty for every extraction",
+      "False positive/negative rates - critical for alert systems",
+      "Evidence click-through - proxy for trust transparency"
+    ],
+    "cross_references": [
+      "Metrics aligned with user personas in 05_USERS.md",
+      "Specific targets for each phase in 07_ROADMAP.md",
+      "Success criteria by phase defined here",
+      "Supporting measurement infrastructure from 06_ARCHITECTURE.md (run ledger)"
+    ],
+    "key_signals": [
+      "Metric hierarchy: Accuracy (critical) > Trust > Efficiency > Adoption > Growth",
+      "Anti-metrics explicitly defined to prevent misaligned incentives",
+      "Decreasing verification rate over time indicates trust building",
+      "100% calculation accuracy target for deterministic engines",
+      "Metric ownership: Product owns accuracy/trust/efficiency, Engineering owns system health"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/09_RISKS.md",
+    "basename": "09_RISKS.md",
+    "primary_topic": "Risks, Dependencies, and Assumptions",
+    "document_type": "prd",
+    "product_requirements": [
+      "Comprehensive risk management covering technical, market, operational, regulatory, and product risks",
+      "Documented mitigations for 17 identified risks",
+      "Explicit assumptions about market, technology, and operations",
+      "External and internal dependency tracking"
+    ],
+    "architectural_decisions": [
+      "Multi-provider strategy to mitigate model provider dependency",
+      "Horizontal scaling architecture to address scaling challenges",
+      "Connector framework to manage integration complexity",
+      "Human-in-the-loop patterns to ensure verification"
+    ],
+    "technology_choices": [],
+    "user_scenarios": [
+      "Market risk: slower adoption if Cognitive ERP positioning rejected",
+      "Technical risk: extraction accuracy insufficient for regulated use",
+      "Operational risk: team scaling and key person dependencies",
+      "Regulatory risk: data protection compliance and AI regulation changes"
+    ],
+    "domain_concepts": [
+      "Model provider dependency - OpenAI/Anthropic supply chain risk",
+      "Extraction accuracy - foundational trust primitive",
+      "Integration complexity - legacy system interconnectedness",
+      "Customer concentration - early revenue dependency on small number",
+      "Approval fatigue - governance gate design challenge"
+    ],
+    "cross_references": [
+      "Risks inform feature prioritization in 07_ROADMAP.md",
+      "Mitigations embedded in technical decisions from 06_ARCHITECTURE.md",
+      "Assumptions underpin timeline and metrics",
+      "Dependencies impact Phase 0 delivery priorities"
+    ],
+    "key_signals": [
+      "17 identified risks across technical, market, operational, regulatory, and product categories",
+      "Risk matrix ranks by impact/likelihood with ownership assignments",
+      "Critical risks: T5 (Security), T1 (Extraction Accuracy), M2 (Market Timing), O1 (Team Scaling), P2 (User Adoption)",
+      "12 explicit assumptions for validation during execution",
+      "Weekly/monthly/quarterly risk review cadence with clear escalation path"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/10_APPENDIX.md",
+    "basename": "10_APPENDIX.md",
+    "primary_topic": "Glossary, Acronyms, and References",
+    "document_type": "prd",
+    "product_requirements": [
+      "Comprehensive glossary of 40+ platform and domain concepts",
+      "Complete acronym reference with 50+ definitions",
+      "Internal and external document references",
+      "Regulatory references for RegSygnal domain"
+    ],
+    "architectural_decisions": [],
+    "technology_choices": [],
+    "user_scenarios": [],
+    "domain_concepts": [
+      "Platform concepts: Agent, AgentDefinition, Artifact, Bundle, Claim, Corpus, Run, Session, Skill, Substrate, Tenant, Workspace",
+      "PropSygnal concepts: Covenant, DSCR, Debt Service, Debt Yield, LTV, NOI, Operating Statement, Rent Roll",
+      "RegSygnal concepts: Ambiguity, Control, Regulatory Requirement, Traceability"
+    ],
+    "cross_references": [
+      "Glossary entries define terms used throughout PRD",
+      "Acronyms reference section for 50+ abbreviations",
+      "Internal document references: Platform Reference Design, Index Contract, Research Synthesis",
+      "External references: LangGraph, Docling, MCP Specification, EMIR/MiFID II/SFTR/Basel III/BCBS 239"
+    ],
+    "key_signals": [
+      "Comprehensive glossary supporting shared vocabulary across stakeholders",
+      "Acronym definitions preventing misunderstandings",
+      "Reference to regulatory frameworks for RegSygnal domain",
+      "Document version history (v1.0, 2026-01-25)",
+      "PRD suite structure documented for newcomers"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/001-data-model-strategy.md",
+    "basename": "001-data-model-strategy.md",
+    "primary_topic": "Data Model Strategy: Domain-First with CDM Mapping",
+    "document_type": "adr",
+    "product_requirements": [
+      "Custom data model for platform primitives and commercial entities",
+      "CDM mapping as integration layer for CRM systems",
+      "Optional CDM Helper MCP service for integration projects"
+    ],
+    "architectural_decisions": [
+      "Decision: Domain-first with CDM mapping (not CDM-first)",
+      "Platform Primitives (Artifact, Manifest, Pointer, Run, Session) - Custom NYQST model",
+      "Commercial Entities (Client, Project, Contact, Engagement) - Custom NYQST model designed for needs",
+      "CDM as integration layer, not foundation",
+      "Rationale: NYQST's agentic/document-centric architecture differs from CDM's CRM/ERP focus"
+    ],
+    "technology_choices": [
+      "Microsoft Common Data Model - integration layer only",
+      "CDM Helper MCP - optional service for integration projects",
+      "Custom Python/SQLAlchemy models for platform primitives"
+    ],
+    "user_scenarios": [
+      "Integrating with HubSpot CRM via CDM mapping",
+      "Integrating with Salesforce via CDM mapping",
+      "Migrating to custom model as understanding evolves"
+    ],
+    "domain_concepts": [
+      "CDM - Microsoft Common Data Model",
+      "Ontology - formal representation of domain knowledge",
+      "Domain-first design - optimize for specific requirements first"
+    ],
+    "cross_references": [
+      "References ADR-002 (Code Generation Strategy)",
+      "Referenced by PLATFORM_REFERENCE_DESIGN.md on data model strategy",
+      "Informs 03_PLATFORM.md architecture decisions"
+    ],
+    "key_signals": [
+      "Decision locked: Domain-first, not CDM-first (Date: 2026-01-26)",
+      "Rationale: Flexibility over CDM constraints for evolving understanding",
+      "CDM mapping enables interoperability without forcing our model into CDM structure",
+      "Implementation includes CDM Helper MCP as optional service"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/002-code-generation-strategy.md",
+    "basename": "002-code-generation-strategy.md",
+    "primary_topic": "Code Generation and Contract Strategy",
+    "document_type": "adr",
+    "product_requirements": [
+      "Schema-first, code-generation approach for APIs and types",
+      "Type safety across Python backend and TypeScript frontend",
+      "Database schema management via SQLAlchemy + Alembic",
+      "Contract enforcement between services"
+    ],
+    "architectural_decisions": [
+      "Decision: OpenAPI + Code Generation (not GraphQL, not tRPC, not manual)",
+      "Pydantic models as single source of truth",
+      "FastAPI auto-generates OpenAPI spec from Pydantic",
+      "openapi-typescript generates TypeScript types from OpenAPI spec",
+      "Type-safe API client from generated types",
+      "Keep SQLAlchemy + Pydantic separate for flexibility"
+    ],
+    "technology_choices": [
+      "OpenAPI 3.x specification",
+      "openapi-typescript for type generation",
+      "openapi-fetch for type-safe fetch client",
+      "Pydantic for backend types",
+      "SQLAlchemy + Alembic for database schema",
+      "JSON Schema or AsyncAPI for event contracts (future)"
+    ],
+    "user_scenarios": [
+      "Generating TypeScript types from running API",
+      "Updating types automatically when Pydantic models change",
+      "Enabling frontend developers to catch type errors at compile time"
+    ],
+    "domain_concepts": [
+      "Single source of truth - Pydantic models",
+      "Contract enforcement - type safety across stack",
+      "Build step - type generation before compilation"
+    ],
+    "cross_references": [
+      "ADR-001 for data model approach",
+      "Informs agent tool schema generation",
+      "Supports MCP tool contracts (ADR-008)"
+    ],
+    "key_signals": [
+      "Decision locked: OpenAPI + Code Generation (Date: 2026-01-26)",
+      "Rationale: Works with existing FastAPI stack, incremental adoption possible",
+      "Implementation: npm script for type generation, CI check for sync",
+      "Phase 2-3 includes AsyncAPI for event-driven communication"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/003-virtual-team-architecture.md",
+    "basename": "003-virtual-team-architecture.md",
+    "primary_topic": "Virtual Team Architecture for AI Agent Coordination",
+    "document_type": "adr",
+    "product_requirements": [
+      "Coordination infrastructure enabling multiple AI agents to work together",
+      "Consistent code quality regardless of agent",
+      "Visibility into agent activity",
+      "Standardized workflows for testing, PR, review, commits"
+    ],
+    "architectural_decisions": [
+      "Decision: Virtual Team Operating System (not no coordination, not single agent only)",
+      "Engineering Playbook (Confluence) - single source of truth for operational knowledge",
+      "Agent Coordination Layer - project registry, questions queue, check-in log",
+      "Standardized Workflows - testing, PR, review, commit conventions",
+      "Tool Integration - CLAUDE.md, Copilot hooks, Claude Code Action"
+    ],
+    "technology_choices": [
+      "Confluence for Engineering Playbook",
+      "GitHub for project registry and PRs",
+      "Claude Code for PR review",
+      "Devin for complex multi-step work",
+      "GitHub Copilot for quick fixes",
+      "CLAUDE.md for agent context"
+    ],
+    "user_scenarios": [
+      "Multiple agents working on different features in parallel",
+      "Consistent code style regardless of which agent wrote it",
+      "Complex features requiring agent handoff"
+    ],
+    "domain_concepts": [
+      "Virtual Team Operating System - coordination infrastructure",
+      "Agent strengths: Devin (long-running), Claude Code (PR review), Copilot (quick fixes)",
+      "Playbook-driven development - documented conventions"
+    ],
+    "cross_references": [
+      "ADR-001, ADR-002 for other coordination patterns",
+      "VIRTUAL_TEAM_OPERATING_SYSTEM.md for full specification",
+      "CLAUDE.md for agent context"
+    ],
+    "key_signals": [
+      "Decision locked: Virtual Team Operating System (Date: 2026-01-26)",
+      "Agent comparison table shows strengths: Devin (complex), Claude (review), Copilot (inline)",
+      "Implementation: 4-week rollout (Foundation → Workflows → Integration → Refinement)",
+      "GitHub Copilot hooks and Claude Code Action integration specified"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/004-index-service-architecture.md",
+    "basename": "004-index-service-architecture.md",
+    "primary_topic": "Index Service Architecture: Contract-First with Pluggable Backends",
+    "document_type": "adr",
+    "product_requirements": [
+      "Unified Index Service as substrate capability",
+      "Multiple retrieval modes: keyword (BM25), semantic, hybrid, faceted, trace search",
+      "Profile-based abstraction hiding implementation complexity",
+      "Always-on triggering on pointer advance",
+      "Swappable backends without rewriting product logic"
+    ],
+    "architectural_decisions": [
+      "Decision: OpenSearch primary + pgvector fallback (not pgvector-only, not separate vector DB)",
+      "Contract-first surface: ingest() / search() / explain()",
+      "Profile-driven architecture binds strategies to named profiles",
+      "Incremental indexing via Merkle trees and chunk-hash caching",
+      "LangChain for RAG building blocks, LangGraph for indexing orchestration"
+    ],
+    "technology_choices": [
+      "OpenSearch - production hybrid search (BM25 + kNN + reranking)",
+      "pgvector - lightweight fallback for dev/small deployments",
+      "Qdrant/Milvus - future options if scale demands",
+      "LangChain - parsers, splitters, embeddings, retrievers, rerankers",
+      "LangGraph - indexing workflow orchestration"
+    ],
+    "user_scenarios": [
+      "Semantic search across document corpus",
+      "Citation-strict retrieval for regulated work",
+      "Trace search over run events and provenance",
+      "Cross-project knowledge reuse"
+    ],
+    "domain_concepts": [
+      "Index Service - shared knowledge plane",
+      "Profiles - IP boundary hiding implementation",
+      "Merkle trees - efficient change detection",
+      "Chunk-hash cache - avoiding redundant embedding",
+      "Always-on indexing - no user action required"
+    ],
+    "cross_references": [
+      "Implements INDEX_CONTRACT.md specification",
+      "Referenced by ADR-005 (Agent Runtime) for retrieval",
+      "Referenced by ADR-007 (Document Processing) for chunking",
+      "Referenced by ADR-008 (MCP Tools) for search tools"
+    ],
+    "key_signals": [
+      "Decision locked: OpenSearch + pgvector (Date: 2026-01-26)",
+      "Rationale: OpenSearch handles hybrid search at scale, pgvector sufficient for dev",
+      "Contract abstraction allows backend swapping without product changes",
+      "Profile-versioning adds complexity - start with 3-4 standard profiles"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/005-agent-runtime-framework.md",
+    "basename": "005-agent-runtime-framework.md",
+    "primary_topic": "Agent Runtime and Framework Choice: LangGraph",
+    "document_type": "adr",
+    "product_requirements": [
+      "Stateful execution for multi-step, multi-agent workflows",
+      "Streaming execution with real-time UI updates",
+      "Durable checkpointing for long-running agents",
+      "Human-in-the-loop patterns with interrupts and approvals",
+      "Tool integration via MCP",
+      "Complete auditability via run ledger"
+    ],
+    "architectural_decisions": [
+      "Decision: LangGraph as primary agent runtime (not Vercel AI SDK, not custom)",
+      "Clear boundary: LangGraph for workflow orchestration, Platform kernel for trust/audit",
+      "Checkpoints are operational aids, not authoritative record",
+      "Run ledger remains canonical for audit and replay",
+      "Stream adapter bridges LangGraph events to AI SDK UI protocol"
+    ],
+    "technology_choices": [
+      "LangGraph 0.2.0+ for agent orchestration",
+      "langgraph-checkpoint-postgres for durable checkpointing",
+      "LangGraph StateGraph for workflow definitions",
+      "LangGraph Store for per-thread memory",
+      "Vercel AI SDK for frontend (via stream adapter)",
+      "MCP for tool integration"
+    ],
+    "user_scenarios": [
+      "Research workflow with web search and document analysis",
+      "Multi-step document processing pipeline",
+      "Covenant monitoring with approval gates",
+      "Multi-agent coordination for complex tasks"
+    ],
+    "domain_concepts": [
+      "StateGraph - graph-based control flow",
+      "Checkpoint - operational state for resumability",
+      "Run ledger - authoritative audit record",
+      "AgentDefinition - versioned agent configuration",
+      "Streaming - real-time progress to UI"
+    ],
+    "cross_references": [
+      "ADR-004 (Index Service) consumed by agents via MCP",
+      "ADR-006 (Sessions) provide execution context",
+      "ADR-008 (MCP Tools) integrated by agents",
+      "ADR-009 (Human-in-the-Loop) uses LangGraph interrupts"
+    ],
+    "key_signals": [
+      "Decision locked: LangGraph (Date: 2026-01-26)",
+      "Rationale: Purpose-built for stateful agentic workflows, already in pyproject.toml",
+      "Design boundary critical: LangGraph ≠ Platform kernel",
+      "Checkpointing enables resumability without replacing run ledger as source of truth"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/006-session-workspace-architecture.md",
+    "basename": "006-session-workspace-architecture.md",
+    "primary_topic": "Session and Workspace Architecture",
+    "document_type": "adr",
+    "product_requirements": [
+      "Sessions binding user + project/objective + compute context",
+      "Context inheritance from project/objective hierarchy",
+      "Resource mounting for scoped agent access",
+      "Return-to-topic capability preserving work state",
+      "Concurrent sessions support"
+    ],
+    "architectural_decisions": [
+      "Decision: Lightweight database session model (not container-per-session, not frontend-only)",
+      "Session scopes agent operations without VM isolation in Phase 0",
+      "Context inheritance from Project → Objective → Session",
+      "LangGraph thread binding for agent state preservation",
+      "Workspace state is UI convenience, not authoritative"
+    ],
+    "technology_choices": [
+      "PostgreSQL for Session storage",
+      "SQLAlchemy ORM for session model",
+      "Zustand for frontend session state",
+      "LangGraph threads for agent continuity",
+      "Postgres-based checkpoints for durability"
+    ],
+    "user_scenarios": [
+      "Research session with fast search and deep dives",
+      "Analysis session with pinned corpus",
+      "Returning to multi-day project work",
+      "Concurrent work on multiple projects"
+    ],
+    "domain_concepts": [
+      "Session - user + project/objective + compute realm",
+      "Workspace - saved UI layout with pinned resources",
+      "Context inheritance - project defaults flow to sessions",
+      "Return to topic - resuming with full context intact",
+      "Module switching - moving between Research/Analysis/Document modules"
+    ],
+    "cross_references": [
+      "ADR-005 (Agent Runtime) for agent state binding",
+      "ADR-007 (Document Processing) executed within sessions",
+      "ADR-009 (Human-in-the-Loop) for approval context",
+      "PLATFORM_REFERENCE_DESIGN.md §2.5 for session concept"
+    ],
+    "key_signals": [
+      "Decision locked: Lightweight database session (Date: 2026-01-26)",
+      "Rationale: Simple for foundation phase, upgrade path to VMs clear",
+      "Context inheritance enables consistent defaults without hardcoding",
+      "LangGraph thread binding preserves agent continuity across sessions"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/007-document-processing-pipeline.md",
+    "basename": "007-document-processing-pipeline.md",
+    "primary_topic": "Document Processing Pipeline with Canonical DocIR",
+    "document_type": "adr",
+    "product_requirements": [
+      "Multi-format support: PDF, DOCX, XLSX, HTML, images, email",
+      "Canonical intermediate representation (DocIR) for downstream dependencies",
+      "Tiered processing (Fast, Standard, Deep) for different quality/cost tradeoffs",
+      "Parser swappability without coupling to any single parser",
+      "Quality evaluation and confidence scoring"
+    ],
+    "architectural_decisions": [
+      "Decision: Tiered pipeline with adapter pattern (not Docling-only, not external APIs only)",
+      "DocIR as canonical format stored as immutable artifact",
+      "Fast tier - text extraction only, minimal structure",
+      "Standard tier - full block extraction with tables",
+      "Deep tier - layout analysis + OCR + confidence scoring",
+      "Parser adapters: Docling primary, Unstructured/LlamaParse as alternatives"
+    ],
+    "technology_choices": [
+      "Docling 2.10.0+ as primary parser",
+      "Unstructured.io as alternative",
+      "LlamaParse as alternative",
+      "Marker as alternative",
+      "LangGraph for pipeline orchestration",
+      "Pydantic for DocIR schema"
+    ],
+    "user_scenarios": [
+      "Ingesting scanned property appraisals",
+      "Processing loan agreements for covenant extraction",
+      "Analyzing regulatory documents with complex layouts",
+      "Research document processing for deep analysis"
+    ],
+    "domain_concepts": [
+      "DocIR - document intermediate representation",
+      "Parser adapter - pluggable parser implementations",
+      "Tier - quality/cost tradeoff (Fast/Standard/Deep)",
+      "Confidence scoring - quantified certainty for extraction",
+      "Span anchoring - character-level evidence references"
+    ],
+    "cross_references": [
+      "PLATFORM_REFERENCE_DESIGN.md §6 for DocIR spec",
+      "ADR-004 (Index Service) consumes DocIR for intelligent chunking",
+      "ADR-005 (Agent Runtime) for orchestration",
+      "ADR-008 (MCP Tools) for document tools"
+    ],
+    "key_signals": [
+      "Decision locked: Tiered pipeline with adapter pattern (Date: 2026-01-26)",
+      "Rationale: Docling proven but parser tech evolving; adapters enable swapping",
+      "DocIR as contract allows downstream independence from parser choice",
+      "Tiers optimize compute cost vs quality - no over-processing for simple cases"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/008-mcp-tool-architecture.md",
+    "basename": "008-mcp-tool-architecture.md",
+    "primary_topic": "MCP Tool Architecture: Standard Protocol for Agent Integration",
+    "document_type": "adr",
+    "product_requirements": [
+      "MCP as standard protocol for tool interoperability",
+      "Hierarchical namespace convention for tools",
+      "Context-scoped tool discovery reducing context window",
+      "Tool execution pipeline with policy checks and logging",
+      "Support for external MCP servers alongside internal tools"
+    ],
+    "architectural_decisions": [
+      "Decision: MCP as primary tool protocol (not LangChain tools, not REST APIs)",
+      "Namespace convention: {domain}.{resource}.{action}",
+      "Session-scoped discovery filtering tools by context",
+      "Standard execution pipeline: Validate → Policy Check → Execute → Log → Return",
+      "Tool response envelope with status, data, refs, warnings"
+    ],
+    "technology_choices": [
+      "Model Context Protocol 1.2.0+",
+      "MCP Python SDK for server implementation",
+      "MCP clients for LangGraph tool calling",
+      "JSON Schema for tool schemas",
+      "External MCP servers for ecosystem tools"
+    ],
+    "user_scenarios": [
+      "Agent searching documents via MCP index tools",
+      "Agent extracting data via MCP document tools",
+      "Agent writing artifacts via MCP substrate tools",
+      "Agent calling external tools via MCP marketplace"
+    ],
+    "domain_concepts": [
+      "MCP - Model Context Protocol",
+      "Tool namespace - hierarchical organization",
+      "Tool discovery - context-scoped availability",
+      "Execution pipeline - validation, policy, execution, logging",
+      "Tool response envelope - standardized output format"
+    ],
+    "cross_references": [
+      "ADR-002 (Code Generation) for tool schema generation",
+      "ADR-004 (Index Service) exposed as MCP tools",
+      "ADR-005 (Agent Runtime) calling MCP tools",
+      "ADR-009 (Human-in-the-Loop) tool execution gates"
+    ],
+    "key_signals": [
+      "Decision locked: MCP as primary protocol (Date: 2026-01-26)",
+      "Rationale: Emerging industry standard, framework-agnostic, reduces context window",
+      "Namespace convention supports ~50+ tools without collisions",
+      "Session scoping naturally implements least privilege for tool access"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/009-human-in-the-loop-governance.md",
+    "basename": "009-human-in-the-loop-governance.md",
+    "primary_topic": "Human-in-the-Loop and Governance Patterns",
+    "document_type": "adr",
+    "product_requirements": [
+      "Interrupt and resume for agent-proposed actions",
+      "Approval gates gated by policy and action type",
+      "Trust escalation as confidence in agents grows",
+      "Full state inspection for human review",
+      "Feedback capture for learning and audit",
+      "Policy-driven levels of care (exploratory → standard → regulated → audit-critical)"
+    ],
+    "architectural_decisions": [
+      "Decision: Policy-driven with LangGraph interrupts (not LangGraph-only, not external Camunda)",
+      "Three governance layers: Trust Levels → Approval Workflows → LangGraph Interrupts",
+      "Four predefined policy templates: exploratory (no gates), standard (selective gates), regulated (most gates), audit-critical (every action)",
+      "GateRules define which actions require approval at each level",
+      "ApprovalRequest captures context for informed decisions"
+    ],
+    "technology_choices": [
+      "LangGraph interrupt_before/interrupt_after for pausing",
+      "PostgreSQL for ApprovalRequest storage",
+      "Policy templates as JSON configuration",
+      "Run ledger for decision recording",
+      "ApprovalPanel React component for UI"
+    ],
+    "user_scenarios": [
+      "Research task with no approval gates",
+      "Standard workflow requiring pointer promotion approval",
+      "Regulated work requiring all external writes approved",
+      "Audit-critical work requiring every significant action approved"
+    ],
+    "domain_concepts": [
+      "Policy template - governance configuration",
+      "GateRule - approval requirement for an action",
+      "Level of care - trust level determining gate requirements",
+      "ApprovalContext - full context for human decision",
+      "Trust calibration - reducing gates as agents prove reliable"
+    ],
+    "cross_references": [
+      "ADR-005 (Agent Runtime) provides interrupt mechanism",
+      "ADR-006 (Sessions) bind policy to context",
+      "ADR-008 (MCP Tools) gates tool execution",
+      "PLATFORM_REFERENCE_DESIGN.md §2.7 for Decision primitives"
+    ],
+    "key_signals": [
+      "Decision locked: Policy-driven + LangGraph interrupts (Date: 2026-01-26)",
+      "Rationale: Configurable governance without hardcoding, LangGraph handles state preservation",
+      "Four policy templates handle spectrum from exploratory to audit-critical",
+      "Camunda integration available as upgrade path if multi-stage approvals needed"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/010-bootstrap-infrastructure.md",
+    "basename": "010-bootstrap-infrastructure.md",
+    "primary_topic": "Bootstrap Infrastructure: PostgreSQL + pgvector + Neo4j",
+    "document_type": "adr",
+    "product_requirements": [
+      "Zero-cost cloud infrastructure during bootstrap phase",
+      "Production-grade but minimal operational overhead",
+      "Supports Platform MCP, Domain Model MCP, Project Registry, Connectors",
+      "Real cloud infrastructure, not localhost",
+      "Architecture that scales without re-platforming"
+    ],
+    "architectural_decisions": [
+      "Decision: PostgreSQL + pgvector + Neo4j (not Oracle converged DB, not PostgreSQL-only)",
+      "Purpose-fit services with separate storage per domain",
+      "Platform MCP: PostgreSQL + pgvector (Supabase/Neon managed or self-hosted)",
+      "Domain Model MCP: Neo4j Aura (free tier sufficient for bootstrap)",
+      "Cache/Queue: Redis (Upstash managed or self-hosted)",
+      "Rationale: Validates PostgreSQL + pgvector approach proven by Dify"
+    ],
+    "technology_choices": [
+      "PostgreSQL 16+ with pgvector extension",
+      "Neo4j Aura (free tier: 50K nodes, 175K relationships)",
+      "Redis for caching and Celery queues",
+      "Supabase or Neon for managed PostgreSQL",
+      "Upstash or Railway for managed Redis",
+      "Docker Compose for local development"
+    ],
+    "user_scenarios": [
+      "Bootstrap phase with £0/month infrastructure cost",
+      "Production deployment on managed services with minimal ops",
+      "Local development environment mirroring production",
+      "Scaling to dedicated infrastructure when funded"
+    ],
+    "domain_concepts": [
+      "Purpose-fit services - separating storage by domain",
+      "Free tier - leveraging managed service offerings",
+      "Convergence DB research - Dify validation of PostgreSQL approach",
+      "Graph isolation - ISDA CDM and ontologies in separate Neo4j instance"
+    ],
+    "cross_references": [
+      "ADR-004 (Index Service) uses pgvector backend",
+      "ADR-006 (Sessions) stored in PostgreSQL",
+      "DIFY_ANALYSIS_SUMMARY.md for infrastructure validation",
+      "PLATFORM_REFERENCE_DESIGN.md for system architecture"
+    ],
+    "key_signals": [
+      "Decision locked: PostgreSQL + pgvector + Neo4j (Date: 2026-02-04)",
+      "Rationale: Dify v1.11.4 (80 tables, 565 routes) runs production with PostgreSQL + pgvector only",
+      "Graph isolated to Domain Model MCP - clean separation of concerns",
+      "Free tier infrastructure: Supabase (500MB), Neo4j Aura (50K nodes), Upstash (Redis)",
+      "Upgrade path clear: scale managed services first, self-host later if needed"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/PLATFORM_REFERENCE_DESIGN.md",
+    "basename": "PLATFORM_REFERENCE_DESIGN.md",
+    "primary_topic": "Detailed Technical Architecture Reference",
+    "document_type": "reference",
+    "product_requirements": [
+      "Agent-first trusted analysis platform with visible, auditable, reproducible workflows",
+      "Stakeholder trust through visibility and confidence-qualified outputs",
+      "Shared Index Service across all modules",
+      "SaaS or single-tenant/local cloud deployment options"
+    ],
+    "architectural_decisions": [
+      "Strong kernel / weak periphery design tension",
+      "Single source of truth: immutable artifacts + manifests + run ledger",
+      "Ephemeral compute, persistent outputs",
+      "Schema-on-read first, promote later",
+      "Everything inspectable - no hidden chat logs",
+      "Pointers not mutations - reversion via pointer moves",
+      "Policy-driven levels of care",
+      "Index is substrate - modules select profiles not strategies"
+    ],
+    "technology_choices": [
+      "LangGraph for orchestration runtime with clear boundary from kernel",
+      "Postgres/Redis checkpointers for durable resumability",
+      "LangSmith optional for developer observability",
+      "Vercel AI SDK for frontend protocol",
+      "Theia for optional modelling workbench",
+      "Document processors: Docling, Unstructured, LlamaParse"
+    ],
+    "user_scenarios": [
+      "Research with tools and agents converting outputs to artifacts",
+      "Analysis pinned to manifest versions with tight provenance",
+      "Modelling workflows with IR definition and decision logging",
+      "End-to-end visibility from input documents to final deliverables"
+    ],
+    "domain_concepts": [
+      "Artifact - immutable content-addressed file/object",
+      "Manifest - immutable tree of artifact references",
+      "Pointer - mutable HEAD reference to manifest",
+      "Run - execution instance (agentic, deterministic, hybrid)",
+      "Run ledger - append-only event stream",
+      "AgentDefinition - versioned agent configuration",
+      "DocIR - document intermediate representation",
+      "EvidenceSpan - anchored to DocIR/PDF offsets"
+    ],
+    "cross_references": [
+      "Master architecture document referenced throughout PRD",
+      "Provides detailed specifications for all ADRs",
+      "Referenced by UI_ARCHITECTURE.md for UI design",
+      "Foundation for PLATFORM_FOUNDATION.md implementation sequence"
+    ],
+    "key_signals": [
+      "Working draft status for continued iteration",
+      "11 major sections covering kernel, sessions, index, documents, integration, business systems, module UX, governance, exchange, insight",
+      "Comprehensive coverage of trust primitives, policy-driven governance, and event architecture",
+      "Clear boundary definitions between LangGraph and platform kernel"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/UI_ARCHITECTURE.md",
+    "basename": "UI_ARCHITECTURE.md",
+    "primary_topic": "User Interface Architecture and Components",
+    "document_type": "reference",
+    "product_requirements": [
+      "Agent-first workbench with multi-pane IDE-like interface",
+      "Real-time observability of agentic work (runs, tool calls, artifacts)",
+      "Context pinning for agent guidance",
+      "Review and approval workflows",
+      "URI-based resource addressing"
+    ],
+    "architectural_decisions": [
+      "React 18+ with TypeScript for frontend",
+      "Vite for build tooling",
+      "shadcn/ui + Radix for components",
+      "Zustand for client state (layout, pinned context)",
+      "TanStack Query for server state",
+      "SSE for real-time updates",
+      "Resource URIs for navigation and deep linking"
+    ],
+    "technology_choices": [
+      "React 18+, TypeScript, Vite, shadcn/ui, Tailwind CSS",
+      "TanStack Query for server state",
+      "Zustand for client state",
+      "react-resizable-panels for IDE panes",
+      "Server-Sent Events (SSE) for real-time",
+      "TanStack Router or React Router for navigation"
+    ],
+    "user_scenarios": [
+      "Observing research workflows in real-time",
+      "Reviewing covenant calculations with evidence trails",
+      "Approving pointer promotions with full context",
+      "Navigating between artifacts, runs, and documents"
+    ],
+    "domain_concepts": [
+      "Workbench - multi-pane IDE interface",
+      "Resource URI - addressable platform objects (project://, artifact://, run://, etc.)",
+      "Pane types - RunExplorer, ArtifactBrowser, DocumentViewer, Chat, etc.",
+      "Streaming - real-time event updates via SSE",
+      "State management - server state (React Query) vs client state (Zustand)"
+    ],
+    "cross_references": [
+      "Implements interface concepts from 06_ARCHITECTURE.md (Research UI, Workbench UI, Analysis Canvas)",
+      "Uses contracts defined in PLATFORM_REFERENCE_DESIGN.md §8 (Module UX)",
+      "Depends on API contracts from generated types (ADR-002)"
+    ],
+    "key_signals": [
+      "Component architecture with shell, viewers, and common component layers",
+      "API client structure using generated types from OpenAPI spec",
+      "SSE endpoints for run event streaming and real-time updates",
+      "Resource URI scheme enabling deep linking and navigation"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/planning/SUPERAGENT_PARITY_CLEAN_ROOM_PLAN_2026-02-16.md",
+    "basename": "SUPERAGENT_PARITY_CLEAN_ROOM_PLAN_2026-02-16.md",
+    "primary_topic": "Clean-Room Plan for Superagent Parity Implementation",
+    "document_type": "planning",
+    "product_requirements": [
+      "Reach Superagent-class capability (agentic workflow + deliverables + UI) on Intelli platform",
+      "Without copying Superagent proprietary prompts, code, or data",
+      "Event-streamed planning + execution visibility",
+      "Citations with bracket format and binding model",
+      "Deliverable modes (report/website/slides/document/code) with viewers",
+      "Human-in-the-loop for approvals and browser-use"
+    ],
+    "architectural_decisions": [
+      "Keep kernel canonical (artifacts, manifests, pointers, run ledger)",
+      "LangGraph for runtime, ledger for truth (operational vs authoritative)",
+      "Keep AI SDK chat + extend run-ledger event contract",
+      "Define NYQST Deliverable Markup (NDM) v1 as JSON AST",
+      "Unify citations and tool outputs through Entity table"
+    ],
+    "technology_choices": [
+      "LangGraph for agent orchestration",
+      "Postgres NOTIFY for run ledger SSE",
+      "JSON AST for deliverable markup",
+      "React Flow or xyflow for plan visualization",
+      "Temporal or Prefect for future durable workflows"
+    ],
+    "user_scenarios": [
+      "Phase 0: Viewing agentic workflow visibility (plan → nodes → tools)",
+      "Phase 1: Multi-task planning with parallel subagents",
+      "Phase 2: Deliverable generation (report with citations and viewer)",
+      "Phase 3: Web research with entity-based citations",
+      "Phase 4: Human-in-loop with interrupts and browser-use"
+    ],
+    "domain_concepts": [
+      "PlanSet/Plan/PlanTask - planning model",
+      "Deliverable - structured output (report, website, slides, document, code)",
+      "NDM v1 - NYQST Deliverable Markup (JSON AST)",
+      "Entity - unifying citations, tool outputs, and deliverables",
+      "Run Event Contract v1 - ledger payload schema"
+    ],
+    "cross_references": [
+      "Based on Superagent observed behavior in AirTable-SuperAgent reports",
+      "Clean-room approach per PLATFORM_REFERENCE_DESIGN.md",
+      "Phased plan aligns with 07_ROADMAP.md phases",
+      "References Vercel AI SDK streaming protocol"
+    ],
+    "key_signals": [
+      "Clean-room design avoiding proprietary Superagent code copying",
+      "Five-phase implementation: Contract/Instrumentation → Planning → Deliverables v1 → Web Research → Human-in-Loop",
+      "Event contract mapping between Superagent semantics and Intelli ledger events",
+      "Concrete code touchpoints specified for backend and UI implementation",
+      "Superagent parity achievable while maintaining Intelli kernel principles"
+    ]
+  }
+]

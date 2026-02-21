@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NYQST Build Pack — Feature Coverage Grid</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; background: #0d1117; color: #c9d1d9; padding: 24px; }
+  h1 { font-size: 20px; color: #f0f6fc; margin-bottom: 4px; letter-spacing: -0.5px; }
+  .subtitle { font-size: 12px; color: #8b949e; margin-bottom: 32px; }
+  .grid-container { margin-bottom: 48px; }
+  .grid-title { font-size: 16px; color: #f0f6fc; margin-bottom: 2px; display: flex; align-items: center; gap: 12px; }
+  .grid-title .badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+  .badge-winner { background: #238636; color: #fff; }
+  .badge-v1 { background: #6e7681; color: #c9d1d9; }
+  .badge-v2 { background: #1f6feb; color: #fff; }
+  .grid-meta { font-size: 11px; color: #8b949e; margin-bottom: 12px; }
+  .grid-wrapper { overflow-x: auto; }
+  table { border-collapse: collapse; font-size: 11px; width: 100%; }
+  th { background: #161b22; color: #8b949e; font-weight: 600; padding: 6px 8px; text-align: center; border: 1px solid #21262d; white-space: nowrap; }
+  th.theme-header { text-align: left; min-width: 180px; max-width: 220px; position: sticky; left: 0; z-index: 2; background: #161b22; }
+  td { padding: 4px 6px; text-align: center; border: 1px solid #21262d; font-weight: 700; font-size: 12px; min-width: 48px; }
+  td.theme-cell { text-align: left; font-weight: 400; font-size: 11px; color: #c9d1d9; position: sticky; left: 0; z-index: 1; background: #0d1117; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
+  td.avg-cell { font-weight: 700; font-size: 12px; }
+  tr.section-row td { background: #161b22 !important; color: #58a6ff; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; text-align: left; padding: 8px; }
+  tr.avg-row td { border-top: 2px solid #30363d; }
+  .legend { display: flex; gap: 4px; align-items: center; margin: 24px 0 8px 0; font-size: 11px; color: #8b949e; }
+  .legend-block { width: 24px; height: 16px; border-radius: 2px; border: 1px solid #21262d; display: inline-block; }
+  .legend-label { margin: 0 8px 0 2px; }
+  .summary-row { display: flex; gap: 32px; margin-top: 32px; padding: 16px; background: #161b22; border-radius: 8px; border: 1px solid #21262d; }
+  .summary-card { flex: 1; }
+  .summary-card h3 { font-size: 13px; color: #f0f6fc; margin-bottom: 4px; }
+  .summary-val { font-size: 28px; font-weight: 700; }
+  .summary-label { font-size: 10px; color: #8b949e; }
+  .val-v1 { color: #8b949e; }
+  .val-v2 { color: #58a6ff; }
+  .val-merged { color: #3fb950; }
+</style>
+</head>
+<body>
+
+<h1>NYQST Build Pack — Feature Depth Coverage Grid</h1>
+<div class="subtitle">30 themes x 8 feature levels — cell color: red (0) to green (5) | Generated 2026-02-20</div>
+
+<div class="legend">
+  <div class="legend-block" style="background:#da3633"></div><span class="legend-label">0</span>
+  <div class="legend-block" style="background:#bd561d"></div><span class="legend-label">1</span>
+  <div class="legend-block" style="background:#9e6a18"></div><span class="legend-label">2</span>
+  <div class="legend-block" style="background:#7c7f14"></div><span class="legend-label">3</span>
+  <div class="legend-block" style="background:#4b9621"></div><span class="legend-label">4</span>
+  <div class="legend-block" style="background:#238636"></div><span class="legend-label">5</span>
+</div>
+
+<div id="grids"></div>
+
+<div id="summary" class="summary-row"></div>
+
+<script>
+const COLORS = [
+  '#da3633', '#bd561d', '#9e6a18',
+  '#7c7f14', '#4b9621', '#238636'
+];
+
+const LEVELS = ['epic','story_task','sub_issues','contract_schema','pattern_code','file_paths','dependencies','test_plan'];
+const LEVEL_LABELS = ['Epic','Story / Task','Sub-issues','Contract / Schema','Pattern / Code','File Paths','Dependencies','Test Plan'];
+
+const SECTIONS = [
+  ['Core Platform', [
+    'Research Orchestration','RunEvent & Streaming','GenUI / Markup',
+    'Report Generation','Deliverables Pipeline','Entity & Citation',
+    'Context Engineering','MCP Tools & Connectors','Document Management'
+  ]],
+  ['Frontend', [
+    'Frontend Shell & Nav','Plan UI / PlanViewer','Report UI / ReportPanel',
+    'Zustand Stores','Canvas / Notebook'
+  ]],
+  ['Enterprise', [
+    'Billing & Metering','Auth & Multi-tenancy','Observability',
+    'CI/CD & DevOps','Security & Governance'
+  ]],
+  ['Product Modules', [
+    'CRM / Contacts','Models & Validation','Workflows & Triggers',
+    'Dashboards & Analytics'
+  ]],
+  ['Domain Verticals', [
+    'Domain: DocuIntelli','Domain: Lease CDs','Domain: Debt MVP',
+    'Domain: RegSygnal','Domain: PropSygnal'
+  ]],
+  ['Infrastructure', [
+    'DB Migrations','DataBrief / Meta-reasoning'
+  ]]
+];
+
+const V1 = {"Research Orchestration":{"epic":4,"story_task":4,"sub_issues":1,"contract_schema":2,"pattern_code":2,"file_paths":0,"dependencies":4,"test_plan":3},"RunEvent & Streaming":{"epic":3,"story_task":4,"sub_issues":1,"contract_schema":3,"pattern_code":2,"file_paths":0,"dependencies":4,"test_plan":4},"GenUI / Markup":{"epic":4,"story_task":4,"sub_issues":1,"contract_schema":1,"pattern_code":1,"file_paths":0,"dependencies":3,"test_plan":3},"Report Generation":{"epic":3,"story_task":3,"sub_issues":1,"contract_schema":2,"pattern_code":1,"file_paths":0,"dependencies":3,"test_plan":2},"Deliverables Pipeline":{"epic":4,"story_task":3,"sub_issues":1,"contract_schema":2,"pattern_code":1,"file_paths":1,"dependencies":4,"test_plan":3},"Entity & Citation":{"epic":3,"story_task":3,"sub_issues":1,"contract_schema":4,"pattern_code":1,"file_paths":0,"dependencies":4,"test_plan":3},"Context Engineering":{"epic":3,"story_task":3,"sub_issues":1,"contract_schema":4,"pattern_code":1,"file_paths":0,"dependencies":3,"test_plan":2},"MCP Tools & Connectors":{"epic":4,"story_task":4,"sub_issues":1,"contract_schema":2,"pattern_code":2,"file_paths":0,"dependencies":4,"test_plan":3},"Document Management":{"epic":5,"story_task":5,"sub_issues":1,"contract_schema":4,"pattern_code":1,"file_paths":1,"dependencies":5,"test_plan":4},"Frontend Shell & Nav":{"epic":4,"story_task":4,"sub_issues":2,"contract_schema":2,"pattern_code":2,"file_paths":2,"dependencies":4,"test_plan":3},"Plan UI / PlanViewer":{"epic":3,"story_task":3,"sub_issues":1,"contract_schema":2,"pattern_code":1,"file_paths":0,"dependencies":3,"test_plan":2},"Report UI / ReportPanel":{"epic":3,"story_task":3,"sub_issues":1,"contract_schema":2,"pattern_code":1,"file_paths":0,"dependencies":3,"test_plan":2},"Zustand Stores":{"epic":2,"story_task":2,"sub_issues":0,"contract_schema":0,"pattern_code":1,"file_paths":0,"dependencies":2,"test_plan":2},"Canvas / Notebook":{"epic":4,"story_task":4,"sub_issues":2,"contract_schema":1,"pattern_code":1,"file_paths":0,"dependencies":4,"test_plan":3},"Billing & Metering":{"epic":4,"story_task":4,"sub_issues":1,"contract_schema":1,"pattern_code":1,"file_paths":0,"dependencies":3,"test_plan":3},"Auth & Multi-tenancy":{"epic":2,"story_task":2,"sub_issues":1,"contract_schema":2,"pattern_code":1,"file_paths":0,"dependencies":3,"test_plan":2},"Observability":{"epic":3,"story_task":3,"sub_issues":1,"contract_schema":1,"pattern_code":1,"file_paths":0,"dependencies":3,"test_plan":2},"CI/CD & DevOps":{"epic":4,"story_task":4,"sub_issues":2,"contract_schema":1,"pattern_code":2,"file_paths":2,"dependencies":3,"test_plan":4},"Security & Governance":{"epic":3,"story_task":3,"sub_issues":1,"contract_schema":2,"pattern_code":2,"file_paths":0,"dependencies":3,"test_plan":3},"CRM / Contacts":{"epic":4,"story_task":4,"sub_issues":1,"contract_schema":4,"pattern_code":1,"file_paths":1,"dependencies":4,"test_plan":3},"Models & Validation":{"epic":4,"story_task":4,"sub_issues":2,"contract_schema":3,"pattern_code":1,"file_paths":0,"dependencies":4,"test_plan":4},"Workflows & Triggers":{"epic":4,"story_task":4,"sub_issues":1,"contract_schema":4,"pattern_code":1,"file_paths":0,"dependencies":4,"test_plan":3},"Dashboards & Analytics":{"epic":4,"story_task":3,"sub_issues":1,"contract_schema":1,"pattern_code":1,"file_paths":0,"dependencies":4,"test_plan":2},"Domain: DocuIntelli":{"epic":0,"story_task":0,"sub_issues":0,"contract_schema":0,"pattern_code":0,"file_paths":0,"dependencies":0,"test_plan":0},"Domain: Lease CDs":{"epic":0,"story_task":1,"sub_issues":0,"contract_schema":0,"pattern_code":0,"file_paths":0,"dependencies":0,"test_plan":0},"Domain: Debt MVP":{"epic":0,"story_task":0,"sub_issues":0,"contract_schema":0,"pattern_code":0,"file_paths":0,"dependencies":0,"test_plan":0},"Domain: RegSygnal":{"epic":0,"story_task":0,"sub_issues":0,"contract_schema":0,"pattern_code":0,"file_paths":0,"dependencies":0,"test_plan":0},"Domain: PropSygnal":{"epic":0,"story_task":0,"sub_issues":0,"contract_schema":0,"pattern_code":0,"file_paths":0,"dependencies":0,"test_plan":0},"DB Migrations":{"epic":2,"story_task":4,"sub_issues":1,"contract_schema":1,"pattern_code":2,"file_paths":1,"dependencies":4,"test_plan":3},"DataBrief / Meta-reasoning":{"epic":0,"story_task":1,"sub_issues":0,"contract_schema":0,"pattern_code":0,"file_paths":0,"dependencies":0,"test_plan":0}};
+
+const V2 = {"Research Orchestration":{"epic":5,"story_task":5,"sub_issues":5,"contract_schema":3,"pattern_code":0,"file_paths":4,"dependencies":4,"test_plan":3},"RunEvent & Streaming":{"epic":4,"story_task":5,"sub_issues":4,"contract_schema":4,"pattern_code":0,"file_paths":4,"dependencies":4,"test_plan":3},"GenUI / Markup":{"epic":4,"story_task":5,"sub_issues":4,"contract_schema":4,"pattern_code":0,"file_paths":4,"dependencies":4,"test_plan":3},"Report Generation":{"epic":4,"story_task":4,"sub_issues":3,"contract_schema":3,"pattern_code":0,"file_paths":3,"dependencies":4,"test_plan":3},"Deliverables Pipeline":{"epic":4,"story_task":4,"sub_issues":4,"contract_schema":3,"pattern_code":0,"file_paths":3,"dependencies":4,"test_plan":3},"Entity & Citation":{"epic":3,"story_task":5,"sub_issues":4,"contract_schema":4,"pattern_code":0,"file_paths":4,"dependencies":4,"test_plan":3},"Context Engineering":{"epic":3,"story_task":4,"sub_issues":4,"contract_schema":4,"pattern_code":0,"file_paths":3,"dependencies":4,"test_plan":3},"MCP Tools & Connectors":{"epic":4,"story_task":4,"sub_issues":3,"contract_schema":3,"pattern_code":0,"file_paths":3,"dependencies":3,"test_plan":3},"Document Management":{"epic":3,"story_task":3,"sub_issues":2,"contract_schema":4,"pattern_code":0,"file_paths":3,"dependencies":3,"test_plan":2},"Frontend Shell & Nav":{"epic":3,"story_task":3,"sub_issues":2,"contract_schema":2,"pattern_code":0,"file_paths":3,"dependencies":3,"test_plan":2},"Plan UI / PlanViewer":{"epic":4,"story_task":4,"sub_issues":2,"contract_schema":3,"pattern_code":0,"file_paths":4,"dependencies":4,"test_plan":3},"Report UI / ReportPanel":{"epic":4,"story_task":5,"sub_issues":3,"contract_schema":4,"pattern_code":0,"file_paths":4,"dependencies":4,"test_plan":3},"Zustand Stores":{"epic":0,"story_task":2,"sub_issues":0,"contract_schema":0,"pattern_code":0,"file_paths":1,"dependencies":1,"test_plan":1},"Canvas / Notebook":{"epic":4,"story_task":4,"sub_issues":3,"contract_schema":2,"pattern_code":0,"file_paths":3,"dependencies":3,"test_plan":2},"Billing & Metering":{"epic":3,"story_task":3,"sub_issues":1,"contract_schema":1,"pattern_code":0,"file_paths":2,"dependencies":3,"test_plan":2},"Auth & Multi-tenancy":{"epic":4,"story_task":4,"sub_issues":2,"contract_schema":2,"pattern_code":0,"file_paths":3,"dependencies":3,"test_plan":3},"Observability":{"epic":4,"story_task":4,"sub_issues":1,"contract_schema":1,"pattern_code":0,"file_paths":2,"dependencies":3,"test_plan":3},"CI/CD & DevOps":{"epic":3,"story_task":4,"sub_issues":1,"contract_schema":1,"pattern_code":0,"file_paths":4,"dependencies":3,"test_plan":4},"Security & Governance":{"epic":3,"story_task":3,"sub_issues":1,"contract_schema":1,"pattern_code":0,"file_paths":2,"dependencies":2,"test_plan":2},"CRM / Contacts":{"epic":3,"story_task":3,"sub_issues":1,"contract_schema":4,"pattern_code":0,"file_paths":3,"dependencies":3,"test_plan":2},"Models & Validation":{"epic":2,"story_task":2,"sub_issues":1,"contract_schema":3,"pattern_code":0,"file_paths":1,"dependencies":2,"test_plan":1},"Workflows & Triggers":{"epic":3,"story_task":3,"sub_issues":1,"contract_schema":4,"pattern_code":0,"file_paths":2,"dependencies":3,"test_plan":2},"Dashboards & Analytics":{"epic":2,"story_task":2,"sub_issues":1,"contract_schema":2,"pattern_code":0,"file_paths":1,"dependencies":2,"test_plan":1},"Domain: DocuIntelli":{"epic":4,"story_task":4,"sub_issues":1,"contract_schema":2,"pattern_code":0,"file_paths":2,"dependencies":3,"test_plan":2},"Domain: Lease CDs":{"epic":4,"story_task":4,"sub_issues":1,"contract_schema":1,"pattern_code":0,"file_paths":2,"dependencies":3,"test_plan":2},"Domain: Debt MVP":{"epic":4,"story_task":4,"sub_issues":1,"contract_schema":1,"pattern_code":0,"file_paths":2,"dependencies":3,"test_plan":2},"Domain: RegSygnal":{"epic":3,"story_task":3,"sub_issues":1,"contract_schema":1,"pattern_code":0,"file_paths":1,"dependencies":2,"test_plan":2},"Domain: PropSygnal":{"epic":3,"story_task":3,"sub_issues":1,"contract_schema":1,"pattern_code":0,"file_paths":1,"dependencies":2,"test_plan":2},"DB Migrations":{"epic":0,"story_task":3,"sub_issues":2,"contract_schema":2,"pattern_code":0,"file_paths":4,"dependencies":3,"test_plan":3},"DataBrief / Meta-reasoning":{"epic":3,"story_task":4,"sub_issues":2,"contract_schema":2,"pattern_code":0,"file_paths":3,"dependencies":4,"test_plan":2}};
+
+const V2M = {"Research Orchestration":{"epic":4,"story_task":5,"sub_issues":5,"contract_schema":4,"pattern_code":5,"file_paths":5,"dependencies":3,"test_plan":4},"RunEvent & Streaming":{"epic":3,"story_task":5,"sub_issues":2,"contract_schema":5,"pattern_code":5,"file_paths":5,"dependencies":4,"test_plan":3},"GenUI / Markup":{"epic":3,"story_task":3,"sub_issues":1,"contract_schema":4,"pattern_code":5,"file_paths":3,"dependencies":3,"test_plan":2},"Report Generation":{"epic":4,"story_task":5,"sub_issues":3,"contract_schema":4,"pattern_code":4,"file_paths":5,"dependencies":3,"test_plan":3},"Deliverables Pipeline":{"epic":4,"story_task":4,"sub_issues":3,"contract_schema":3,"pattern_code":4,"file_paths":5,"dependencies":3,"test_plan":2},"Entity & Citation":{"epic":3,"story_task":4,"sub_issues":1,"contract_schema":4,"pattern_code":5,"file_paths":4,"dependencies":3,"test_plan":2},"Context Engineering":{"epic":1,"story_task":1,"sub_issues":0,"contract_schema":1,"pattern_code":1,"file_paths":1,"dependencies":1,"test_plan":0},"MCP Tools & Connectors":{"epic":3,"story_task":4,"sub_issues":1,"contract_schema":2,"pattern_code":3,"file_paths":5,"dependencies":4,"test_plan":3},"Document Management":{"epic":2,"story_task":2,"sub_issues":1,"contract_schema":2,"pattern_code":2,"file_paths":2,"dependencies":2,"test_plan":1},"Frontend Shell & Nav":{"epic":2,"story_task":2,"sub_issues":0,"contract_schema":1,"pattern_code":3,"file_paths":2,"dependencies":2,"test_plan":1},"Plan UI / PlanViewer":{"epic":3,"story_task":4,"sub_issues":0,"contract_schema":3,"pattern_code":5,"file_paths":5,"dependencies":4,"test_plan":3},"Report UI / ReportPanel":{"epic":3,"story_task":4,"sub_issues":0,"contract_schema":4,"pattern_code":5,"file_paths":5,"dependencies":3,"test_plan":2},"Zustand Stores":{"epic":2,"story_task":4,"sub_issues":0,"contract_schema":4,"pattern_code":5,"file_paths":5,"dependencies":3,"test_plan":2},"Canvas / Notebook":{"epic":2,"story_task":2,"sub_issues":0,"contract_schema":1,"pattern_code":0,"file_paths":1,"dependencies":2,"test_plan":1},"Billing & Metering":{"epic":3,"story_task":4,"sub_issues":4,"contract_schema":5,"pattern_code":5,"file_paths":5,"dependencies":4,"test_plan":3},"Auth & Multi-tenancy":{"epic":2,"story_task":3,"sub_issues":1,"contract_schema":4,"pattern_code":5,"file_paths":3,"dependencies":3,"test_plan":2},"Observability":{"epic":2,"story_task":2,"sub_issues":0,"contract_schema":1,"pattern_code":1,"file_paths":1,"dependencies":2,"test_plan":1},"CI/CD & DevOps":{"epic":2,"story_task":3,"sub_issues":0,"contract_schema":0,"pattern_code":1,"file_paths":2,"dependencies":2,"test_plan":2},"Security & Governance":{"epic":2,"story_task":2,"sub_issues":0,"contract_schema":1,"pattern_code":2,"file_paths":1,"dependencies":2,"test_plan":1},"CRM / Contacts":{"epic":0,"story_task":0,"sub_issues":0,"contract_schema":0,"pattern_code":0,"file_paths":0,"dependencies":0,"test_plan":0},"Models & Validation":{"epic":3,"story_task":4,"sub_issues":1,"contract_schema":5,"pattern_code":5,"file_paths":5,"dependencies":3,"test_plan":2},"Workflows & Triggers":{"epic":1,"story_task":1,"sub_issues":0,"contract_schema":0,"pattern_code":0,"file_paths":0,"dependencies":1,"test_plan":0},"Dashboards & Analytics":{"epic":0,"story_task":0,"sub_issues":0,"contract_schema":0,"pattern_code":0,"file_paths":0,"dependencies":0,"test_plan":0},"Domain: DocuIntelli":{"epic":1,"story_task":1,"sub_issues":0,"contract_schema":0,"pattern_code":0,"file_paths":0,"dependencies":1,"test_plan":0},"Domain: Lease CDs":{"epic":0,"story_task":0,"sub_issues":0,"contract_schema":0,"pattern_code":0,"file_paths":0,"dependencies":0,"test_plan":0},"Domain: Debt MVP":{"epic":0,"story_task":0,"sub_issues":0,"contract_schema":0,"pattern_code":0,"file_paths":0,"dependencies":0,"test_plan":0},"Domain: RegSygnal":{"epic":0,"story_task":0,"sub_issues":0,"contract_schema":0,"pattern_code":0,"file_paths":0,"dependencies":0,"test_plan":0},"Domain: PropSygnal":{"epic":0,"story_task":0,"sub_issues":0,"contract_schema":0,"pattern_code":0,"file_paths":0,"dependencies":0,"test_plan":0},"DB Migrations":{"epic":3,"story_task":3,"sub_issues":1,"contract_schema":4,"pattern_code":5,"file_paths":3,"dependencies":4,"test_plan":2},"DataBrief / Meta-reasoning":{"epic":3,"story_task":4,"sub_issues":2,"contract_schema":4,"pattern_code":5,"file_paths":4,"dependencies":3,"test_plan":3}};
+
+const PACKS = [
+  { name: 'V1 — BUILD_PACK', data: V1, badge: 'badge-v1', badgeText: 'V1', files: '147 files \u00b7 85 issues \u00b7 17 epics \u00b7 11 milestones' },
+  { name: 'V2 — BUILD_PACK_V2', data: V2, badge: 'badge-v2', badgeText: 'V2', files: '427 files \u00b7 122 issues \u00b7 14 epics \u00b7 14 milestones' },
+  { name: 'V2-merged — BUILD_PACK_V2 (1)', data: V2M, badge: 'badge-winner', badgeText: 'RECOMMENDED', files: '164 files \u00b7 87 issues \u00b7 10 epics \u00b7 Best issue design' }
+];
+
+function getColor(v) { return COLORS[Math.max(0, Math.min(5, v))]; }
+
+function avg(obj) {
+  var vals = LEVELS.map(function(l) { return obj[l] || 0; });
+  return (vals.reduce(function(a,b) { return a+b; }, 0) / vals.length).toFixed(1);
+}
+
+function globalAvg(data) {
+  var total = 0, count = 0;
+  var keys = Object.keys(data);
+  for (var i = 0; i < keys.length; i++) {
+    for (var j = 0; j < LEVELS.length; j++) {
+      total += (data[keys[i]][LEVELS[j]] || 0);
+      count++;
+    }
+  }
+  return (total / count).toFixed(2);
+}
+
+function colAvg(data, level) {
+  var sum = 0, cnt = 0;
+  var keys = Object.keys(data);
+  for (var i = 0; i < keys.length; i++) {
+    sum += (data[keys[i]][level] || 0);
+    cnt++;
+  }
+  return (sum / cnt).toFixed(1);
+}
+
+function createCell(tag, text, attrs) {
+  var el = document.createElement(tag);
+  el.textContent = text;
+  if (attrs) {
+    for (var k in attrs) {
+      if (k === 'style') {
+        for (var s in attrs[k]) { el.style[s] = attrs[k][s]; }
+      } else if (k === 'className') {
+        el.className = attrs[k];
+      } else if (k === 'title') {
+        el.title = attrs[k];
+      } else if (k === 'colSpan') {
+        el.colSpan = attrs[k];
+      }
+    }
+  }
+  return el;
+}
+
+function renderGrid(pack, idx) {
+  var container = document.getElementById('grids');
+  var div = document.createElement('div');
+  div.className = 'grid-container';
+
+  var isWinner = idx === 2;
+  var titleDiv = document.createElement('div');
+  titleDiv.className = 'grid-title';
+
+  var nameSpan = document.createTextNode(pack.name + ' ');
+  titleDiv.appendChild(nameSpan);
+
+  var badge = document.createElement('span');
+  badge.className = 'badge ' + pack.badge;
+  badge.textContent = pack.badgeText;
+  titleDiv.appendChild(badge);
+
+  var avgSpan = document.createElement('span');
+  avgSpan.style.fontSize = '11px';
+  avgSpan.style.color = '#8b949e';
+  avgSpan.style.marginLeft = 'auto';
+  avgSpan.textContent = 'Avg: ';
+  var avgVal = document.createElement('b');
+  avgVal.style.color = isWinner ? '#3fb950' : (idx === 1 ? '#58a6ff' : '#8b949e');
+  avgVal.textContent = globalAvg(pack.data) + ' / 5';
+  avgSpan.appendChild(avgVal);
+  titleDiv.appendChild(avgSpan);
+
+  div.appendChild(titleDiv);
+
+  var meta = document.createElement('div');
+  meta.className = 'grid-meta';
+  meta.textContent = pack.files;
+  div.appendChild(meta);
+
+  var wrapper = document.createElement('div');
+  wrapper.className = 'grid-wrapper';
+  var table = document.createElement('table');
+
+  var thead = document.createElement('thead');
+  var hr = document.createElement('tr');
+  hr.appendChild(createCell('th', 'Theme', { className: 'theme-header' }));
+  for (var i = 0; i < LEVEL_LABELS.length; i++) {
+    hr.appendChild(createCell('th', LEVEL_LABELS[i]));
+  }
+  hr.appendChild(createCell('th', 'Avg'));
+  thead.appendChild(hr);
+  table.appendChild(thead);
+
+  var tbody = document.createElement('tbody');
+
+  for (var s = 0; s < SECTIONS.length; s++) {
+    var sectionName = SECTIONS[s][0];
+    var themes = SECTIONS[s][1];
+
+    var sr = document.createElement('tr');
+    sr.className = 'section-row';
+    sr.appendChild(createCell('td', sectionName, { colSpan: LEVELS.length + 2 }));
+    tbody.appendChild(sr);
+
+    for (var t = 0; t < themes.length; t++) {
+      var theme = themes[t];
+      var row = document.createElement('tr');
+      var vals = pack.data[theme] || {};
+
+      row.appendChild(createCell('td', theme, { className: 'theme-cell', title: theme }));
+
+      for (var l = 0; l < LEVELS.length; l++) {
+        var v = vals[LEVELS[l]] !== undefined ? vals[LEVELS[l]] : 0;
+        row.appendChild(createCell('td', String(v), {
+          style: { background: getColor(v), color: '#fff' }
+        }));
+      }
+
+      var a = avg(vals);
+      var aRound = Math.round(parseFloat(a));
+      row.appendChild(createCell('td', a, {
+        className: 'avg-cell',
+        style: { background: getColor(aRound), color: '#fff' }
+      }));
+
+      tbody.appendChild(row);
+    }
+  }
+
+  var avgRow = document.createElement('tr');
+  avgRow.className = 'avg-row';
+  avgRow.appendChild(createCell('td', 'COLUMN AVG', {
+    className: 'theme-cell',
+    style: { fontWeight: '700', color: '#f0f6fc' }
+  }));
+
+  for (var l = 0; l < LEVELS.length; l++) {
+    var cv = colAvg(pack.data, LEVELS[l]);
+    var cvr = Math.round(parseFloat(cv));
+    avgRow.appendChild(createCell('td', cv, {
+      className: 'avg-cell',
+      style: { background: getColor(cvr), color: '#fff' }
+    }));
+  }
+
+  var ga = globalAvg(pack.data);
+  var gar = Math.round(parseFloat(ga));
+  avgRow.appendChild(createCell('td', ga, {
+    className: 'avg-cell',
+    style: { background: getColor(gar), color: '#fff' }
+  }));
+
+  tbody.appendChild(avgRow);
+  table.appendChild(tbody);
+  wrapper.appendChild(table);
+  div.appendChild(wrapper);
+  container.appendChild(div);
+}
+
+for (var p = 0; p < PACKS.length; p++) {
+  renderGrid(PACKS[p], p);
+}
+
+// Summary cards
+var summaryDiv = document.getElementById('summary');
+var classes = ['val-v1','val-v2','val-merged'];
+var labels = ['V1','V2','V2-merged'];
+
+function makeSummaryCard(title, values) {
+  var card = document.createElement('div');
+  card.className = 'summary-card';
+  var h = document.createElement('div');
+  h.className = 'summary-label';
+  h.textContent = title;
+  card.appendChild(h);
+  for (var i = 0; i < values.length; i++) {
+    var row = document.createElement('div');
+    var val = document.createElement('span');
+    val.className = 'summary-val ' + classes[i];
+    val.textContent = values[i];
+    row.appendChild(val);
+    var lbl = document.createElement('span');
+    lbl.className = 'summary-label';
+    lbl.textContent = ' ' + labels[i];
+    row.appendChild(lbl);
+    card.appendChild(row);
+  }
+  return card;
+}
+
+var overallVals = PACKS.map(function(p) { return globalAvg(p.data); });
+summaryDiv.appendChild(makeSummaryCard('OVERALL AVG', overallVals));
+
+var patternVals = PACKS.map(function(p) {
+  var s=0,c=0;
+  var keys = Object.keys(p.data);
+  for(var i=0;i<keys.length;i++){s+=(p.data[keys[i]].pattern_code||0);c++;}
+  return (s/c).toFixed(1);
+});
+summaryDiv.appendChild(makeSummaryCard('PATTERN / CODE', patternVals));
+
+var fileVals = PACKS.map(function(p) {
+  var s=0,c=0;
+  var keys = Object.keys(p.data);
+  for(var i=0;i<keys.length;i++){s+=(p.data[keys[i]].file_paths||0);c++;}
+  return (s/c).toFixed(1);
+});
+summaryDiv.appendChild(makeSummaryCard('FILE PATHS', fileVals));
+
+var coreThemes = SECTIONS[0][1];
+var coreVals = PACKS.map(function(p) {
+  var s=0,c=0;
+  for(var t=0;t<coreThemes.length;t++){
+    for(var l=0;l<LEVELS.length;l++){
+      s+=(p.data[coreThemes[t]]?p.data[coreThemes[t]][LEVELS[l]]||0:0);c++;
+    }
+  }
+  return (s/c).toFixed(1);
+});
+summaryDiv.appendChild(makeSummaryCard('CORE PLATFORM', coreVals));
+</script>
+
+</body>
+</html>

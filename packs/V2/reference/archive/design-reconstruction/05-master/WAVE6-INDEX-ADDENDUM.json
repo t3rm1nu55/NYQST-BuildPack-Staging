@@ -1,0 +1,537 @@
+{
+  "wave": 6,
+  "date": "2026-02-20",
+  "summary": "Wave 6 deliverables: Product domain extract, comprehensive source code scans, and reusable pattern catalogs. Total 7 new files, 5,128 lines, 251 KB. Coverage expands to include DocuIntelli product definition, backend/frontend source inventories, and integration pattern library.",
+
+  "new_files": [
+    {
+      "path": "06-docuintelli/DOCUINTELLI-SKILLS-EXTRACT.md",
+      "type": "extract",
+      "domain": "product-definition",
+      "description": "Complete DocuIntelli product identity, document taxonomy, analytical frameworks, use cases, and skill definitions",
+      "line_count": 1365,
+      "size_kb": 67,
+      "key_entities": [
+        "Product Identity: Document intelligence + corpus analysis platform",
+        "5-phase discovery workflow: Observe → Select → Discover → Weight → Apply",
+        "Document type taxonomy: 7 categories, 54 document types",
+        "Analytical frameworks: Risk, Completeness, Authority, Formality, Currency, Anomaly detection",
+        "54 document types with function/fields/watch-for patterns",
+        "12 use cases: M&A Due Diligence, Contract Management, Regulatory Compliance, etc.",
+        "Quality dimensions: Completeness, Formality, Authority, Currency, Consistency, Anomaly"
+      ],
+      "key_schemas": [
+        "DocumentType schema (function, key_fields, watch_for)",
+        "Framework schema (name, dimensions, scoring)",
+        "Corpus schema (collection properties, document registry)",
+        "Quality dimension enums (completeness, formality, authority, etc.)",
+        "Anomaly detection patterns"
+      ],
+      "key_decisions": [
+        "Product principle: Observe before interpreting (rejects premature categorization)",
+        "Multi-framework analysis (not single-lens)",
+        "Purpose-weighted insights (same corpus, different outputs)",
+        "Quality evaluation dimension required for all documents"
+      ]
+    },
+    {
+      "path": "07-source-code/BACKEND-SOURCE-SCAN.md",
+      "type": "inventory",
+      "domain": "backend-architecture",
+      "description": "Complete Python backend inventory: 103 files, 11 API routers, 16 database models, LangGraph integration, auth/security, job queue, pub/sub",
+      "line_count": 784,
+      "size_kb": 38,
+      "key_entities": [
+        "config.py: Pydantic Settings for app/db/storage/embeddings/LLM/MCP/security",
+        "main.py: FastAPI factory with lifespan, middleware stack, session monitor",
+        "Core module: cache, clock, context (tenant isolation), exceptions, jobs, logging, pubsub, security, session_monitor",
+        "Database module: base.py (SQLAlchemy + mixins), checkpointer (LangGraph), engine (async factory)",
+        "Database models (16 total): Auth (Tenant/User/APIKey), Conversations (Session/Conversation/Message/Feedback), RAG (RagChunk), Runs (Run/RunEvent), Substrate (Artifact/Manifest/Pointer/PointerHistory), Tags",
+        "API: 11 routers (agent, artifacts, auth, conversations, health, manifests, pointers, rag, runs, sessions, streams, tags)",
+        "Repositories (8 total): base, artifacts, conversations, manifests, messages, pointers, runs, tags",
+        "Services: StreamingService (SSE), LedgerService (audit), ArtefactService, ManifestService, etc.",
+        "Utilities: clock, context, exceptions, security (JWT/API keys/rate limiting), jobs (arq), logging, pubsub"
+      ],
+      "key_schemas": [
+        "TenantStatus, UserRole, APIKeyScope enums",
+        "ConversationStatus, MessageRole, MessageStatus, FeedbackRating, SessionStatus enums",
+        "RunStatus, RunEventType enums (streaming event types)",
+        "SQLAlchemy models with TimestampMixin, SoftDeleteMixin"
+      ],
+      "key_decisions": [
+        "FastAPI with async SQLAlchemy 2.0",
+        "PostgreSQL with pgvector for embeddings",
+        "LangGraph checkpointer integrated",
+        "JWT + API key authentication",
+        "PG LISTEN/NOTIFY for SSE streaming",
+        "arq for async job queue",
+        "Content-addressed storage (Artifact/Manifest/Pointer pattern)"
+      ]
+    },
+    {
+      "path": "07-source-code/FRONTEND-SOURCE-SCAN.md",
+      "type": "inventory",
+      "domain": "frontend-architecture",
+      "description": "Complete React/TypeScript frontend inventory: 6 API clients, 5 Zustand stores, 40+ components, @assistant-ui/react integration, workbench IDE pattern",
+      "line_count": 1141,
+      "size_kb": 56,
+      "key_entities": [
+        "Root: main.tsx (bootstrap), App.tsx (routes), index.css (Tailwind)",
+        "API clients (6 total): auth, client (CRUD), conversations, sessions, tags, tour-feedback",
+        "Stores (5 Zustand): auth, conversation, workbench (IDE layout), run (timeline), tour (product onboarding)",
+        "Hooks (4 total): use-sse (EventSource), use-session-lifecycle, use-thread-sources, use-toast",
+        "Types: api (matching Pydantic), conversations, sessions, tags",
+        "Components - Workbench: Workbench (4-panel IDE), ExplorerPanel, MainPanel, DetailsPanel, TimelinePanel, WorkbenchHeader",
+        "Components - Chat: ChatPanel (Thread/Composer/sidebar), CitationAwareText, CitationLink, SourcesPanel, SourcesSidebar, message-metadata, message-feedback, branch-indicator, conversation-sidebar, tool-uis",
+        "Components - Artifact viewers: ArtifactViewer, ManifestViewer, PointerEditor, RunTimeline, PlotlyChart, ChartRenderer",
+        "Components - Auth: LoginPage, Bootstrap, APIKeyManager",
+        "Components - Settings: ProjectSettings, UserSettings, SessionMonitor"
+      ],
+      "key_schemas": [
+        "TypeScript types: Artifact, Manifest, Pointer, Run, RAG (mirroring Pydantic)",
+        "ConversationResponse, MessageResponse, FeedbackResponse, BranchResponse",
+        "SessionResponse, SessionCostBreakdown",
+        "RunEvent union type (streaming events)"
+      ],
+      "key_decisions": [
+        "React + Vite + TypeScript",
+        "@assistant-ui/react for chat UI primitives",
+        "Zustand for state management",
+        "shadcn/ui component library",
+        "Tailwind CSS for styling",
+        "Plotly.js for data visualization (NOT Recharts)",
+        "IDE-style workbench layout (4 panels)",
+        "SSE via EventSource for real-time streaming"
+      ]
+    },
+    {
+      "path": "03-patterns/BACKEND-PATTERNS.md",
+      "type": "pattern-catalog",
+      "domain": "backend-patterns",
+      "description": "Backend reusable patterns: 10 Pydantic schema hierarchies, 12 LangGraph node templates, 8 repository patterns, 6 event types, FastAPI dependency injection",
+      "line_count": 1171,
+      "size_kb": 57,
+      "key_entities": [
+        "Pydantic Schemas: PlanSet, Plan, PlanTask (with Status enum: loading/success/error)",
+        "Source schema (source_id, url, title, provider, retrieved_at)",
+        "Entity schema (entity_type, identifier, title, file_name, mimetype, etc.)",
+        "Dimension schema (name, operator, score_func)",
+        "RunState schema (run_id, status, input, output, error, sequence_number)",
+        "LangGraph node patterns: ResearchPlannerNode, WebSearchNode, FiltersNode, AnalyzerNode, DecisionNode, SynthesisNode",
+        "Repository base pattern: get_by_id, create, update, delete, list_all, count",
+        "Artifact repository: get_by_sha256, create_artifact, update_reference_count",
+        "EventType enums: PLAN_CREATED, PLAN_UPDATED, TASK_STARTED, TASK_COMPLETED, ERROR_OCCURRED, SYNTHESIS_COMPLETE"
+      ],
+      "key_schemas": [
+        "Status: LOADING, SUCCESS, ERROR",
+        "Source: source_id, url, title, provider, retrieved_at",
+        "PlanTask: id, plan_id, title, message, status, start_time, end_time, duration_ms, notes, sources, entities",
+        "RunState for LangGraph checkpointing",
+        "Dimension: name, operator (min/max/sum/first), score_func"
+      ],
+      "key_decisions": [
+        "Pydantic v2 with Field validation",
+        "LangGraph node state via RunState schema",
+        "Repository pattern for data access",
+        "Event-sourced audit trails",
+        "Operator-based dimension evaluation (min/max/sum/first)",
+        "Source tracking with provider field"
+      ]
+    },
+    {
+      "path": "03-patterns/FRONTEND-PATTERNS.md",
+      "type": "pattern-catalog",
+      "domain": "frontend-patterns",
+      "description": "Frontend reusable patterns: GenUI 27 primitive components, 8 container layouts, 6 data display patterns, 4 form patterns, 2 media patterns, component registry + schema validation",
+      "line_count": 1535,
+      "size_kb": 75,
+      "key_entities": [
+        "GenUI Component Registry: primitiveRegistry[Record<string, ComponentEntry>]",
+        "Text primitives: Text, Heading, Label, Code (with variant/weight/color/truncate/maxLines)",
+        "Container primitives: Box, Flex, Grid, Stack (horizontal/vertical), Card, Section, Tabs, Accordion",
+        "Data display: Table, List, Badge, Progress, Stat, Timeline",
+        "Form primitives: Input, Select, Checkbox, Radio, Toggle, DatePicker",
+        "Media primitives: Image, Video, Audio, PlotlyChart",
+        "Feedback: Alert, Toast, ProgressBar, Skeleton, Empty",
+        "ComponentEntry interface: component (React.ComponentType), schema (Zod), category (primitive/container/data/media/form/feedback)",
+        "GenUI config: { layouts: [], components: [], transformations: [] }",
+        "Rehype-to-JSX pipeline: parse markdown/HTML → rehype AST → render React components"
+      ],
+      "key_schemas": [
+        "ComponentEntry: { component, schema, category }",
+        "TextSchema: { content, variant, weight, color, truncate, maxLines }",
+        "HeadingSchema: { content, level: h1|h2|h3|h4 }",
+        "FlexSchema: { direction, justify, align, gap, children }",
+        "GridSchema: { columns, gap, children }",
+        "CardSchema: { title, description, children, footer }",
+        "PlotlyChartSchema: { data, layout, config }",
+        "GenUI ConfigSchema: { layouts, components, transformations }"
+      ],
+      "key_decisions": [
+        "Zod schema validation for all components",
+        "Tailwind CSS for styling (not Chakra, not Material-UI)",
+        "Plotly.js for charts (NOT Recharts)",
+        "Rehype ecosystem for markdown/HTML rendering (rehype-parse, rehype-react)",
+        "React Plotly wrapper (react-plotly.js)",
+        "27 primitives in registry (extensible)",
+        "Category-based component organization",
+        "GenUI config-driven rendering (not JSX-hard-coded)"
+      ]
+    },
+    {
+      "path": "03-patterns/INTEGRATION-PATTERNS.md",
+      "type": "pattern-catalog",
+      "domain": "integration-patterns",
+      "description": "End-to-end integration patterns: event contract (RunEventType → Pydantic → TypeScript → SSE → frontend), PlanSet orchestration, streaming payloads, session lifecycle, artifact provenance",
+      "line_count": 859,
+      "size_kb": 42,
+      "key_entities": [
+        "Event contract chain: RunEventType → Pydantic → JSON → PG NOTIFY → SSE → TypeScript union → Zustand → React",
+        "RunEventType enums: PLAN_CREATED, PLAN_UPDATED, TASK_STARTED, TASK_COMPLETED, TASK_FAILED, ANALYSIS_COMPLETE, ERROR_OCCURRED",
+        "PlanSet workflow state: { chat_id, creator_user_id, user_chat_message_id, workspace_id, plans: Record<plan_id, Plan> }",
+        "Streaming payload pattern: { type: RunEventType, timestamp, payload: (PlanEvent | TaskEvent | ErrorEvent) }",
+        "Session lifecycle: create → configure → run → close → cost_breakdown",
+        "Artifact provenance: { sha256_pk, source_run_id, created_by, created_at, referenced_by_count }",
+        "Citation linking: { entity_id, citation_index, source_artifact_id, confidence_score }",
+        "Backend→Frontend type mapping: Pydantic BaseModel → JSON → TypeScript type alias"
+      ],
+      "key_schemas": [
+        "RunEvent union: PlanCreatedEvent | PlanUpdatedEvent | TaskStartedEvent | TaskCompletedEvent | TaskFailedEvent | AnalysisCompleteEvent | ErrorOccurredEvent",
+        "PlanEvent: { plan_id, plan_set_id, title, summary, status, plan_tasks, previous_plan_id, used_sources, iteration_number }",
+        "TaskEvent: { task_id, plan_id, title, message, status, start_time, end_time, duration_ms, notes, sources, entities }",
+        "ErrorEvent: { error_code, error_message, context }",
+        "SessionRequest: { module, initial_config, user_context }",
+        "SessionResponse: { session_id, created_at, cost_tracking: { tokens_used, cost_usd } }"
+      ],
+      "key_decisions": [
+        "PG LISTEN/NOTIFY for event streaming (not WebSocket)",
+        "SSE (EventSource) for frontend consumption",
+        "Union types for type-safe event handling",
+        "Pydantic model_dump_json() for serialization",
+        "Session ID binding for cost tracking",
+        "SHA-256 content addressing for artifact provenance",
+        "Sequence numbers for RunEvent deduplication"
+      ]
+    },
+    {
+      "path": "05-master/OPUS-MILESTONE-REVIEW.md",
+      "type": "quality-assessment",
+      "domain": "quality-assurance",
+      "description": "CTO-level design knowledge reconstruction review: 8.2/10 quality, 85% coverage, identifies 2 production bugs and 51 gaps, validates 16 hypotheses, surfaces propagation debt",
+      "line_count": 273,
+      "size_kb": 13,
+      "key_entities": [
+        "Overall quality: 8.2/10 (exceptionally thorough design reconstruction)",
+        "Coverage assessment: ~85% of recoverable design knowledge captured",
+        "Production-blocking bugs found: GAP-022 (RunEvent race condition), GAP-023 (arq worker initialization)",
+        "Key finding: WeasyPrint + Plotly incompatibility (H16 REFUTED)",
+        "Propagation debt: 4+ docs reference Recharts (wrong), 7 OQs marked unresolved (are resolved), 8 GIT-ISSUE dependency fields wrong",
+        "33 output files across 6 directories",
+        "798 files analyzed from 4 repositories",
+        "51 gaps identified across 5 categories",
+        "16 hypotheses tested with evidence-based verdicts"
+      ],
+      "key_schemas": [
+        "Quality assessment framework: coverage (%) + gap analysis + hypothesis testing + production bug verification",
+        "Gap categories: Architectural (12), Operational (14), Competitive (8), Feasibility (10), Consistency (7)",
+        "Hypothesis categories: Code alignment, Competitive positioning, Internal consistency, Feasibility assessment"
+      ],
+      "key_decisions": [
+        "Weasyprint PDF export architecturally broken (requires Playwright SSR or static rendering)",
+        "RunEvent sequence number needs distributed transaction semantics",
+        "Propagation debt must be cleared before implementation (2-3 engineer-days)",
+        "Pattern catalogs (03-patterns) high-confidence, source scans medium-confidence",
+        "Design knowledge is 85% complete; remaining 15% = operational knowledge + competitive gaps"
+      ]
+    }
+  ],
+
+  "new_schemas": [
+    {
+      "name": "DocumentType",
+      "domain": "product",
+      "category": "entity",
+      "fields": ["name", "category", "function", "key_fields", "watch_for"],
+      "count": 54,
+      "source": "06-docuintelli/DOCUINTELLI-SKILLS-EXTRACT.md"
+    },
+    {
+      "name": "AnalyticalFramework",
+      "domain": "product",
+      "category": "config",
+      "fields": ["name", "dimensions", "scoring_model", "use_cases"],
+      "count": 6,
+      "source": "06-docuintelli/DOCUINTELLI-SKILLS-EXTRACT.md"
+    },
+    {
+      "name": "GenUIComponentEntry",
+      "domain": "frontend",
+      "category": "component",
+      "fields": ["component", "schema", "category"],
+      "count": 27,
+      "source": "03-patterns/FRONTEND-PATTERNS.md"
+    },
+    {
+      "name": "RunEvent",
+      "domain": "integration",
+      "category": "streaming",
+      "fields": ["type", "timestamp", "payload"],
+      "subtypes": ["PlanCreatedEvent", "PlanUpdatedEvent", "TaskStartedEvent", "TaskCompletedEvent", "TaskFailedEvent", "AnalysisCompleteEvent", "ErrorOccurredEvent"],
+      "source": "03-patterns/INTEGRATION-PATTERNS.md"
+    },
+    {
+      "name": "PlanSet",
+      "domain": "orchestration",
+      "category": "workflow-state",
+      "fields": ["chat_id", "creator_user_id", "user_chat_message_id", "workspace_id", "plans"],
+      "source": "03-patterns/BACKEND-PATTERNS.md"
+    },
+    {
+      "name": "LangGraphNode",
+      "domain": "backend",
+      "category": "pattern",
+      "subtypes": ["ResearchPlannerNode", "WebSearchNode", "FiltersNode", "AnalyzerNode", "DecisionNode", "SynthesisNode"],
+      "count": 12,
+      "source": "03-patterns/BACKEND-PATTERNS.md"
+    }
+  ],
+
+  "new_gaps": [
+    {
+      "gap_id": "GAP-022",
+      "title": "RunEvent sequence number race condition",
+      "severity": "BLOCKING",
+      "domain": "backend",
+      "description": "Concurrent message writes to run_events table can cause duplicate sequence numbers under high concurrency. Requires distributed transaction semantics or Postgres advisory locks.",
+      "affected_backlog_items": ["BL-001", "BL-016"],
+      "effort_days": 1,
+      "status": "VERIFIED",
+      "source": "05-master/OPUS-MILESTONE-REVIEW.md"
+    },
+    {
+      "gap_id": "GAP-023",
+      "title": "arq worker registry initialization bug",
+      "severity": "BLOCKING",
+      "domain": "backend",
+      "description": "Job queue worker pool not properly initialized on startup, causing silent job failures. Registry needs explicit cold-start validation.",
+      "affected_backlog_items": ["BL-001", "BL-016"],
+      "effort_days": 0.5,
+      "status": "VERIFIED",
+      "source": "05-master/OPUS-MILESTONE-REVIEW.md"
+    },
+    {
+      "gap_id": "GAP-024",
+      "title": "WeasyPrint + Plotly chart incompatibility",
+      "severity": "BLOCKING",
+      "domain": "pdf-export",
+      "description": "WeasyPrint cannot execute JavaScript but Plotly charts are client-side JS. PDF export path architecturally broken. Requires Playwright SSR or static chart rendering.",
+      "affected_backlog_items": ["BL-008", "BL-015"],
+      "effort_days": "3-5",
+      "hypothesis_tested": "H16",
+      "hypothesis_result": "REFUTED",
+      "source": "05-master/OPUS-MILESTONE-REVIEW.md"
+    },
+    {
+      "gap_id": "GAP-025",
+      "title": "Recharts references in docs (should be Plotly.js)",
+      "severity": "MEDIUM",
+      "domain": "documentation-debt",
+      "description": "4+ documents still reference Recharts chart library (legacy). Authoritative decision is Plotly.js (DEC-048). Propagation debt.",
+      "affected_files": ["IMPLEMENTATION-PLAN.md", "LIBRARY-REFERENCE.md", "GML-RENDERING-ANALYSIS.md"],
+      "effort_days": 0.5,
+      "status": "IDENTIFIED",
+      "source": "05-master/OPUS-MILESTONE-REVIEW.md"
+    },
+    {
+      "gap_id": "GAP-026",
+      "title": "Open questions marked unresolved despite being locked",
+      "severity": "MEDIUM",
+      "domain": "documentation-debt",
+      "description": "7 OQs in source docs marked as unresolved despite being resolved in DECISION-REGISTER v2 (as of 2026-02-19). Propagation debt.",
+      "affected_files": ["STRATEGIC-REVIEW.md"],
+      "effort_days": 0.5,
+      "status": "IDENTIFIED",
+      "source": "05-master/OPUS-MILESTONE-REVIEW.md"
+    },
+    {
+      "gap_id": "GAP-027",
+      "title": "GIT-ISSUES dependency fields incorrect",
+      "severity": "MEDIUM",
+      "domain": "documentation-debt",
+      "description": "8 dependency fields in GIT-ISSUES-STRUCTURE.md wrong per CONSISTENCY-AUDIT-PLANS corrections. Blocks issue creation.",
+      "affected_files": ["GIT-ISSUES-STRUCTURE.md"],
+      "corrected_by": ["CONSISTENCY-AUDIT-PLANS.md", "IMPLEMENTATION-PLAN.md"],
+      "effort_days": 0.5,
+      "status": "IDENTIFIED",
+      "source": "05-master/OPUS-MILESTONE-REVIEW.md"
+    }
+  ],
+
+  "new_decisions": [
+    {
+      "decision_id": "DEC-053",
+      "title": "RunEvent distributed transaction semantics",
+      "domain": "backend",
+      "category": "technical",
+      "status": "PROPOSED",
+      "rationale": "Sequence number generation in concurrent scenario requires either PostgreSQL advisory lock or application-level optimistic locking with retry",
+      "options_considered": ["Postgres advisory locks", "Optimistic locking with retries", "Redis-backed sequence generator"],
+      "selected_option": "Postgres advisory locks for v1 (simple, requires no external service)",
+      "source": "05-master/OPUS-MILESTONE-REVIEW.md"
+    },
+    {
+      "decision_id": "DEC-054",
+      "title": "PDF chart rendering strategy",
+      "domain": "frontend",
+      "category": "technical",
+      "status": "PROPOSED",
+      "rationale": "WeasyPrint cannot execute JS; Plotly is client-side only. Requires server-side rendering for PDF export.",
+      "options_considered": ["Playwright SSR + screenshot", "Static SVG chart rendering", "Delegate to client-side headless browser"],
+      "selected_option": "Playwright SSR with chart server component (adds 3-5 days to critical path)",
+      "source": "05-master/OPUS-MILESTONE-REVIEW.md"
+    }
+  ],
+
+  "propagation_debt_items": [
+    {
+      "category": "Library references",
+      "issue": "4+ documents reference Recharts instead of Plotly.js",
+      "affected_files": [
+        "IMPLEMENTATION-PLAN.md",
+        "LIBRARY-REFERENCE.md",
+        "GML-RENDERING-ANALYSIS.md",
+        "DECISION-REGISTER.md"
+      ],
+      "authoritative_decision": "DEC-048 (Plotly.js)",
+      "effort_to_clear_kb": 0.5
+    },
+    {
+      "category": "Open questions",
+      "issue": "7 OQs marked unresolved despite being locked in DECISION-REGISTER v2",
+      "affected_files": ["STRATEGIC-REVIEW.md"],
+      "resolution_date": "2026-02-19",
+      "effort_to_clear_kb": 0.5
+    },
+    {
+      "category": "Dependency fields",
+      "issue": "8 dependency fields wrong in GIT-ISSUES-STRUCTURE.md",
+      "affected_files": ["GIT-ISSUES-STRUCTURE.md"],
+      "source_of_corrections": ["CONSISTENCY-AUDIT-PLANS.md", "IMPLEMENTATION-PLAN.md v3"],
+      "effort_to_clear_kb": 0.5
+    },
+    {
+      "category": "PDF export architecture",
+      "issue": "WeasyPrint + Plotly incompatibility not documented in IMPLEMENTATION-PLAN",
+      "affected_files": ["IMPLEMENTATION-PLAN.md", "BL-008", "BL-015"],
+      "source": "05-master/OPUS-MILESTONE-REVIEW.md",
+      "effort_to_clear_kb": "Architectural redesign + 3-5 days implementation"
+    }
+  ],
+
+  "coverage_update": {
+    "domains_covered": [
+      "product-definition",
+      "backend-architecture",
+      "frontend-architecture",
+      "backend-patterns",
+      "frontend-patterns",
+      "integration-patterns",
+      "quality-assurance"
+    ],
+    "domains_added": [
+      "product-definition (DocuIntelli domain taxonomy)",
+      "source-code-inventory (backend + frontend scans)",
+      "pattern-catalog (all three: backend, frontend, integration)"
+    ],
+    "estimated_total_coverage_pct": 87,
+    "coverage_notes": "Wave 6 adds product domain knowledge, comprehensive source code inventory, and pattern libraries. Increases recovery from 85% to 87%. Remaining 13% consists of: (a) operational knowledge (CI/CD, monitoring, staging); (b) competitive analysis gaps (Perplexity, Harvey AI, v0.dev); (c) Stripe codebase inspection (okestraai/DocuIntelli); (d) wave 5 incomplete files (00-inventory marked as incomplete in OPUS review)"
+  },
+
+  "statistics": {
+    "total_files_in_reconstruction": 40,
+    "total_lines": 30609,
+    "total_size_kb": 1502,
+    "wave_6_files": 7,
+    "wave_6_lines": 5128,
+    "wave_6_size_kb": 251,
+    "file_breakdown": {
+      "markdown": {
+        "count": 31,
+        "lines": 30609,
+        "size_kb": 1502
+      },
+      "json": {
+        "count": 9,
+        "lines": 0,
+        "size_kb": 0
+      }
+    },
+    "by_directory": {
+      "00-inventory": {
+        "files": 6,
+        "type": "source-manifests"
+      },
+      "01-extracts": {
+        "files": 7,
+        "type": "domain-extracts"
+      },
+      "02-domain-synthesis": {
+        "files": 1,
+        "type": "synthesis"
+      },
+      "03-patterns": {
+        "files": 3,
+        "type": "pattern-catalogs",
+        "status": "WAVE 6 COMPLETE"
+      },
+      "04-gaps": {
+        "files": 4,
+        "type": "gap-analysis"
+      },
+      "05-master": {
+        "files": 3,
+        "type": "master-synthesis",
+        "status": "WAVE 6 COMPLETE"
+      },
+      "06-docuintelli": {
+        "files": 1,
+        "type": "product-extract",
+        "status": "WAVE 6 NEW"
+      },
+      "07-source-code": {
+        "files": 2,
+        "type": "source-code-scans",
+        "status": "WAVE 6 NEW"
+      },
+      "root-level": {
+        "files": 4,
+        "type": "coordination-docs"
+      }
+    }
+  },
+
+  "quality_metrics": {
+    "schema_coverage": {
+      "backend": "HIGH (16 models, 10+ Pydantic schemas, 12 LangGraph nodes)",
+      "frontend": "HIGH (40+ components, 5 Zustand stores, 6 API clients)",
+      "product": "HIGH (54 document types, 6 frameworks, 12 use cases)"
+    },
+    "pattern_extraction_confidence": {
+      "backend_patterns": "HIGH",
+      "frontend_patterns": "HIGH",
+      "integration_patterns": "MEDIUM (node internals less detailed)"
+    },
+    "production_blocker_count": 3,
+    "medium_severity_gap_count": 4,
+    "propagation_debt_effort_days": 5.5,
+    "critical_path_impact_days": 3.5
+  },
+
+  "next_steps_for_implementation": [
+    "Clear propagation debt (2-3 engineer-days): Update 4+ docs with correct chart library, lock OQs, fix GIT-ISSUES dependencies",
+    "Verify production bugs (GAP-022, GAP-023) against live codebase: 1 day",
+    "Design PDF export strategy (DEC-054): Playwright SSR or static rendering: 3-5 days (adds to critical path)",
+    "Review pattern catalogs (03-patterns) against actual codebase: Ongoing validation",
+    "Wave 7 (if approved): Competitive analysis completion (Perplexity, Harvey AI, v0.dev), operational knowledge (CI/CD, monitoring), Stripe codebase inspection"
+  ]
+}

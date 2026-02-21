@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NYQST Standalone Mock</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-screen w-screen overflow-hidden bg-white text-slate-900">
+  <div class="h-full w-full flex">
+    <!-- Sidebar -->
+    <aside class="w-64 border-r bg-white">
+      <div class="p-4 flex items-center gap-2">
+        <div class="h-8 w-8 rounded bg-slate-100 flex items-center justify-center font-semibold">N</div>
+        <div class="leading-tight">
+          <div class="font-semibold">NYQST</div>
+          <div class="text-xs text-slate-500">Standalone mock</div>
+        </div>
+      </div>
+      <div class="px-3">
+        <input class="w-full rounded border px-3 py-2 text-sm" placeholder="Search…" />
+      </div>
+      <nav class="p-2 space-y-1">
+        <button data-screen="projects" class="navbtn w-full text-left rounded px-3 py-2 text-sm bg-slate-100 font-medium">Projects</button>
+        <button data-screen="apps" class="navbtn w-full text-left rounded px-3 py-2 text-sm hover:bg-slate-50">Apps</button>
+        <button data-screen="studio" class="navbtn w-full text-left rounded px-3 py-2 text-sm hover:bg-slate-50">Studio</button>
+        <button data-screen="documents" class="navbtn w-full text-left rounded px-3 py-2 text-sm hover:bg-slate-50">Documents</button>
+        <button data-screen="crm" class="navbtn w-full text-left rounded px-3 py-2 text-sm hover:bg-slate-50">CRM</button>
+        <button data-screen="models" class="navbtn w-full text-left rounded px-3 py-2 text-sm hover:bg-slate-50">Models</button>
+        <button data-screen="dashboards" class="navbtn w-full text-left rounded px-3 py-2 text-sm hover:bg-slate-50">Dashboards</button>
+        <button data-screen="workflows" class="navbtn w-full text-left rounded px-3 py-2 text-sm hover:bg-slate-50">Workflows</button>
+        <button data-screen="runs" class="navbtn w-full text-left rounded px-3 py-2 text-sm hover:bg-slate-50">Runs</button>
+        <button data-screen="settings" class="navbtn w-full text-left rounded px-3 py-2 text-sm hover:bg-slate-50">Settings</button>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 flex flex-col">
+      <!-- Topbar -->
+      <header class="h-14 border-b bg-white flex items-center justify-between px-4">
+        <div class="flex items-center gap-2">
+          <span class="text-xs rounded bg-slate-100 px-2 py-1">Project</span>
+          <select class="rounded border px-2 py-1 text-sm">
+            <option>CRE Tech 2026</option>
+            <option>RegOps - UK</option>
+          </select>
+          <span class="hidden md:inline text-sm text-slate-500">Commercial real estate technology tracking, vendor diligence, and dashboard refresh.</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="rounded border px-3 py-2 text-sm bg-slate-50">New</button>
+          <button class="rounded bg-slate-900 text-white px-3 py-2 text-sm">Run App</button>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="flex-1 overflow-auto">
+        <!-- Projects -->
+        <section id="screen-projects" class="screen p-6 space-y-6">
+          <div>
+            <h2 class="text-lg font-semibold">Project home</h2>
+            <p class="text-sm text-slate-500">Pinned apps, recent work, and attention needed.</p>
+          </div>
+
+          <div class="grid lg:grid-cols-3 gap-4">
+            <div class="lg:col-span-2 rounded border">
+              <div class="p-4 border-b font-medium">Pinned Apps</div>
+              <div class="p-4 grid sm:grid-cols-2 gap-3">
+                <div class="rounded border p-3">
+                  <div class="flex items-center justify-between">
+                    <div class="font-medium">Lease Review</div>
+                    <span class="text-xs rounded bg-slate-100 px-2 py-1">Analysis</span>
+                  </div>
+                  <div class="text-sm text-slate-500 mt-1">Extract key terms + risks, generate evidence + insight candidates.</div>
+                  <div class="mt-3 flex items-center justify-between">
+                    <span class="text-xs rounded bg-red-100 text-red-700 px-2 py-1">Failed</span>
+                    <button class="rounded border px-2 py-1 text-sm bg-slate-50">Open</button>
+                  </div>
+                </div>
+
+                <div class="rounded border p-3">
+                  <div class="flex items-center justify-between">
+                    <div class="font-medium">Research Notebook</div>
+                    <span class="text-xs rounded bg-slate-100 px-2 py-1">Agent</span>
+                  </div>
+                  <div class="text-sm text-slate-500 mt-1">NotebookLM-style research assistant over web + project docs.</div>
+                  <div class="mt-3 flex items-center justify-between">
+                    <span class="text-xs rounded bg-green-100 text-green-700 px-2 py-1">Succeeded</span>
+                    <button class="rounded border px-2 py-1 text-sm bg-slate-50">Open</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded border">
+              <div class="p-4 border-b font-medium">Attention required</div>
+              <div class="p-4 space-y-3">
+                <div>
+                  <div class="text-sm font-medium">Lease Risk Model validation failed</div>
+                  <div class="text-xs text-slate-500">2 rules failing, 3 stale insights</div>
+                </div>
+                <div>
+                  <div class="text-sm font-medium">Bundle v2 processing</div>
+                  <div class="text-xs text-slate-500">Lease Pack - Riverside (v2)</div>
+                </div>
+                <button class="w-full rounded border px-3 py-2 text-sm bg-slate-50">View queue</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Apps -->
+        <section id="screen-apps" class="screen hidden p-6 space-y-6">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h2 class="text-lg font-semibold">Apps</h2>
+              <p class="text-sm text-slate-500">Configured units of work (Dify-style).</p>
+            </div>
+            <button class="rounded bg-slate-900 text-white px-3 py-2 text-sm">Create App</button>
+          </div>
+
+          <div class="grid lg:grid-cols-3 gap-4">
+            <div class="lg:col-span-1 space-y-3">
+              <div class="rounded border p-3">
+                <select class="w-full rounded border px-2 py-2 text-sm">
+                  <option>All</option>
+                  <option>Agent</option>
+                  <option>Analysis</option>
+                  <option>Workflow</option>
+                  <option>View</option>
+                </select>
+              </div>
+
+              <div class="rounded border overflow-hidden">
+                <button class="appbtn w-full text-left p-3 border-b hover:bg-slate-50" data-app="research">
+                  <div class="flex items-center justify-between">
+                    <div class="font-medium">Research Notebook</div>
+                    <span class="text-xs rounded bg-slate-100 px-2 py-1">Agent</span>
+                  </div>
+                  <div class="text-xs text-slate-500 mt-1">Question, optional bundle(s)</div>
+                </button>
+                <button class="appbtn w-full text-left p-3 border-b hover:bg-slate-50" data-app="lease">
+                  <div class="flex items-center justify-between">
+                    <div class="font-medium">Lease Review</div>
+                    <span class="text-xs rounded bg-slate-100 px-2 py-1">Analysis</span>
+                  </div>
+                  <div class="text-xs text-slate-500 mt-1">Bundle, focus questions</div>
+                </button>
+                <button class="appbtn w-full text-left p-3 hover:bg-slate-50" data-app="weekly">
+                  <div class="flex items-center justify-between">
+                    <div class="font-medium">Weekly Refresh</div>
+                    <span class="text-xs rounded bg-slate-100 px-2 py-1">Workflow</span>
+                  </div>
+                  <div class="text-xs text-slate-500 mt-1">No inputs (project defaults)</div>
+                </button>
+              </div>
+            </div>
+
+            <div class="lg:col-span-2 rounded border">
+              <div class="p-4 border-b flex items-start justify-between">
+                <div>
+                  <div class="text-sm font-medium" id="app-title">Research Notebook</div>
+                  <div class="text-sm text-slate-500" id="app-desc">NotebookLM-style research assistant over web + project docs.</div>
+                  <div class="mt-2 flex gap-2">
+                    <span class="text-xs rounded bg-slate-100 px-2 py-1" id="app-type">Agent</span>
+                    <span class="text-xs rounded bg-green-100 text-green-700 px-2 py-1" id="app-status">Published</span>
+                  </div>
+                </div>
+                <button class="rounded bg-slate-900 text-white px-3 py-2 text-sm">Run now</button>
+              </div>
+
+              <div class="p-4">
+                <div class="flex gap-2 border-b">
+                  <button class="tabbtn px-3 py-2 text-sm border-b-2 border-slate-900" data-tab="run">Run</button>
+                  <button class="tabbtn px-3 py-2 text-sm text-slate-500" data-tab="configure">Configure</button>
+                  <button class="tabbtn px-3 py-2 text-sm text-slate-500" data-tab="runs">Runs</button>
+                  <button class="tabbtn px-3 py-2 text-sm text-slate-500" data-tab="outputs">Outputs</button>
+                  <button class="tabbtn px-3 py-2 text-sm text-slate-500" data-tab="permissions">Permissions</button>
+                </div>
+
+                <div class="pt-4 space-y-4" id="tab-run">
+                  <div class="grid md:grid-cols-2 gap-3">
+                    <div class="rounded border p-3">
+                      <div class="text-sm font-medium">Inputs</div>
+                      <div class="mt-3 space-y-2">
+                        <div>
+                          <div class="text-xs text-slate-500">Run name</div>
+                          <input class="w-full rounded border px-2 py-2 text-sm" value="Research Notebook run" />
+                        </div>
+                        <div>
+                          <div class="text-xs text-slate-500">Bundle</div>
+                          <select class="w-full rounded border px-2 py-2 text-sm">
+                            <option>Lease Pack - Riverside</option>
+                            <option>Vendor Pack - RiskCo</option>
+                            <option>Reg Pack - FCA Updates</option>
+                          </select>
+                        </div>
+                        <div>
+                          <div class="text-xs text-slate-500">Question / focus</div>
+                          <input class="w-full rounded border px-2 py-2 text-sm" value="What changed and what does it impact?" />
+                        </div>
+                        <div class="flex gap-2 pt-2">
+                          <span class="text-xs rounded bg-slate-100 px-2 py-1">Context: project</span>
+                          <span class="text-xs rounded bg-slate-100 px-2 py-1">Context: bundle</span>
+                          <span class="text-xs rounded bg-slate-100 px-2 py-1">Web: optional</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="rounded border p-3">
+                      <div class="text-sm font-medium">Live progress</div>
+                      <div class="mt-3 space-y-2 text-sm">
+                        <div class="flex items-center justify-between"><span>Extracting deltas</span><span class="text-xs rounded bg-slate-100 px-2 py-1">RUNNING</span></div>
+                        <div class="flex items-center justify-between"><span>Rebuilding evidence</span><span class="text-xs rounded bg-slate-100 px-2 py-1">RUNNING</span></div>
+                        <div class="flex items-center justify-between"><span>Updating model fields</span><span class="text-xs rounded bg-green-100 text-green-700 px-2 py-1">SUCCEEDED</span></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="rounded border p-3">
+                    <div class="text-sm font-medium">Output preview</div>
+                    <p class="text-sm text-slate-500 mt-2">
+                      Riverside Lease Pack v2 introduces changes in break clauses and rent review terms. Evidence coverage is 87%.
+                    </p>
+                    <div class="mt-3 flex gap-2">
+                      <button class="rounded border px-3 py-2 text-sm bg-slate-50">Pin to canvas</button>
+                      <button class="rounded border px-3 py-2 text-sm bg-slate-50">Create notebook page</button>
+                      <button class="rounded border px-3 py-2 text-sm bg-slate-50">Open diff</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pt-4 hidden" id="tab-configure">
+                  <div class="rounded border p-3">
+                    <div class="font-medium">Configuration wizard (placeholder)</div>
+                    <div class="text-sm text-slate-500">Inputs schema • Context pack • Engine selection • Outputs mapping • Triggers • Publish.</div>
+                  </div>
+                </div>
+
+                <div class="pt-4 hidden" id="tab-runs">
+                  <div class="rounded border p-3 space-y-2">
+                    <div class="flex items-center justify-between border-b pb-2">
+                      <div>
+                        <div class="font-medium">Lease Review (Riverside v2)</div>
+                        <div class="text-xs text-slate-500">2026-02-20 09:11 • 00:04:12 • $0.62</div>
+                      </div>
+                      <span class="text-xs rounded bg-slate-100 px-2 py-1">Running</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <div class="font-medium">Weekly Refresh</div>
+                        <div class="text-xs text-slate-500">2026-02-16 09:00 • 00:06:22 • $1.48</div>
+                      </div>
+                      <span class="text-xs rounded bg-green-100 text-green-700 px-2 py-1">Succeeded</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pt-4 hidden" id="tab-outputs">
+                  <div class="rounded border p-3">
+                    <div class="font-medium">Artifacts</div>
+                    <div class="text-sm text-slate-500">Notebook page • Evidence set • Insight candidates • Model updates • Dashboard refresh.</div>
+                  </div>
+                </div>
+
+                <div class="pt-4 hidden" id="tab-permissions">
+                  <div class="rounded border p-3">
+                    <div class="font-medium">Permissions (v1-lite)</div>
+                    <div class="text-sm text-slate-500">Viewer (run) • Editor (edit config) • Admin (schedules/triggers).</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Studio -->
+        <section id="screen-studio" class="screen hidden p-6 space-y-6">
+          <div>
+            <h2 class="text-lg font-semibold">Studio</h2>
+            <p class="text-sm text-slate-500">Notebook + infinite canvas. Pin outputs, diffs, evidence, and model fields.</p>
+          </div>
+          <div class="grid lg:grid-cols-3 gap-4">
+            <div class="lg:col-span-2 rounded border">
+              <div class="p-4 border-b font-medium">Canvas</div>
+              <div class="p-4">
+                <div class="h-96 rounded border bg-slate-50 flex items-center justify-center text-sm text-slate-500">
+                  Mock canvas surface (blocks + edges + inspector)
+                </div>
+              </div>
+            </div>
+            <div class="rounded border">
+              <div class="p-4 border-b font-medium">Inspector</div>
+              <div class="p-4 space-y-3 text-sm">
+                <div>
+                  <div class="text-xs text-slate-500">Selected</div>
+                  <div class="font-medium">Lease Review Output</div>
+                  <div class="text-xs text-slate-500">Linked to run_101</div>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-500">Provenance</div>
+                  <div>Bundle v2 → ingest → extraction → evidence → insight → model update</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Documents -->
+        <section id="screen-documents" class="screen hidden p-6 space-y-6">
+          <div class="flex items-start justify-between">
+            <div>
+              <h2 class="text-lg font-semibold">Documents</h2>
+              <p class="text-sm text-slate-500">Bundles, versions, ingest, and diffs.</p>
+            </div>
+            <button class="rounded bg-slate-900 text-white px-3 py-2 text-sm">Upload bundle</button>
+          </div>
+          <div class="rounded border">
+            <div class="p-4 border-b font-medium">Bundles</div>
+            <div class="p-4 space-y-3">
+              <div class="rounded border p-3 flex items-start justify-between">
+                <div>
+                  <div class="font-medium">Lease Pack - Riverside</div>
+                  <div class="text-xs text-slate-500">Lease Pack</div>
+                  <div class="mt-2 flex gap-2">
+                    <span class="text-xs rounded bg-slate-100 px-2 py-1">v1 • COMPLETED</span>
+                    <span class="text-xs rounded bg-slate-100 px-2 py-1">v2 • PROCESSING</span>
+                  </div>
+                </div>
+                <div class="flex gap-2">
+                  <button class="rounded border px-3 py-2 text-sm bg-slate-50">Open</button>
+                  <button class="rounded border px-3 py-2 text-sm bg-slate-50">Compare</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CRM -->
+        <section id="screen-crm" class="screen hidden p-6 space-y-6">
+          <div class="flex items-start justify-between">
+            <div>
+              <h2 class="text-lg font-semibold">CRM</h2>
+              <p class="text-sm text-slate-500">Entities, relationships, timeline, linked evidence and insights.</p>
+            </div>
+            <button class="rounded bg-slate-900 text-white px-3 py-2 text-sm">New entity</button>
+          </div>
+          <div class="rounded border p-4">
+            <div class="font-medium">Entities</div>
+            <div class="mt-3 space-y-2">
+              <div class="rounded border p-3 flex items-center justify-between">
+                <div>
+                  <div class="flex gap-2 items-center">
+                    <span class="text-xs rounded bg-slate-100 px-2 py-1">COMPANY</span>
+                    <div class="font-medium">RiskCo</div>
+                  </div>
+                  <div class="text-xs text-slate-500">vendor • security</div>
+                </div>
+                <button class="rounded border px-3 py-2 text-sm bg-slate-50">Open</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Models -->
+        <section id="screen-models" class="screen hidden p-6 space-y-6">
+          <div class="flex items-start justify-between">
+            <div>
+              <h2 class="text-lg font-semibold">Models</h2>
+              <p class="text-sm text-slate-500">Domain models, rules, validation runs, and impact diffs.</p>
+            </div>
+            <button class="rounded bg-slate-900 text-white px-3 py-2 text-sm">New model</button>
+          </div>
+          <div class="rounded border p-4">
+            <div class="font-medium">Model registry</div>
+            <div class="mt-3 space-y-2">
+              <div class="rounded border p-3 flex items-center justify-between">
+                <div>
+                  <div class="font-medium">Lease Risk Model</div>
+                  <div class="text-xs text-slate-500">v3 • ACTIVE</div>
+                  <div class="mt-2 text-xs rounded bg-red-100 text-red-700 inline-block px-2 py-1">Last validation: FAIL</div>
+                </div>
+                <div class="flex gap-2">
+                  <button class="rounded border px-3 py-2 text-sm bg-slate-50">Open</button>
+                  <button class="rounded border px-3 py-2 text-sm bg-slate-50">Validate</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Dashboards -->
+        <section id="screen-dashboards" class="screen hidden p-6 space-y-6">
+          <div class="flex items-start justify-between">
+            <div>
+              <h2 class="text-lg font-semibold">Dashboards</h2>
+              <p class="text-sm text-slate-500">Provenance-first KPIs and exception drilldowns.</p>
+            </div>
+            <button class="rounded bg-slate-900 text-white px-3 py-2 text-sm">New dashboard</button>
+          </div>
+          <div class="grid md:grid-cols-2 gap-3">
+            <div class="rounded border p-4">
+              <div class="font-medium">CRE Tech Trends</div>
+              <div class="text-xs text-slate-500">12 tiles • refreshed 2026-02-19 07:00</div>
+              <div class="mt-3 flex gap-2">
+                <button class="rounded border px-3 py-2 text-sm bg-slate-50">Open</button>
+                <button class="rounded border px-3 py-2 text-sm bg-slate-50">Refresh</button>
+              </div>
+            </div>
+            <div class="rounded border p-4">
+              <div class="font-medium">RegOps Exceptions</div>
+              <div class="text-xs text-slate-500">8 tiles • refreshed 2026-02-20 09:20</div>
+              <div class="mt-3 flex gap-2">
+                <button class="rounded border px-3 py-2 text-sm bg-slate-50">Open</button>
+                <button class="rounded border px-3 py-2 text-sm bg-slate-50">Refresh</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Workflows -->
+        <section id="screen-workflows" class="screen hidden p-6 space-y-6">
+          <div class="flex items-start justify-between">
+            <div>
+              <h2 class="text-lg font-semibold">Workflows</h2>
+              <p class="text-sm text-slate-500">Automation builder (n8n-like) with triggers and run logs.</p>
+            </div>
+            <button class="rounded bg-slate-900 text-white px-3 py-2 text-sm">New workflow</button>
+          </div>
+          <div class="rounded border p-4 space-y-3">
+            <div class="rounded border p-3 flex items-center justify-between">
+              <div>
+                <div class="font-medium">New Bundle Version → Re-extract → Validate → Notify</div>
+                <div class="text-xs text-slate-500">Triggers: BUNDLE_VERSION_CREATED</div>
+              </div>
+              <button class="rounded border px-3 py-2 text-sm bg-slate-50">Builder</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Runs -->
+        <section id="screen-runs" class="screen hidden p-6 space-y-6">
+          <div>
+            <h2 class="text-lg font-semibold">Runs</h2>
+            <p class="text-sm text-slate-500">Audit logs for apps, workflows, ingest pipelines, and validations.</p>
+          </div>
+          <div class="rounded border p-4 space-y-2">
+            <div class="rounded border p-3 flex items-center justify-between">
+              <div>
+                <div class="font-medium">Lease Review (Riverside v2)</div>
+                <div class="text-xs text-slate-500">APP • 2026-02-20 09:11 • 00:04:12 • $0.62</div>
+              </div>
+              <button class="rounded border px-3 py-2 text-sm bg-slate-50">Open</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Settings -->
+        <section id="screen-settings" class="screen hidden p-6 space-y-6">
+          <div>
+            <h2 class="text-lg font-semibold">Settings</h2>
+            <p class="text-sm text-slate-500">Project settings, permissions, integrations, and environment.</p>
+          </div>
+          <div class="rounded border p-4">
+            <div class="font-medium">Integrations (placeholder)</div>
+            <div class="text-sm text-slate-500">LLM providers • Web search • Storage • Billing • SSO.</div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+<script>
+  // Screen switching
+  const navButtons = Array.from(document.querySelectorAll('.navbtn'));
+  const screens = Array.from(document.querySelectorAll('.screen'));
+
+  function show(screenKey) {
+    screens.forEach(s => s.classList.add('hidden'));
+    document.getElementById('screen-' + screenKey).classList.remove('hidden');
+
+    navButtons.forEach(b => {
+      b.classList.remove('bg-slate-100','font-medium');
+      b.classList.add('hover:bg-slate-50');
+    });
+    const active = navButtons.find(b => b.dataset.screen === screenKey);
+    if (active) {
+      active.classList.add('bg-slate-100','font-medium');
+      active.classList.remove('hover:bg-slate-50');
+    }
+  }
+  navButtons.forEach(b => b.addEventListener('click', () => show(b.dataset.screen)));
+
+  // Tabs in Apps detail
+  const tabButtons = Array.from(document.querySelectorAll('.tabbtn'));
+  const tabIds = ['run','configure','runs','outputs','permissions'];
+  function showTab(tab) {
+    tabIds.forEach(t => document.getElementById('tab-' + t).classList.add('hidden'));
+    document.getElementById('tab-' + tab).classList.remove('hidden');
+    tabButtons.forEach(b => {
+      b.classList.remove('border-slate-900');
+      b.classList.add('text-slate-500');
+      b.classList.remove('border-b-2');
+    });
+    const active = tabButtons.find(b => b.dataset.tab === tab);
+    if (active) {
+      active.classList.add('border-b-2');
+      active.classList.add('border-slate-900');
+      active.classList.remove('text-slate-500');
+    }
+  }
+  tabButtons.forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
+
+  // App list selection
+  const apps = {
+    research: { title: 'Research Notebook', desc: 'NotebookLM-style research assistant over web + project docs.', type: 'Agent', status: 'Published' },
+    lease: { title: 'Lease Review', desc: 'Extract key terms + risks, generate evidence + insight candidates.', type: 'Analysis', status: 'Published' },
+    weekly: { title: 'Weekly Refresh', desc: 'Weekly refresh → ingest → extract → validate → dashboard → notify.', type: 'Workflow', status: 'Published' },
+  };
+  Array.from(document.querySelectorAll('.appbtn')).forEach(b => {
+    b.addEventListener('click', () => {
+      const a = apps[b.dataset.app];
+      if (!a) return;
+      document.getElementById('app-title').textContent = a.title;
+      document.getElementById('app-desc').textContent = a.desc;
+      document.getElementById('app-type').textContent = a.type;
+      document.getElementById('app-status').textContent = a.status;
+    });
+  });
+
+  // Default
+  show('projects');
+  showTab('run');
+</script>
+</body>
+</html>

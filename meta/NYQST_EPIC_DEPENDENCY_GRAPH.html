@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DocuIntelli — Epic Dependency Graph</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a12;color:#e0e0e8;font-family:'Inter','SF Pro',system-ui,-apple-system,sans-serif;min-height:100vh}
+.header{padding:24px 40px 12px;border-bottom:1px solid #1a1a2e}
+.header h1{font-size:22px;font-weight:700;color:#fff;letter-spacing:-0.02em}
+.header p{font-size:13px;color:#777;margin-top:4px}
+.legend{display:flex;gap:20px;padding:10px 40px;border-bottom:1px solid #1a1a2e;font-size:12px;flex-wrap:wrap;align-items:center}
+.legend-item{display:flex;align-items:center;gap:6px}
+.legend-swatch{width:14px;height:14px;border-radius:3px}
+.graph-wrap{padding:16px 10px;display:flex;justify-content:center;overflow-x:auto}
+.info-panel{position:fixed;top:20px;right:20px;width:270px;background:#12121e;border:1px solid #2a2a3e;border-radius:8px;padding:16px;font-size:13px;display:none;z-index:100;box-shadow:0 8px 32px rgba(0,0,0,0.6)}
+.info-panel.visible{display:block}
+.info-panel h3{font-size:15px;margin-bottom:6px}
+.il{color:#555;font-size:10px;text-transform:uppercase;letter-spacing:0.06em;margin-top:10px}
+.iv{color:#bbb;margin-top:2px}
+.stats{display:flex;gap:28px;padding:14px 40px;border-top:1px solid #1a1a2e;font-size:12px;color:#555;flex-wrap:wrap}
+.sv{color:#fff;font-weight:600}
+svg.dimmed .enode{opacity:0.1;transition:opacity 0.15s}
+svg.dimmed .eedge{opacity:0.03;transition:opacity 0.15s}
+svg.dimmed .enode.hl{opacity:1}
+svg.dimmed .eedge.hl{opacity:1}
+.enode{cursor:pointer;transition:opacity 0.15s}
+.eedge{transition:opacity 0.15s}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+'use strict';
+var W=1700,H=940,NW=155,NH=42,NR=6,GAP=122,PAD=45,NS='http://www.w3.org/2000/svg';
+var TRACKS={
+  A:{n:'Platform Core',c:'#4a9eff',bg:'rgba(74,158,255,0.12)'},
+  B:{n:'Builder Surface',c:'#4ade80',bg:'rgba(74,222,128,0.12)'},
+  C:{n:'Domain Modules',c:'#f97316',bg:'rgba(249,115,22,0.12)'},
+  D:{n:'Enterprise Shell',c:'#a78bfa',bg:'rgba(167,139,250,0.12)'}
+};
+var E={
+  platform:{name:'Platform & CI',t:'D',l:0,d:[],iss:12},
+  design:{name:'Design System',t:'D',l:0,d:[],iss:8},
+  docs:{name:'Docs & Knowledge',t:'A',l:1,d:['platform'],iss:18},
+  genui:{name:'GenUI Rendering',t:'A',l:1,d:['platform','design'],iss:15},
+  runs:{name:'Run Progress',t:'A',l:1,d:['platform'],iss:14},
+  auth:{name:'Enterprise Auth',t:'D',l:1,d:['platform'],iss:12},
+  obs:{name:'Observability',t:'D',l:1,d:['platform'],iss:10},
+  evidence:{name:'Evidence & Intel',t:'A',l:2,d:['docs'],iss:20},
+  notebook:{name:'Notebook',t:'A',l:2,d:['docs','genui'],iss:16},
+  canvas:{name:'Analysis Canvas',t:'A',l:2,d:['genui'],iss:16},
+  agents:{name:'Agents',t:'B',l:2,d:['platform','auth','runs'],iss:14},
+  tools:{name:'Tools & Connectors',t:'B',l:2,d:['platform','auth'],iss:16},
+  crm:{name:'CRM / Clients',t:'C',l:2,d:['platform','auth'],iss:12},
+  billing:{name:'Billing & Usage',t:'D',l:2,d:['auth','platform'],iss:14},
+  skills:{name:'Skills',t:'B',l:3,d:['agents'],iss:10},
+  apps:{name:'Apps',t:'B',l:3,d:['agents','tools','runs'],iss:20},
+  decisions:{name:'Decisions',t:'B',l:3,d:['evidence'],iss:8},
+  models:{name:'Models & Validation',t:'C',l:3,d:['evidence','docs'],iss:16},
+  research:{name:'Research & Query',t:'A',l:4,d:['agents','tools','runs'],iss:18},
+  workflows:{name:'Workflows',t:'B',l:4,d:['apps','tools','runs'],iss:18},
+  docuintelli:{name:'DocuIntelli Module',t:'C',l:4,d:['docs','evidence','models'],iss:18},
+  dashboards:{name:'Dashboards',t:'C',l:4,d:['models','genui'],iss:14},
+  deliverables:{name:'Deliverables',t:'A',l:5,d:['research','genui'],iss:22},
+  propsygnal:{name:'PropSygnal',t:'C',l:5,d:['docs','evidence','dashboards'],iss:8},
+  regsygnal:{name:'RegSygnal',t:'C',l:5,d:['docs','evidence','dashboards'],iss:8},
+  leasecd:{name:'Lease CD',t:'C',l:6,d:['docs','evidence','deliverables'],iss:12},
+  debt:{name:'Debt Module',t:'C',l:6,d:['docs','evidence','deliverables'],iss:12}
+};
+var LO=[
+  ['platform','design'],
+  ['docs','genui','runs','auth','obs'],
+  ['evidence','notebook','canvas','agents','tools','crm','billing'],
+  ['skills','apps','decisions','models'],
+  ['research','workflows','docuintelli','dashboards'],
+  ['deliverables','propsygnal','regsygnal'],
+  ['leasecd','debt']
+];
+var LL=['L0: Foundation','L1: Core Services','L2: Intelligence + Builder','L3: Composition','L4: Products','L5: Revenue Surfaces','L6: Domain Verticals'];
+var CP=new Set([
+  'platform>auth','auth>agents','agents>research','research>deliverables','deliverables>leasecd',
+  'platform>docs','docs>evidence','evidence>models','models>dashboards','dashboards>propsygnal'
+]);
+
+// Positions
+var pos={};
+LO.forEach(function(layer,li){
+  var n=layer.length,usable=W-140,sp=usable/(n+1);
+  layer.forEach(function(id,i){pos[id]={x:70+sp*(i+1)-NW/2,y:PAD+li*GAP};});
+});
+
+// Reverse deps
+var rev={};
+Object.keys(E).forEach(function(id){rev[id]=[];});
+Object.keys(E).forEach(function(id){
+  E[id].d.forEach(function(dep){if(rev[dep])rev[dep].push(id);});
+});
+
+// Longest path to root / leaf
+var toRoot={},toLeaf={};
+function compRoot(id){
+  if(toRoot[id]!==undefined)return toRoot[id];
+  if(E[id].d.length===0){toRoot[id]=0;return 0;}
+  var mx=0;E[id].d.forEach(function(d){var v=compRoot(d)+1;if(v>mx)mx=v;});
+  toRoot[id]=mx;return mx;
+}
+function compLeaf(id){
+  if(toLeaf[id]!==undefined)return toLeaf[id];
+  if(rev[id].length===0){toLeaf[id]=0;return 0;}
+  var mx=0;rev[id].forEach(function(d){var v=compLeaf(d)+1;if(v>mx)mx=v;});
+  toLeaf[id]=mx;return mx;
+}
+Object.keys(E).forEach(compRoot);
+Object.keys(E).forEach(compLeaf);
+
+// Helpers
+function se(tag,a){var el=document.createElementNS(NS,tag);if(a)Object.keys(a).forEach(function(k){el.setAttribute(k,String(a[k]));});return el;}
+function he(tag,cls,txt){var el=document.createElement(tag);if(cls)el.className=cls;if(txt)el.textContent=txt;return el;}
+
+var app=document.getElementById('app');
+
+// Header
+var hd=he('div','header');
+hd.appendChild(he('h1','','DocuIntelli \u2014 Epic Dependency Graph'));
+hd.appendChild(he('p','','27 epics \u00b7 4 parallel tracks \u00b7 7 layers \u00b7 2 critical paths (red) \u00b7 hover to explore'));
+app.appendChild(hd);
+
+// Legend
+var lg=he('div','legend');
+['A','B','C','D'].forEach(function(k){
+  var item=he('div','legend-item');
+  var sw=he('div','legend-swatch');sw.style.backgroundColor=TRACKS[k].c;
+  item.appendChild(sw);item.appendChild(he('span','','Track '+k+': '+TRACKS[k].n));
+  lg.appendChild(item);
+});
+var cpi=he('div','legend-item');cpi.style.marginLeft='20px';
+var cps=he('div','legend-swatch');cps.style.backgroundColor='#ef4444';cps.style.width='28px';cps.style.height='3px';cps.style.borderRadius='2px';
+cpi.appendChild(cps);cpi.appendChild(he('span','','Critical Path (5 edges)'));
+lg.appendChild(cpi);
+app.appendChild(lg);
+
+// SVG
+var wrap=he('div','graph-wrap');
+var svg=se('svg',{width:'100%',viewBox:'0 0 '+W+' '+H,style:'max-width:'+W+'px'});
+
+// Defs
+var defs=se('defs');
+function mkMarker(id,color){
+  var m=se('marker',{id:id,viewBox:'0 0 8 6',refX:'8',refY:'3',markerWidth:'8',markerHeight:'6',orient:'auto-start-reverse'});
+  m.appendChild(se('path',{d:'M0,0 L8,3 L0,6 Z',fill:color}));return m;
+}
+defs.appendChild(mkMarker('arr','#333355'));
+defs.appendChild(mkMarker('arr-cp','#ef4444'));
+defs.appendChild(mkMarker('arr-hi','#ffffff'));
+svg.appendChild(defs);
+
+// Layer separators + labels
+for(var i=0;i<7;i++){
+  if(i>0){
+    var sy=PAD+i*GAP-16;
+    svg.appendChild(se('line',{x1:70,y1:sy,x2:W-70,y2:sy,stroke:'#151525','stroke-width':1,'stroke-dasharray':'3,6'}));
+  }
+  var lt=se('text',{x:64,y:PAD+i*GAP+NH/2+3,'font-size':'10',fill:'#333','text-anchor':'end','font-family':'Inter,system-ui,sans-serif'});
+  lt.textContent=LL[i];svg.appendChild(lt);
+}
+
+// Edges
+var edges={};
+Object.keys(E).forEach(function(id){
+  E[id].d.forEach(function(dep){
+    var f=pos[dep],t=pos[id];
+    var fx=f.x+NW/2,fy=f.y+NH,tx=t.x+NW/2,ty=t.y;
+    var my=(fy+ty)/2;
+    var key=dep+'>'+id,isCP=CP.has(key);
+    var p=se('path',{
+      d:'M'+fx+','+fy+' C'+fx+','+my+' '+tx+','+my+' '+tx+','+ty,
+      fill:'none',stroke:isCP?'#ef4444':'#252540',
+      'stroke-width':isCP?2.5:1.2,
+      'marker-end':isCP?'url(#arr-cp)':'url(#arr)',
+      class:'eedge','data-f':dep,'data-t':id,
+      opacity:isCP?0.85:0.45
+    });
+    edges[key]=p;svg.appendChild(p);
+  });
+});
+
+// Nodes
+var nodes={};
+Object.keys(E).forEach(function(id){
+  var ep=E[id],p=pos[id],tr=TRACKS[ep.t];
+  var g=se('g',{class:'enode','data-id':id});
+
+  g.appendChild(se('rect',{x:p.x,y:p.y,width:NW,height:NH,rx:NR,fill:tr.bg,stroke:tr.c,'stroke-width':1.5}));
+
+  // Track badge
+  g.appendChild(se('rect',{x:p.x+4,y:p.y+4,width:16,height:14,rx:3,fill:tr.c}));
+  var bt=se('text',{x:p.x+12,y:p.y+14.5,'font-size':'9',fill:'#000','font-weight':'700','text-anchor':'middle','font-family':'Inter,monospace'});
+  bt.textContent=ep.t;g.appendChild(bt);
+
+  // Name
+  var nm=se('text',{x:p.x+25,y:p.y+16,'font-size':'10.5',fill:'#e0e0e8','font-weight':'600','font-family':'Inter,system-ui,sans-serif'});
+  nm.textContent=ep.name;g.appendChild(nm);
+
+  // Metrics
+  var ml=se('text',{x:p.x+6,y:p.y+35,'font-size':'9',fill:'#444','font-family':'Inter,monospace'});
+  ml.textContent=ep.iss+' issues';g.appendChild(ml);
+  var mr=se('text',{x:p.x+NW-6,y:p.y+35,'font-size':'9',fill:'#444','text-anchor':'end','font-family':'Inter,monospace'});
+  mr.textContent='\u2191'+ep.d.length+' \u2193'+rev[id].length;g.appendChild(mr);
+
+  nodes[id]=g;svg.appendChild(g);
+
+  // Hover
+  g.addEventListener('mouseenter',function(){
+    svg.classList.add('dimmed');
+    g.classList.add('hl');
+    ep.d.forEach(function(dep){
+      if(nodes[dep])nodes[dep].classList.add('hl');
+      var ek=dep+'>'+id,e=edges[ek];
+      if(e){e.classList.add('hl');e.setAttribute('stroke','#fff');e.setAttribute('stroke-width','2.5');e.setAttribute('opacity','1');e.setAttribute('marker-end','url(#arr-hi)');}
+    });
+    rev[id].forEach(function(dep){
+      if(nodes[dep])nodes[dep].classList.add('hl');
+      var ek=id+'>'+dep,e=edges[ek];
+      if(e){e.classList.add('hl');e.setAttribute('stroke','#fff');e.setAttribute('stroke-width','2.5');e.setAttribute('opacity','1');e.setAttribute('marker-end','url(#arr-hi)');}
+    });
+    showInfo(id);
+  });
+  g.addEventListener('mouseleave',function(){
+    svg.classList.remove('dimmed');
+    Object.keys(nodes).forEach(function(k){nodes[k].classList.remove('hl');});
+    Object.keys(edges).forEach(function(k){
+      var e=edges[k],isC=CP.has(k);
+      e.classList.remove('hl');
+      e.setAttribute('stroke',isC?'#ef4444':'#252540');
+      e.setAttribute('stroke-width',isC?'2.5':'1.2');
+      e.setAttribute('opacity',isC?'0.85':'0.45');
+      e.setAttribute('marker-end',isC?'url(#arr-cp)':'url(#arr)');
+    });
+    hideInfo();
+  });
+});
+
+wrap.appendChild(svg);app.appendChild(wrap);
+
+// Info panel
+var ip=he('div','info-panel');ip.id='ip';app.appendChild(ip);
+
+function showInfo(id){
+  var ep=E[id],tr=TRACKS[ep.t],p=document.getElementById('ip');
+  while(p.firstChild)p.removeChild(p.firstChild);
+
+  var h=he('h3','',ep.name);h.style.color=tr.c;p.appendChild(h);
+
+  p.appendChild(he('div','il','Track'));
+  p.appendChild(he('div','iv',ep.t+' \u2014 '+tr.n));
+
+  p.appendChild(he('div','il','Layer'));
+  p.appendChild(he('div','iv',LL[ep.l]));
+
+  p.appendChild(he('div','il','Estimated Issues'));
+  p.appendChild(he('div','iv',ep.iss+' issues \u00b7 ~'+(ep.iss*7)+' tasks'));
+
+  p.appendChild(he('div','il','Depth from Foundation'));
+  p.appendChild(he('div','iv',toRoot[id]+' steps up \u00b7 '+toLeaf[id]+' steps to leaf'));
+
+  p.appendChild(he('div','il','Depends On ('+ep.d.length+')'));
+  if(ep.d.length===0){p.appendChild(he('div','iv','(none \u2014 foundation epic)'));}
+  else{ep.d.forEach(function(d){p.appendChild(he('div','iv','\u2191 '+E[d].name));});}
+
+  p.appendChild(he('div','il','Depended On By ('+rev[id].length+')'));
+  if(rev[id].length===0){p.appendChild(he('div','iv','(leaf node)'));}
+  else{rev[id].forEach(function(d){p.appendChild(he('div','iv','\u2193 '+E[d].name));});}
+
+  // Critical path membership
+  var onCP=false;
+  CP.forEach(function(k){if(k.indexOf(id+'>')===0||k.indexOf('>'+id)>-1)onCP=true;});
+  if(onCP){
+    p.appendChild(he('div','il','Critical Path'));
+    var cpv=he('div','iv','ON CRITICAL PATH');cpv.style.color='#ef4444';cpv.style.fontWeight='600';
+    p.appendChild(cpv);
+  }
+
+  p.classList.add('visible');
+}
+function hideInfo(){document.getElementById('ip').classList.remove('visible');}
+
+// Stats bar
+var sb=he('div','stats');
+var ti=0,te=0;
+Object.keys(E).forEach(function(k){ti+=E[k].iss;te+=E[k].d.length;});
+[
+  ['Epics','27'],['Dependencies',String(te)],['Est. Issues',String(ti)],
+  ['Est. Tasks','~'+String(ti*7)],['Parallel Tracks','4'],
+  ['Critical Path','5 edges'],['Max Parallelism','L2 (7 epics)']
+].forEach(function(s){
+  var d=he('div');d.appendChild(he('span','',s[0]+': '));
+  d.appendChild(he('span','sv',s[1]));sb.appendChild(d);
+});
+app.appendChild(sb);
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,526 @@
+{
+  "metadata": {
+    "extraction_date": "2026-02-20",
+    "app": "Superagent",
+    "framework": "Next.js",
+    "estimated_version": "13-14",
+    "total_files": 112,
+    "total_size_bytes": 7500000,
+    "extraction_method": "minified bundle reverse engineering"
+  },
+  "file_summary": {
+    "html": 2,
+    "js_app_shell": 1,
+    "js_page": 4,
+    "js_chunk": 16,
+    "js_framework": 2,
+    "js_vendor": 0,
+    "css": 1,
+    "fonts": 5,
+    "analytics": 12,
+    "images_favicons": 72,
+    "other": 0,
+    "total": 112
+  },
+  "key_files": {
+    "app_shell": [
+      {
+        "path": "/Users/markforster/AirTable-SuperAgent/_app-7122b4604941924b.js",
+        "basename": "_app-7122b4604941924b.js",
+        "size_bytes": 1825086,
+        "primary_purpose": "Next.js app shell, global state providers, context setup",
+        "react_components": [
+          "createElement", "useState", "useContext", "useReducer"
+        ],
+        "api_endpoints": [
+          "/api/account", "/api/chat", "/api/chat/message", "/api/chat/list",
+          "/api/deploy", "/api/session", "/api/feature-flags", "/api/projects",
+          "/api/artifact/download", "/api/browser-profile", "/api/sso/google/generate-url"
+        ],
+        "state_management": {
+          "library": "Recoil",
+          "patterns": ["atoms", "selectors", "useRecoilState", "useRecoilValue"]
+        },
+        "providers_integrated": [
+          "PostHog (https://app.posthog.com)",
+          "Google Analytics (GA4)",
+          "Twitter pixel",
+          "Facebook pixel"
+        ],
+        "key_signals": [
+          "Recoil atoms and selectors for state",
+          "Context API for provider hierarchy",
+          "Multiple analytics providers wired at app level",
+          "Feature flags via /api/feature-flags",
+          "Session management via /api/session"
+        ]
+      }
+    ],
+    "chat_streaming": [
+      {
+        "path": "/Users/markforster/AirTable-SuperAgent/591-ee776d1e90f29cf3.js",
+        "basename": "591-ee776d1e90f29cf3.js",
+        "size_bytes": 389088,
+        "primary_purpose": "Chat streaming logic, real-time message handling, agent reasoning traces",
+        "streaming_patterns": [
+          "EventSource or ReadableStream",
+          "NDJSON streaming from /api/chat/message/stream"
+        ],
+        "api_endpoints": [
+          "/api/chat/message/stream",
+          "/api/chat/message",
+          "/api/chat/retry",
+          "/api/chat/trace-link",
+          "/api/chat/user-message/generate-title"
+        ],
+        "event_types": [
+          "message_received", "stream_start", "stream_end", "error", "citation"
+        ],
+        "key_signals": [
+          "Dedicated streaming bundle for real-time chat",
+          "Supports message retry logic",
+          "Trace link generation (likely for LangSmith or similar)",
+          "Title generation from user input"
+        ]
+      }
+    ],
+    "gml_rendering": [
+      {
+        "path": "/Users/markforster/AirTable-SuperAgent/4d022aba-d65484ccff3256c9.js",
+        "basename": "4d022aba-d65484ccff3256c9.js",
+        "size_bytes": 343995,
+        "primary_purpose": "GML (Gradient Markup Language) rendering engine for reports/documents/presentations",
+        "gml_tags": [
+          "gml-viewreport", "gml-viewwebsite", "gml-viewpresentation", "gml-viewgenerateddocument",
+          "gml-chartcontainer", "gml-row", "gml-primarycolumn", "gml-halfcolumn", "gml-sidebarcolumn",
+          "gml-blockquote", "gml-inlinecitation", "gml-downloadfile", "gml-components",
+          "gml-header-elt", "gml-infoblockmetric", "gml-infoblockevent", "gml-infoblockstockticker",
+          "gml-gradientinsightbox"
+        ],
+        "chart_libraries": [
+          "Plotly.js (react-plotly.js)",
+          "Timeline component"
+        ],
+        "rendering_targets": [
+          "Reports", "Websites", "Presentations", "Generated documents"
+        ],
+        "key_signals": [
+          "Custom markup language (GML) for structured content",
+          "Column-based layout system (row, primary, half, sidebar)",
+          "Metric/event/ticker/insight box components",
+          "Citation and reference support",
+          "File download capability",
+          "Plotly for rich visualizations"
+        ]
+      }
+    ],
+    "page_components": [
+      {
+        "path": "/Users/markforster/AirTable-SuperAgent/937efcd2-5d7d83f97f662d5d.js",
+        "basename": "937efcd2-5d7d83f97f662d5d.js",
+        "size_bytes": 306294,
+        "primary_purpose": "Page-level layout and component logic"
+      },
+      {
+        "path": "/Users/markforster/AirTable-SuperAgent/%5BchatId%5D-058fa92e7cc73e56.js",
+        "basename": "[chatId]-058fa92e7cc73e56.js",
+        "size_bytes": 56338,
+        "primary_purpose": "Dynamic chat route handler for /chat/[chatId]"
+      },
+      {
+        "path": "/Users/markforster/AirTable-SuperAgent/index-f59b4b01610b5799.js",
+        "basename": "index-f59b4b01610b5799.js",
+        "size_bytes": 121151,
+        "primary_purpose": "Home/landing page component"
+      },
+      {
+        "path": "/Users/markforster/AirTable-SuperAgent/1889-c64cad4788e7b7b9.js",
+        "basename": "1889-c64cad4788e7b7b9.js",
+        "size_bytes": 176610,
+        "primary_purpose": "Shared component library chunk"
+      }
+    ],
+    "framework_runtime": [
+      {
+        "path": "/Users/markforster/AirTable-SuperAgent/framework-97862ef36bc4065f.js",
+        "basename": "framework-97862ef36bc4065f.js",
+        "size_bytes": 140247,
+        "primary_purpose": "React framework bundle (React, React-DOM, hooks runtime)"
+      },
+      {
+        "path": "/Users/markforster/AirTable-SuperAgent/main-f911148da9e1c065.js",
+        "basename": "main-f911148da9e1c065.js",
+        "size_bytes": 135201,
+        "primary_purpose": "Next.js runtime, webpack bootstrap, page router"
+      }
+    ],
+    "styling": [
+      {
+        "path": "/Users/markforster/AirTable-SuperAgent/55ccf76ff5ccbea2.css",
+        "basename": "55ccf76ff5ccbea2.css",
+        "size_bytes": 212769,
+        "primary_purpose": "Global styles, Tailwind CSS, design tokens",
+        "css_framework": "Tailwind CSS v4",
+        "design_tokens_categories": {
+          "colors": [
+            "--accent", "--accent-foreground", "--background", "--black",
+            "--card", "--card-foreground",
+            "--color-amber-*", "--color-blue-*", "--color-*"
+          ],
+          "layout": [
+            "--chat-footer-h",
+            "--breakpoint-sm", "--breakpoint-md", "--breakpoint-lg", "--breakpoint-xl", "--breakpoint-2xl"
+          ],
+          "charts": [
+            "--chart-1", "--chart-2", "--chart-3", "--chart-4", "--chart-5"
+          ],
+          "animations": [
+            "--animate-bounce", "--animate-ping", "--animate-pulse",
+            "--animate-pulse-scale", "--animate-pulse-scale-mini", "--animate-spin"
+          ],
+          "blur_effects": [
+            "--blur-xs", "--blur-sm", "--blur-md", "--blur-lg", "--blur-xl", "--blur-2xl", "--blur-3xl"
+          ],
+          "aspect_ratios": [
+            "--aspect-video"
+          ]
+        }
+      }
+    ],
+    "fonts": [
+      {
+        "family": "DM Mono",
+        "source": "Google Fonts",
+        "weights": ["300", "400", "500"],
+        "styles": ["normal", "italic"]
+      },
+      {
+        "family": "ATSeasonSans",
+        "source": "Self-hosted (static/font/)",
+        "weights": ["Regular", "Medium", "SemiBold", "Bold"],
+        "styles": ["Normal", "MediumItalic"]
+      }
+    ]
+  },
+  "api_surface": {
+    "chat_operations": {
+      "endpoints": [
+        {
+          "path": "/api/chat",
+          "methods": ["GET", "POST"],
+          "purpose": "List chats, create new chat session"
+        },
+        {
+          "path": "/api/chat/message",
+          "methods": ["POST"],
+          "purpose": "Send user message to agent"
+        },
+        {
+          "path": "/api/chat/message/stream",
+          "methods": ["GET"],
+          "purpose": "Server-sent events stream for real-time agent response",
+          "format": "NDJSON (newline-delimited JSON)"
+        },
+        {
+          "path": "/api/chat/retry",
+          "methods": ["POST"],
+          "purpose": "Retry failed message or agent response"
+        },
+        {
+          "path": "/api/chat/trace-link",
+          "methods": ["GET"],
+          "purpose": "Generate link to external trace viewer (LangSmith?)"
+        },
+        {
+          "path": "/api/chat/user-message/generate-title",
+          "methods": ["POST"],
+          "purpose": "Generate conversation title from user message"
+        }
+      ]
+    },
+    "document_artifact_operations": {
+      "endpoints": [
+        {
+          "path": "/api/artifact/download",
+          "methods": ["POST"],
+          "purpose": "Download generated artifact (report, document)"
+        },
+        {
+          "path": "/api/artifact/download-public",
+          "methods": ["GET"],
+          "purpose": "Download artifact from public share"
+        },
+        {
+          "path": "/api/preview/thumbnail",
+          "methods": ["GET"],
+          "purpose": "Get thumbnail preview of artifact"
+        }
+      ]
+    },
+    "session_authentication": {
+      "endpoints": [
+        {
+          "path": "/api/session",
+          "methods": ["GET"],
+          "purpose": "Get current session info"
+        },
+        {
+          "path": "/api/session/redeem-token",
+          "methods": ["POST"],
+          "purpose": "Redeem invite/magic token for access"
+        },
+        {
+          "path": "/api/account",
+          "methods": ["GET"],
+          "purpose": "Get account profile"
+        },
+        {
+          "path": "/api/account/personal-info",
+          "methods": ["GET"],
+          "purpose": "Get personal account details"
+        }
+      ]
+    },
+    "project_management": {
+      "endpoints": [
+        {
+          "path": "/api/projects",
+          "methods": ["GET", "POST"],
+          "purpose": "List/create projects"
+        },
+        {
+          "path": "/api/use-case/bulk-create",
+          "methods": ["POST"],
+          "purpose": "Bulk create use cases/templates"
+        }
+      ]
+    },
+    "deployment": {
+      "endpoints": [
+        {
+          "path": "/api/deploy",
+          "methods": ["POST"],
+          "purpose": "Deploy generated website or artifact"
+        },
+        {
+          "path": "/api/website/status",
+          "methods": ["GET"],
+          "purpose": "Get deployment/website status"
+        }
+      ]
+    },
+    "browser_automation": {
+      "endpoints": [
+        {
+          "path": "/api/browser-use/user-input-done",
+          "methods": ["POST"],
+          "purpose": "Signal completion of browser automation task"
+        },
+        {
+          "path": "/api/browser-profile",
+          "methods": ["GET", "POST"],
+          "purpose": "Manage browser profiles for automation"
+        },
+        {
+          "path": "/api/browser-profile/opt-out",
+          "methods": ["POST"],
+          "purpose": "Opt out of browser automation tracking"
+        }
+      ]
+    },
+    "feature_flags": {
+      "endpoints": [
+        {
+          "path": "/api/feature-flags",
+          "methods": ["GET"],
+          "purpose": "Get feature flags for current user"
+        },
+        {
+          "path": "/api/feature_flag/local_evaluation",
+          "methods": ["POST"],
+          "purpose": "Evaluate feature flags client-side"
+        },
+        {
+          "path": "/api/early_access_features",
+          "methods": ["GET"],
+          "purpose": "List available early access features"
+        }
+      ]
+    }
+  },
+  "gml_markup_language": {
+    "description": "GML (Gradient Markup Language) - custom XML-like markup for structured document generation",
+    "rendering_targets": [
+      "Web reports", "Presentations", "Websites", "PDF documents"
+    ],
+    "element_categories": {
+      "view_types": [
+        "gml-viewreport: Report document layout",
+        "gml-viewwebsite: Website layout",
+        "gml-viewpresentation: Slide presentation",
+        "gml-viewgenerateddocument: Generic generated document"
+      ],
+      "layout_primitives": [
+        "gml-row: Horizontal row container",
+        "gml-primarycolumn: Main content column",
+        "gml-halfcolumn: Half-width column (2-column layout)",
+        "gml-sidebarcolumn: Sidebar or aside column"
+      ],
+      "content_blocks": [
+        "gml-blockquote: Quoted text block",
+        "gml-header-elt: Header/title element",
+        "gml-inlinecitation: Inline source citation",
+        "gml-downloadfile: File download link"
+      ],
+      "data_visualization": [
+        "gml-chartcontainer: Plotly chart container",
+        "gml-infoblockmetric: KPI metric box",
+        "gml-infoblockevent: Event/timeline item",
+        "gml-infoblockstockticker: Stock ticker or live data",
+        "gml-gradientinsightbox: Insight/summary box"
+      ],
+      "component_library": [
+        "gml-components: Reusable component registry"
+      ]
+    }
+  },
+  "state_management": {
+    "primary_library": "Recoil",
+    "usage_patterns": [
+      "atoms: Individual state atoms for chat, documents, user state",
+      "selectors: Derived state and computed values",
+      "useRecoilState: Two-way binding in components",
+      "useRecoilValue: Read-only access to state"
+    ],
+    "estimated_atoms": [
+      "chatState (messages, status)",
+      "userState (profile, workspace)",
+      "documentState (generated artifacts)",
+      "featureFlagsState",
+      "navigationState"
+    ],
+    "evidence": "Recoil atoms and selectors detected in _app bundle minified code patterns"
+  },
+  "streaming_architecture": {
+    "protocol": "Server-Sent Events (SSE) or Fetch Streaming",
+    "endpoint": "/api/chat/message/stream",
+    "format": "NDJSON (newline-delimited JSON)",
+    "client_implementation": "ReadableStream or EventSource API",
+    "use_cases": [
+      "Real-time chat message streaming",
+      "Agent reasoning/tool use traces",
+      "Multi-step operation progress"
+    ],
+    "key_signals": [
+      "Dedicated 391KB bundle (591-*.js) for streaming",
+      "Stream endpoint in chat API",
+      "Retry logic for resilience"
+    ]
+  },
+  "charting_library": {
+    "primary": "Plotly.js (react-plotly.js)",
+    "integration": "gml-chartcontainer custom element",
+    "chart_types_supported": [
+      "Line charts", "Bar charts", "Scatter", "Heatmaps",
+      "3D surface", "Waterfall", "Sunburst", "Treemap"
+    ],
+    "timeline_support": "Custom Timeline component"
+  },
+  "analytics_instrumentation": {
+    "posthog": {
+      "endpoint": "https://app.posthog.com",
+      "config_id": "phc_USesA3LHTQe1A1ozLZFQEQhTmazV9S4sOZQ561IZsHX",
+      "modules": [
+        "posthog-recorder.js (251KB - session recording)",
+        "surveys.js (90KB - in-app surveys)",
+        "web-vitals.js (analytics)",
+        "dead-clicks-autocapture.js",
+        "exception-autocapture.js"
+      ],
+      "purpose": "Product analytics, session replay, user behavior tracking"
+    },
+    "google_analytics": {
+      "gtm_id": "GTM-TMP7WP43",
+      "conversion_tracking": [
+        "AW-1020373621 (Google Ads)",
+        "AW-16698155605 (Google Ads)",
+        "G-VJY8J9RFZM (GA4)",
+        "G-BF08RWLFGV (GA4)",
+        "G-7D2H9HEQTD (GA4)"
+      ],
+      "purpose": "Conversion tracking, cross-domain measurement"
+    },
+    "social_pixels": {
+      "facebook": "418406606004092",
+      "twitter": "adsct tracking pixel",
+      "linkedin": "li.lms-analytics/insight.min.js"
+    },
+    "tracking_headers": [
+      "x-posthog-distinct-id",
+      "x-posthog-session-id",
+      "x-posthog-utm-campaign",
+      "x-posthog-utm-source"
+    ]
+  },
+  "design_system": {
+    "css_framework": "Tailwind CSS v4",
+    "tailwind_config": {
+      "custom_colors": "Extended --color-* palette (Amber, Blue, and more)",
+      "responsive_breakpoints": {
+        "sm": "--breakpoint-sm",
+        "md": "--breakpoint-md",
+        "lg": "--breakpoint-lg",
+        "xl": "--breakpoint-xl",
+        "2xl": "--breakpoint-2xl"
+      },
+      "animations": {
+        "bounce": "--animate-bounce",
+        "ping": "--animate-ping",
+        "pulse": "--animate-pulse",
+        "pulse_scale": "--animate-pulse-scale",
+        "pulse_scale_mini": "--animate-pulse-scale-mini",
+        "spin": "--animate-spin"
+      },
+      "effects": {
+        "blur": [
+          "--blur-xs", "--blur-sm", "--blur-md", "--blur-lg",
+          "--blur-xl", "--blur-2xl", "--blur-3xl"
+        ]
+      }
+    },
+    "typography": {
+      "mono_font": "DM Mono (Google Fonts)",
+      "primary_font": "ATSeasonSans (self-hosted)"
+    },
+    "component_library": "shadcn/ui based (indicated by component patterns)"
+  },
+  "next_js_architecture": {
+    "version": "13-14",
+    "routing": "Pages Router (pages/ directory structure)",
+    "code_splitting": "Aggressive chunking by route and component",
+    "chunk_loading": "Webpack module system with dynamic imports",
+    "build_artifacts": [
+      "_buildManifest.js (route mappings)",
+      "_ssgManifest.js (SSG pages)",
+      "webpack-*.js (module bootstrap)"
+    ]
+  },
+  "key_signals": {
+    "state_management": "Recoil atoms + selectors, not Redux or Zustand",
+    "document_generation": "Custom GML markup language with 17 custom elements",
+    "streaming_chat": "Dedicated bundle for SSE/ReadableStream chat streaming",
+    "deployment": "Native website deployment capability (/api/deploy)",
+    "browser_automation": "Built-in browser automation with /api/browser-use/ endpoints",
+    "visualization": "Plotly.js charting deeply integrated (not Recharts)",
+    "analytics_heavy": "5 separate analytics systems (PostHog, GA4, FB, Twitter, LinkedIn)",
+    "design_system": "Tailwind CSS v4 with extensive custom tokens",
+    "modularity": "16+ shared chunk bundles for code reuse across routes"
+  },
+  "missing_or_unclear": [
+    "React Router integration (appears to use Next.js pages, not client-side routing)",
+    "Database/ORM layer (likely server-side only, not shipped)",
+    "Authentication mechanism details (JWT vs session?)",
+    "GML schema definition (inferred from usage tags)",
+    "Exact streaming protocol details (SSE vs Fetch streaming)"
+  ]
+}

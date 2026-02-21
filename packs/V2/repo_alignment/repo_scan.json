@@ -1,0 +1,146 @@
+{
+  "repo_root": "/mnt/data/work/repo/nyqst-intelli-230126-main",
+  "generated_at": "2026-02-20T20:30:39.830705Z",
+  "python_files": 103,
+  "ui_files": 115,
+  "top_level": [
+    ".env.example",
+    ".github",
+    ".gitignore",
+    ".serena",
+    "CITATION_DEBUGGING_REPORT.md",
+    "CLAUDE.md",
+    "DESIGN-KNOWLEDGE-CONTEXT-SYSTEM.md",
+    "README.md",
+    "alembic.ini",
+    "docker-compose.yml",
+    "docs",
+    "eslint.config.js",
+    "index.html",
+    "migrations",
+    "package.json",
+    "packages",
+    "postcss.config.js",
+    "pyproject.toml",
+    "requirements",
+    "research",
+    "scenarios",
+    "schemas",
+    "scripts",
+    "src",
+    "tailwind.config.js",
+    "tests",
+    "tsconfig.json",
+    "tsconfig.node.json",
+    "ui",
+    "uv.lock",
+    "vite.config.ts"
+  ],
+  "routers": [
+    {
+      "file": "src/intelli/api/health.py",
+      "prefix": "/health"
+    },
+    {
+      "file": "src/intelli/api/v1/__init__.py",
+      "prefix": "/api/v1"
+    },
+    {
+      "file": "src/intelli/api/v1/agent.py",
+      "prefix": "/agent"
+    },
+    {
+      "file": "src/intelli/api/v1/artifacts.py",
+      "prefix": "/artifacts"
+    },
+    {
+      "file": "src/intelli/api/v1/auth.py",
+      "prefix": "/auth"
+    },
+    {
+      "file": "src/intelli/api/v1/conversations.py",
+      "prefix": "/conversations"
+    },
+    {
+      "file": "src/intelli/api/v1/health.py",
+      "prefix": null
+    },
+    {
+      "file": "src/intelli/api/v1/manifests.py",
+      "prefix": "/manifests"
+    },
+    {
+      "file": "src/intelli/api/v1/pointers.py",
+      "prefix": "/pointers"
+    },
+    {
+      "file": "src/intelli/api/v1/rag.py",
+      "prefix": "/rag"
+    },
+    {
+      "file": "src/intelli/api/v1/runs.py",
+      "prefix": "/runs"
+    },
+    {
+      "file": "src/intelli/api/v1/sessions.py",
+      "prefix": "/sessions"
+    },
+    {
+      "file": "src/intelli/api/v1/streams.py",
+      "prefix": "/streams"
+    },
+    {
+      "file": "src/intelli/api/v1/tags.py",
+      "prefix": "/tags"
+    }
+  ],
+  "db_models": [
+    "src/intelli/db/models/__init__.py",
+    "src/intelli/db/models/auth.py",
+    "src/intelli/db/models/conversations.py",
+    "src/intelli/db/models/rag.py",
+    "src/intelli/db/models/runs.py",
+    "src/intelli/db/models/substrate.py",
+    "src/intelli/db/models/tags.py"
+  ],
+  "ui_pages": [
+    "ui/src/pages/AnalysisPage.tsx",
+    "ui/src/pages/ClientsPage.tsx",
+    "ui/src/pages/DecisionsPage.tsx",
+    "ui/src/pages/ModulePlaceholder.tsx",
+    "ui/src/pages/NotebookPage.tsx",
+    "ui/src/pages/NotebooksPage.tsx",
+    "ui/src/pages/OverviewPage.tsx",
+    "ui/src/pages/ProjectsPage.tsx",
+    "ui/src/pages/ResearchPage.tsx",
+    "ui/src/pages/__tests__/NotebooksPage.test.tsx",
+    "ui/src/pages/__tests__/OverviewPage.test.tsx",
+    "ui/src/pages/__tests__/ResearchPage.test.tsx"
+  ],
+  "services": [
+    "src/intelli/services/__init__.py",
+    "src/intelli/services/audit_service.py",
+    "src/intelli/services/conversation_service.py",
+    "src/intelli/services/docir/__init__.py",
+    "src/intelli/services/governance/__init__.py",
+    "src/intelli/services/indexing/__init__.py",
+    "src/intelli/services/indexing/auto_index.py",
+    "src/intelli/services/indexing/init.py",
+    "src/intelli/services/indexing/opensearch_chunks.py",
+    "src/intelli/services/indexing/opensearch_client.py",
+    "src/intelli/services/knowledge/__init__.py",
+    "src/intelli/services/knowledge/rag_service.py",
+    "src/intelli/services/runs/__init__.py",
+    "src/intelli/services/runs/ledger_service.py",
+    "src/intelli/services/runs/run_service.py",
+    "src/intelli/services/session_service.py",
+    "src/intelli/services/substrate/__init__.py",
+    "src/intelli/services/substrate/artifact_service.py",
+    "src/intelli/services/substrate/manifest_service.py",
+    "src/intelli/services/substrate/pointer_service.py",
+    "src/intelli/services/tag_service.py"
+  ],
+  "langgraph_related": [
+    "src/intelli/agents/graphs/research_assistant.py"
+  ]
+}

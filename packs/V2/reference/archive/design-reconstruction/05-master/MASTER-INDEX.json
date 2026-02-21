@@ -1,0 +1,1698 @@
+{
+  "metadata": {
+    "generated": "2026-02-20T00:00:00Z",
+    "total_files": 107,
+    "total_signals": 312,
+    "source_manifests": [
+      "plans-manifest.json",
+      "analysis-manifest.json",
+      "genui-cleanroom-manifest.json",
+      "context-system-manifest.json",
+      "mcp-research-manifest.json",
+      "devrepo-docs-manifest.json",
+      "superagent-js-manifest.json",
+      "root-misc-manifest.json"
+    ],
+    "notes": "Merged from 8 manifests. Files with identical content deduplicated (propsygnal_document_intelligence_spec_1.md is duplicate of propsygnal_document_intelligence_spec.md). Counts include all unique source files across all repos."
+  },
+
+  "files": [
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/IMPLEMENTATION-PLAN.md",
+      "basename": "IMPLEMENTATION-PLAN.md",
+      "source_manifest": "plans-manifest.json",
+      "document_type": "plan",
+      "version": 3,
+      "status": "Draft v3",
+      "completeness": 95,
+      "primary_topic": "Implementation roadmap",
+      "key_decisions": ["DEC-001 through DEC-052"],
+      "bl_items_referenced": ["BL-001 through BL-022"],
+      "key_signals": [
+        "Wave model: 4 waves, 22 items, 7-week critical path, 5 parallel tracks",
+        "10 platform primitives defined",
+        "Critical path: Migration 0005 → BL-002 → BL-001 → BL-005 → BL-016 → BL-011",
+        "52 locked decisions, 0 open questions"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/BACKLOG.md",
+      "basename": "BACKLOG.md",
+      "source_manifest": "plans-manifest.json",
+      "document_type": "plan",
+      "version": "living",
+      "completeness": 85,
+      "primary_topic": "Build items inventory",
+      "bl_items_referenced": ["BL-001 through BL-022"],
+      "key_signals": [
+        "22 backlog items with corrected dependencies",
+        "Tradeoffs log for architectural decisions",
+        "Revision 2026-02-20 applied DEPENDENCY-ANALYSIS corrections"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/DECISION-REGISTER.md",
+      "basename": "DECISION-REGISTER.md",
+      "source_manifest": "plans-manifest.json",
+      "document_type": "decision",
+      "version": 2,
+      "completeness": 98,
+      "primary_topic": "Locked decisions",
+      "key_decisions": ["DEC-001 through DEC-072"],
+      "key_signals": [
+        "71 total decisions (52 locked + 8 not-replicating + 3 testing + 7 OQ resolutions)",
+        "All 7 open questions resolved as of 2026-02-19",
+        "v2 splits DEC-015 into 015a/015b, adds DEC-042 through DEC-052"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/DEPENDENCY-ANALYSIS.md",
+      "basename": "DEPENDENCY-ANALYSIS.md",
+      "source_manifest": "plans-manifest.json",
+      "document_type": "analysis",
+      "version": 1,
+      "completeness": 92,
+      "primary_topic": "Dependency graph analysis",
+      "bl_items_referenced": ["BL-001 through BL-022"],
+      "key_signals": [
+        "6 dependency corrections identified",
+        "Critical path: 7 weeks minimum",
+        "5 developer tracks",
+        "7 risks (AR-1 through AR-7)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/GIT-ISSUES-STRUCTURE.md",
+      "basename": "GIT-ISSUES-STRUCTURE.md",
+      "source_manifest": "plans-manifest.json",
+      "document_type": "mapping",
+      "version": 1,
+      "completeness": 70,
+      "primary_topic": "GitHub issues schema",
+      "key_signals": [
+        "22 issues (one per BL item)",
+        "26 labels: 8 type + 5 wave + 4 priority + 5 track + 4 size",
+        "8 dependency fields still need correction per CONSISTENCY-AUDIT-PLANS"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/LIBRARY-REFERENCE.md",
+      "basename": "LIBRARY-REFERENCE.md",
+      "source_manifest": "plans-manifest.json",
+      "document_type": "reference",
+      "version": 2,
+      "completeness": 94,
+      "primary_topic": "Third-party library catalog",
+      "key_signals": [
+        "21 libraries cataloged (10 backend, 5 frontend, 2 external APIs, 4 GML rendering)",
+        "Authoritative: chart library is Plotly.js (not Recharts)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/PLATFORM-FRAMING.md",
+      "basename": "PLATFORM-FRAMING.md",
+      "source_manifest": "plans-manifest.json",
+      "document_type": "plan",
+      "version": 1,
+      "completeness": 100,
+      "primary_topic": "Three-layer architecture",
+      "status": "CRITICAL — Strategic anchor",
+      "key_signals": [
+        "Superagent parity = Platform Primitives (not research module)",
+        "10 Layer 1 primitives",
+        "Research Module is TEST HARNESS",
+        "Domain modules (Lease CDs, Debt MVP, PropSygnal, RegSygnal) run ON platform"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/STRATEGIC-REVIEW.md",
+      "basename": "STRATEGIC-REVIEW.md",
+      "source_manifest": "plans-manifest.json",
+      "document_type": "audit",
+      "version": 1,
+      "completeness": 75,
+      "primary_topic": "Pre-implementation audit",
+      "key_signals": [
+        "6 decision gaps (DG-1 through DG-6)",
+        "12 assumptions; 4 flagged medium-high risk",
+        "DG-5: async DB session pattern in Send() nodes = hardest technical problem"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/INTERACTION-POINTS.md",
+      "basename": "INTERACTION-POINTS.md",
+      "source_manifest": "plans-manifest.json",
+      "document_type": "reference",
+      "version": "living",
+      "completeness": 90,
+      "primary_topic": "Service boundaries registry",
+      "key_signals": [
+        "9 external services, 5 internal services",
+        "7 data boundaries",
+        "7 explicitly NOT replicating (v0.app, Firecrawl, FactSet, Ory Kratos, PostHog, Sanity CMS, OneSignal)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/OBJECTIVES.md",
+      "basename": "OBJECTIVES.md",
+      "source_manifest": "plans-manifest.json",
+      "document_type": "plan",
+      "version": 1,
+      "completeness": 85,
+      "primary_topic": "Project objectives",
+      "key_signals": [
+        "OBJ-1 through OBJ-4 defined",
+        "Three-layer analysis methodology",
+        "Agent dispatch protocol by tier (haiku/sonnet/opus)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/PROJECT-BRIEF.md",
+      "basename": "PROJECT-BRIEF.md",
+      "source_manifest": "plans-manifest.json",
+      "document_type": "plan",
+      "version": 1,
+      "completeness": 88,
+      "primary_topic": "Master project reference",
+      "key_signals": [
+        "v1 scope: 9 core features + 6 deferred",
+        "NOT greenfield: extending nyqst-intelli-230126",
+        "Operational rules for AI agents"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/CONSISTENCY-AUDIT-PLANS.md",
+      "basename": "CONSISTENCY-AUDIT-PLANS.md",
+      "source_manifest": "plans-manifest.json",
+      "document_type": "audit",
+      "version": 1,
+      "completeness": 82,
+      "primary_topic": "Consistency audit findings",
+      "key_signals": [
+        "16 inconsistencies identified",
+        "5 BLOCKING severity issues",
+        "All resolved in IMPL-PLAN v3"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/SLICES.md",
+      "basename": "SLICES.md",
+      "source_manifest": "plans-manifest.json",
+      "document_type": "plan",
+      "version": 1,
+      "completeness": 70,
+      "primary_topic": "Team slice structure",
+      "status": "Concept — implementation pending",
+      "key_signals": [
+        "10 discipline-based slices",
+        "7 cross-slice interface flows",
+        "10 CLAUDE.md team briefs approved but not yet created"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/SYSTEM-ARCHITECTURE.md",
+      "basename": "SYSTEM-ARCHITECTURE.md",
+      "source_manifest": "analysis-manifest.json",
+      "document_type": "system-analysis",
+      "completeness": 95,
+      "primary_topic": "Platform Stack",
+      "key_signals": [
+        "Next.js frontend with custom GML rendering",
+        "NDJSON streaming over HTTP (not WebSockets)",
+        "Entity-first storage model",
+        "22 StreamEvent types (Zod discriminated union)",
+        "18 GML layout/content/viewer tags"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/AGENTIC-SYSTEM.md",
+      "basename": "AGENTIC-SYSTEM.md",
+      "source_manifest": "analysis-manifest.json",
+      "document_type": "system-analysis",
+      "completeness": 92,
+      "primary_topic": "Orchestration",
+      "key_signals": [
+        "Planner→Fan-out→Synthesizer→Generator pipeline",
+        "LangGraph Send() for parallel dispatch",
+        "14 parallel workstreams observed",
+        "Meta-reasoning drives adaptive re-planning"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/QUALITY-METHODS.md",
+      "basename": "QUALITY-METHODS.md",
+      "source_manifest": "analysis-manifest.json",
+      "document_type": "system-analysis",
+      "completeness": 93,
+      "primary_topic": "Quality Systems",
+      "key_signals": [
+        "Healer/validator auto-corrects malformed markup post-generation",
+        "Data brief pattern: single source of truth",
+        "Output uniformity: 8/10 widgets 506-685 LOC",
+        "181KB frozen shadcn/ui bundle"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/TECHNICAL-DEEP-DIVE.md",
+      "basename": "TECHNICAL-DEEP-DIVE.md",
+      "source_manifest": "analysis-manifest.json",
+      "document_type": "research",
+      "completeness": 98,
+      "primary_topic": "Schemas & Protocols",
+      "key_signals": [
+        "GML healer: exact verbatim extraction from minified bundle",
+        "22 event types in discriminated union",
+        "Exponential backoff: 1s/2s/4s/8s/16s, 30s watchdog",
+        "Citation buffering: character-by-character",
+        "All values extracted from production bundles (HIGH confidence)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/CHAT-EXPORT-ANALYSIS.md",
+      "basename": "CHAT-EXPORT-ANALYSIS.md",
+      "source_manifest": "analysis-manifest.json",
+      "document_type": "system-analysis",
+      "completeness": 85,
+      "primary_topic": "Message Schema",
+      "key_signals": [
+        "Deliverable_type is per-message (not per-chat)",
+        "Website + Report co-generation expected",
+        "Pricing: $20/month Pro, 200 runs/month, $0.50 overage",
+        "Session lifetime: 60 days"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/PLATFORM-GROUND-TRUTH.md",
+      "basename": "PLATFORM-GROUND-TRUTH.md",
+      "source_manifest": "analysis-manifest.json",
+      "document_type": "system-analysis",
+      "completeness": 100,
+      "primary_topic": "NYQST Platform",
+      "key_signals": [
+        "16 tables total across 4 migrations",
+        "11 API routers",
+        "No Send() fan-out: #1 gap for Superagent parity",
+        "ResearchAssistantGraph: 3-node (not empty)",
+        "Migration 0004 adds conversation layer (Dify analysis was WRONG)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/CODEX-ANALYSIS-SUMMARY.md",
+      "basename": "CODEX-ANALYSIS-SUMMARY.md",
+      "source_manifest": "analysis-manifest.json",
+      "document_type": "research",
+      "completeness": 72,
+      "primary_topic": "Parity Plan",
+      "key_signals": [
+        "6-phase timeline is 2x too long (22-39 weeks vs 13 weeks actual)",
+        "Infrastructure swap matrix is valuable reference",
+        "Browser-use/HITL deferred to v2 inflates estimate"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/OUR-ANALYSIS-SUMMARY.md",
+      "basename": "OUR-ANALYSIS-SUMMARY.md",
+      "source_manifest": "analysis-manifest.json",
+      "document_type": "digest",
+      "completeness": 96,
+      "primary_topic": "Consolidated Analysis",
+      "key_signals": [
+        "6 analysis documents consolidated",
+        "Authority ranking: Ground Truth > Our Analysis > Dify > Codex",
+        "14 high-confidence facts, 10 low-confidence items flagged"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/DIFY-ANALYSIS-SUMMARY.md",
+      "basename": "DIFY-ANALYSIS-SUMMARY.md",
+      "source_manifest": "analysis-manifest.json",
+      "document_type": "comparison",
+      "completeness": 68,
+      "primary_topic": "Competitive Analysis",
+      "key_signals": [
+        "6 critical errors (conversation persistence, graph complexity, table count all WRONG)",
+        "Valuable: RAG quality roadmap, SSE event specification",
+        "Based on outdated codebase snapshot (pre-migration 0004)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/ANALYSIS-COMPARISON-CHECKPOINT.md",
+      "basename": "ANALYSIS-COMPARISON-CHECKPOINT.md",
+      "source_manifest": "analysis-manifest.json",
+      "document_type": "audit",
+      "completeness": 100,
+      "primary_topic": "Cross-validation",
+      "key_signals": [
+        "7 contradictions identified and resolved",
+        "Authority ranking established",
+        "13-week timeline is most realistic",
+        "Fan-out orchestration is #1 technical gap (all sources agree)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/Downloads/genui-00-findings.md",
+      "basename": "genui-00-findings.md",
+      "source_manifest": "genui-cleanroom-manifest.json",
+      "document_type": "analysis",
+      "primary_topic": "GenUI architecture fundamentals",
+      "key_signals": [
+        "Three-tier: primitives/patterns/configs",
+        "Config-driven UI (JSON descriptors instead of TSX)",
+        "Bundle reduction: 2.08MB → ~60KB",
+        "Time to MVP: ~1 week"
+      ]
+    },
+    {
+      "path": "/Users/markforster/Downloads/genui-01-primitive-registry.tsx",
+      "basename": "genui-01-primitive-registry.tsx",
+      "source_manifest": "genui-cleanroom-manifest.json",
+      "document_type": "prototype-code",
+      "primary_topic": "27 atomic UI primitives with Zod schemas",
+      "key_signals": [
+        "27 components: 10 primitive, 8 container, 4 data, 2 media, 2 form, 3 feedback",
+        "Each component has Zod schema",
+        "No inter-primitive imports (composition via children prop)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/Downloads/genui-02-renderer.tsx",
+      "basename": "genui-02-renderer.tsx",
+      "source_manifest": "genui-cleanroom-manifest.json",
+      "document_type": "prototype-code",
+      "primary_topic": "Universal renderer engine",
+      "key_signals": [
+        "Single renderDescriptor function handles app + AI output",
+        "State path resolver, conditional rendering, loops",
+        "Patterns expand recursively"
+      ]
+    },
+    {
+      "path": "/Users/markforster/Downloads/genui-03-pattern-registry.ts",
+      "basename": "genui-03-pattern-registry.ts",
+      "source_manifest": "genui-cleanroom-manifest.json",
+      "document_type": "prototype-code",
+      "primary_topic": "Tier 2 composed patterns",
+      "key_signals": [
+        "17 patterns: ChatMessage, ChatInput, PlanProgress, ReportHeader, NavSidebar, etc.",
+        "17 patterns eliminate ~60 bespoke React components",
+        "Pure functions (props in → descriptor out)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/Downloads/genui-04-page-configs.ts",
+      "basename": "genui-04-page-configs.ts",
+      "source_manifest": "genui-cleanroom-manifest.json",
+      "document_type": "specification",
+      "primary_topic": "6 page configurations",
+      "key_signals": [
+        "6 full pages as JSON: home, chat, account, tasks, modal, error",
+        "Route map enables dynamic routing"
+      ]
+    },
+    {
+      "path": "/Users/markforster/Downloads/genui-05-streaming-tools.ts",
+      "basename": "genui-05-streaming-tools.ts",
+      "source_manifest": "genui-cleanroom-manifest.json",
+      "document_type": "prototype-code",
+      "primary_topic": "7 AI SDK tools replacing 20-event custom protocol",
+      "key_signals": [
+        "7 tools: updateResearchPlan, streamReportSection, reportSources, askClarification, browserAgentAction, setChatTitle, renderUI, deployWebsite",
+        "No custom streaming protocol; AI SDK handles state machine"
+      ]
+    },
+    {
+      "path": "/Users/markforster/Downloads/genui-06-comparison.md",
+      "basename": "genui-06-comparison.md",
+      "source_manifest": "genui-cleanroom-manifest.json",
+      "document_type": "comparison",
+      "primary_topic": "Superagent vs GenUI comparison",
+      "key_signals": [
+        "Component reduction: 60 React files + 16 GML → 27 primitives + 17 patterns",
+        "Streaming: 20 custom events + Redux → 7 AI SDK tools + Zustand",
+        "Time to implement: ~1 week MVP, ~2 weeks full parity"
+      ]
+    },
+    {
+      "path": "/Users/markforster/Downloads/superagent-clean-room-analysis.txt",
+      "basename": "superagent-clean-room-analysis.txt",
+      "source_manifest": "genui-cleanroom-manifest.json",
+      "document_type": "analysis",
+      "primary_topic": "Complete reverse-engineered Superagent architecture",
+      "key_signals": [
+        "Next.js + React 18 + Tailwind CSS",
+        "NDJSON streaming proven at scale",
+        "70+ unique task node IDs",
+        "248-680 entities per chat",
+        "16 GML tags documented"
+      ]
+    },
+    {
+      "path": "/Users/markforster/Downloads/superagent-system-insights.txt",
+      "basename": "superagent-system-insights.txt",
+      "source_manifest": "genui-cleanroom-manifest.json",
+      "document_type": "analysis",
+      "primary_topic": "Streaming engine, data model, and API surface deep analysis",
+      "key_signals": [
+        "WebSocket unused (pristine: true, connected: false) — proves HTTP/ReadableStream is right",
+        "18 GML tags with complete schema validation",
+        "Website status polled every 5s",
+        "Retry: POST /api/chat/retry creates new PlanSet"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/CLEANROOM-ANALYSIS.md",
+      "basename": "CLEANROOM-ANALYSIS.md",
+      "source_manifest": "genui-cleanroom-manifest.json",
+      "document_type": "analysis",
+      "primary_topic": "Architectural replication guide",
+      "key_signals": [
+        "12-agent parallel orchestration (CRE example)",
+        "260+ sources cited in single report",
+        "Complete build specification for NYQST SuperAgent (41 tables, API spec, 7-phase plan)",
+        "Superagent origin: credit-doc-analysis by Preemo"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/reports/01_observed_surface.md",
+      "basename": "01_observed_surface.md",
+      "source_manifest": "context-system-manifest.json",
+      "document_type": "context-analysis",
+      "primary_topic": "Observable frontend stack",
+      "key_signals": [
+        "56 API endpoints extracted",
+        "12 entity types",
+        "9 external API providers",
+        "16 feature flags"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/reports/02_streaming_protocol.md",
+      "basename": "02_streaming_protocol.md",
+      "source_manifest": "context-system-manifest.json",
+      "document_type": "streaming-spec",
+      "primary_topic": "NDJSON event stream protocol",
+      "key_signals": [
+        "22 streaming event types documented with exact field maps",
+        "Stream lifecycle: stream_start → events → done/ERROR",
+        "30s idle watchdog, 5 retries with exponential backoff"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/reports/03_agent_orchestration_inference.md",
+      "basename": "03_agent_orchestration_inference.md",
+      "source_manifest": "context-system-manifest.json",
+      "document_type": "protocol-analysis",
+      "primary_topic": "Inferred backend orchestration architecture",
+      "key_signals": [
+        "Hierarchical IDs: plan_set_id→plan_id→node_id→tool_id",
+        "Two independent signals of event-sourcing (ReplayStream, has_async_entities_pending)",
+        "Reference architecture: API → Orchestrator → Event log + Entity store + Tool runners"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/reports/04_prompt_and_output_formats.md",
+      "basename": "04_prompt_and_output_formats.md",
+      "source_manifest": "context-system-manifest.json",
+      "document_type": "context-analysis",
+      "primary_topic": "Output format contracts (citations, GML tags)",
+      "key_signals": [
+        "16 GML tags documented: 4 layout, 9 widget, 4 artifact viewer",
+        "Healing indicates model frequently produces imperfect nesting",
+        "Deliverable toggle: normal vs super_report"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/reports/05_validation_playbook.md",
+      "basename": "05_validation_playbook.md",
+      "source_manifest": "context-system-manifest.json",
+      "document_type": "protocol-analysis",
+      "primary_topic": "Methodology for confirming/denying inferences",
+      "key_signals": [
+        "7 validation steps, 7-point hypothesis checklist",
+        "DevTools Network tab validation approach",
+        "Bash snippet for NDJSON line extraction"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/reports/README.md",
+      "basename": "README.md",
+      "source_manifest": "context-system-manifest.json",
+      "document_type": "context-analysis",
+      "primary_topic": "Overview and reading guide for 5-report series",
+      "key_signals": [
+        "Primary evidence: 3 JS bundles (774-*, 1889-*, _app-*) + feature flags",
+        "Suggested reading order: 01 → 02 → 03 → 04 → 05"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/reports/data/extracted_signals.json",
+      "basename": "extracted_signals.json",
+      "source_manifest": "context-system-manifest.json",
+      "document_type": "data-extract",
+      "primary_topic": "Raw extraction v1",
+      "key_signals": ["56 API endpoints, 49 headers, 18 GML tags"]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/reports/data/extracted_signals_v2.json",
+      "basename": "extracted_signals_v2.json",
+      "source_manifest": "context-system-manifest.json",
+      "document_type": "data-extract",
+      "primary_topic": "Raw extraction v2",
+      "key_signals": ["58 API endpoints (added citation_download, user-message uploads)", "49 headers, 18 GML tags"]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/reports/data/next_data_sanitized.json",
+      "basename": "next_data_sanitized.json",
+      "source_manifest": "context-system-manifest.json",
+      "document_type": "data-extract",
+      "primary_topic": "Feature flags, CMS config, analytics bootstrap",
+      "key_signals": [
+        "16 feature flags (creditDocAnalysisAppFlags)",
+        "PostHog A/B testing active: 20+ flags",
+        "Sanity CMS: projectId 4jpbu6z4"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-MCP/research/dify-analysis/DESIGN-KNOWLEDGE-CONTEXT-SYSTEM.md",
+      "basename": "DESIGN-KNOWLEDGE-CONTEXT-SYSTEM.md",
+      "source_manifest": "mcp-research-manifest.json",
+      "document_type": "architecture-decision",
+      "primary_topic": "Knowledge and context management system architecture",
+      "key_signals": [
+        "16 design decisions (D1-D16)",
+        "Four-phase implementation plan",
+        "Polymorphic scope binding > separate FKs",
+        "Insights as first-class entities with embeddings"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-MCP/research/dify-analysis/COMPARISON-NYQST-VS-DIFY.md",
+      "basename": "COMPARISON-NYQST-VS-DIFY.md",
+      "source_manifest": "mcp-research-manifest.json",
+      "document_type": "competitive-analysis",
+      "primary_topic": "Gap analysis: NYQST vs Dify",
+      "key_signals": [
+        "Conversation persistence was THE single largest gap (now fixed: migration 0004)",
+        "Content-addressed substrate is genuinely innovative vs Dify",
+        "Critical path: conversation persistence → RAG quality → project model"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-MCP/research/dify-analysis/NYQST-SSE-EVENT-SPECIFICATION.md",
+      "basename": "NYQST-SSE-EVENT-SPECIFICATION.md",
+      "source_manifest": "mcp-research-manifest.json",
+      "document_type": "infrastructure-design",
+      "primary_topic": "SSE specification with Vercel AI SDK v3 compatibility",
+      "key_signals": [
+        "18 total event types (14 existing + 4 new)",
+        "LangGraphToAISDKAdapter (200 lines)",
+        "Ping events essential (10s intervals) for proxy/CDN timeout prevention"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-MCP/research/dify-analysis/VERCEL-AI-SDK-NATIVE-COMPARISON.md",
+      "basename": "VERCEL-AI-SDK-NATIVE-COMPARISON.md",
+      "source_manifest": "mcp-research-manifest.json",
+      "document_type": "architecture-decision",
+      "primary_topic": "Vercel AI SDK vs Python backend trade-offs",
+      "key_signals": [
+        "Keep Python backend with LangGraph — do NOT migrate to TypeScript",
+        "LangGraphToAISDKAdapter cost (200 lines) worth LangGraph capabilities",
+        "TypeScript migration: 7-9 weeks, high risk"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/NYQST-MCP-INFRASTRUCTURE-DESIGN.md",
+      "basename": "NYQST-MCP-INFRASTRUCTURE-DESIGN.md",
+      "source_manifest": "mcp-research-manifest.json",
+      "document_type": "infrastructure-design",
+      "primary_topic": "Cloud infrastructure design (Oracle Cloud Always Free)",
+      "key_signals": [
+        "Oracle 9.5/10 — only viable zero-cost option",
+        "4 OCPU ARM VM, 24 GB RAM, converged Autonomous Database",
+        "8-week bootstrap roadmap"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/CLOUD-COMPARISON-SUMMARY.md",
+      "basename": "CLOUD-COMPARISON-SUMMARY.md",
+      "source_manifest": "mcp-research-manifest.json",
+      "document_type": "comparison",
+      "primary_topic": "Cloud provider scoring (Oracle/GCP/AWS/Azure)",
+      "key_signals": [
+        "Oracle primary (9.5/10), GCP supplementary (7/10), Azure optional (7/10), AWS unsuitable (2/10)",
+        "Bootstrap (£0) → Early funding (£200-500/mo) → Growth (£2K-10K/mo)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/ADR-011-LANGGRAPH-MCP-BRIDGE.md",
+      "basename": "ADR-011-LANGGRAPH-MCP-BRIDGE.md",
+      "source_manifest": "mcp-research-manifest.json",
+      "document_type": "architecture-decision",
+      "primary_topic": "Dual-mode tool architecture (LangGraph + MCP bridge)",
+      "key_signals": [
+        "MCPToolNode bridges LangGraph and ToolExecutionPipeline",
+        "5-stage pipeline: validate → policy → execute → log → return",
+        "Checkpoint after every tool call",
+        "Error recovery: RETRY, FALLBACK, ABORT, SKIP, REQUIRE_APPROVAL"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/ADR-011-POSTGRESQL-RLS-MULTI-TENANCY.md",
+      "basename": "ADR-011-POSTGRESQL-RLS-MULTI-TENANCY.md",
+      "source_manifest": "mcp-research-manifest.json",
+      "document_type": "architecture-decision",
+      "primary_topic": "PostgreSQL Row-Level Security for multi-tenant isolation",
+      "key_signals": [
+        "RLS on all 11 tenant-scoped tables",
+        "Three-role model: app_user (RLS enforced), app_admin (BYPASSRLS), postgres",
+        "SET LOCAL app.current_tenant_id per transaction",
+        "Performance overhead: <10%"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/LANGGRAPH-DORMANT-CAPABILITIES.md",
+      "basename": "LANGGRAPH-DORMANT-CAPABILITIES.md",
+      "source_manifest": "mcp-research-manifest.json",
+      "document_type": "infrastructure-design",
+      "primary_topic": "LangGraph dormant capabilities activation roadmap",
+      "key_signals": [
+        "Parallel execution: 2-4 days, 3x speed improvement for multi-strategy RAG",
+        "Human-in-the-loop: 2-3 days",
+        "Time-travel debugging: 3-5 days",
+        "Multi-agent orchestration: 1-2 weeks"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/common-mcp-architecture/ADR-MCP-BACKBONE.md",
+      "basename": "ADR-MCP-BACKBONE.md",
+      "source_manifest": "mcp-research-manifest.json",
+      "document_type": "architecture-decision",
+      "primary_topic": "Common Python backbone for all NYQST MCP servers",
+      "key_signals": [
+        "7 architectural layers: Transport, Auth, Database, Data Model, Vector/RAG, Agentic, Methods",
+        "Strong kernel / weak periphery",
+        "Profile-driven retrieval system"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/common-mcp-architecture/SUMMARY.md",
+      "basename": "common-mcp-architecture-SUMMARY.md",
+      "source_manifest": "mcp-research-manifest.json",
+      "document_type": "infrastructure-design",
+      "primary_topic": "7-layer MCP backbone summary",
+      "key_signals": [
+        "8 shared entities, 3 abstract protocols, 4 standard index profiles",
+        "24 Python package dependencies",
+        "15 open questions identified"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/oracle-plan/ADR-ORACLE-INFRA.md",
+      "basename": "ADR-ORACLE-INFRA.md",
+      "source_manifest": "mcp-research-manifest.json",
+      "document_type": "architecture-decision",
+      "primary_topic": "Oracle Cloud Always Free infrastructure selection",
+      "key_signals": [
+        "Converged Autonomous Database: relational + vector + graph + JSON + full-text",
+        "ARM capacity shortage: multi-region retry, 7-day window"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/mcp-specifications/ADR-MCP-SERVER-DECOMPOSITION.md",
+      "basename": "ADR-MCP-SERVER-DECOMPOSITION.md",
+      "source_manifest": "mcp-research-manifest.json",
+      "document_type": "architecture-decision",
+      "primary_topic": "Domain-grouped MCP server decomposition",
+      "key_signals": [
+        "6-server architecture: Platform, Project Registry, Domain Model, RAG Service (deferred), Connectors, Admin/Ops",
+        "Bootstrap: 4 servers with 72 core tools",
+        "Platform MCP: 45 tools across 7 namespaces"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/mcp-specifications/SUMMARY.md",
+      "basename": "mcp-specifications-SUMMARY.md",
+      "source_manifest": "mcp-research-manifest.json",
+      "document_type": "infrastructure-design",
+      "primary_topic": "MCP server tool inventory",
+      "key_signals": [
+        "72 core tools phase 1, 100+ phase 2-3",
+        "Tool naming convention: {namespace}.{resource}.{action}"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/00_INDEX.md",
+      "basename": "00_INDEX.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "prd",
+      "primary_topic": "PRD Suite Navigation",
+      "key_signals": [
+        "11-document PRD suite as authoritative source",
+        "Three-layer architecture: Platform → Products → Enterprise Shell",
+        "ADR Notes in docs 03, 04, 06"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/01_EXECUTIVE_SUMMARY.md",
+      "basename": "01_EXECUTIVE_SUMMARY.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "prd",
+      "primary_topic": "Strategic Imperative and Commercial Proposition",
+      "key_signals": [
+        "DocuIntelli = Cognitive ERP (~$200k/yr)",
+        "Intelligence is commodity; context is asset",
+        "Two packages: Accelerate and Preserve"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/02_VISION.md",
+      "basename": "02_VISION.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "prd",
+      "primary_topic": "Strategic Thesis and Long-Term Vision",
+      "key_signals": [
+        "Three horizons: 2026 (establish), 2027 (expand), 2028+ (standard infrastructure)",
+        "Domain-first over chat-first",
+        "Ontology as sovereign asset"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/03_PLATFORM.md",
+      "basename": "03_PLATFORM.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "prd",
+      "primary_topic": "Platform Modules and Core Capabilities",
+      "key_signals": [
+        "6 integrated modules: Research, Document, Analysis, Modelling, Knowledge, Insight",
+        "13 ADR Notes flagged",
+        "Long-running agent patterns with session bridging"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/04_PRODUCTS.md",
+      "basename": "04_PRODUCTS.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "prd",
+      "primary_topic": "PropSygnal and RegSygnal product variants",
+      "key_signals": [
+        "PropSygnal: 5 product areas, Debt & Credit MVP foundation",
+        "RegSygnal: Regulatory Intelligence, Reporting Validation, Compliance Modelling",
+        "EMIR, MiFID II, SFTR, Basel III, BCBS 239 target regulations"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/05_USERS.md",
+      "basename": "05_USERS.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "prd",
+      "primary_topic": "User Personas and Requirements",
+      "key_signals": [
+        "9 personas across PropSygnal and RegSygnal",
+        "Mid-cap enterprises: $500M-$10B AUM, 20-200 knowledge workers",
+        "Trust hierarchy: Never confidently wrong → Catch what humans miss → Faster → Easy to verify → Learns"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/06_ARCHITECTURE.md",
+      "basename": "06_ARCHITECTURE.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "prd",
+      "primary_topic": "Technical Architecture and Design Principles",
+      "key_signals": [
+        "7 core architecture principles",
+        "Kernel objects: Tenancy/Identity/Access, Work Context, Artifact Substrate, Runs, Agents/Sessions, Index Service, Evidence/Claims/Decisions",
+        "13 ADR Topics flagged"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/07_ROADMAP.md",
+      "basename": "07_ROADMAP.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "prd",
+      "primary_topic": "Phased Delivery Plan",
+      "key_signals": [
+        "Phase 0 (Q1 2026): Platform foundation",
+        "Phase 1 (Q2 2026): PropSygnal Debt MVP",
+        "Phase 2-3 (Q3-Q4 2026): PropSygnal expansion",
+        "2027+: RegSygnal v1"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/08_METRICS.md",
+      "basename": "08_METRICS.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "prd",
+      "primary_topic": "Success Metrics and KPIs",
+      "key_signals": [
+        "Metric hierarchy: Accuracy > Trust > Efficiency > Adoption > Growth",
+        "Accuracy: extraction 95%+, calculation 100%",
+        "System health: 99.9% uptime, P50 <500ms, P99 <2s"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/09_RISKS.md",
+      "basename": "09_RISKS.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "prd",
+      "primary_topic": "Risks, Dependencies, and Assumptions",
+      "key_signals": [
+        "17 identified risks across 5 categories",
+        "Critical risks: T5 (Security), T1 (Extraction Accuracy), M2 (Market Timing), O1 (Team Scaling)",
+        "12 explicit assumptions"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/prd/10_APPENDIX.md",
+      "basename": "10_APPENDIX.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "prd",
+      "primary_topic": "Glossary, Acronyms, and References",
+      "key_signals": [
+        "40+ platform and domain concepts defined",
+        "50+ acronyms",
+        "Regulatory references: EMIR, MiFID II, SFTR, Basel III, BCBS 239"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/001-data-model-strategy.md",
+      "basename": "001-data-model-strategy.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "adr",
+      "primary_topic": "Data Model Strategy: Domain-First with CDM Mapping",
+      "key_signals": [
+        "Decision: Domain-first, not CDM-first (2026-01-26)",
+        "CDM as integration layer, not foundation",
+        "CDM Helper MCP as optional service"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/002-code-generation-strategy.md",
+      "basename": "002-code-generation-strategy.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "adr",
+      "primary_topic": "Code Generation: OpenAPI + Code Generation",
+      "key_signals": [
+        "Decision: OpenAPI + Code Generation (2026-01-26)",
+        "Pydantic → OpenAPI → openapi-typescript → type-safe client",
+        "JSON Schema / AsyncAPI for event contracts (future)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/003-virtual-team-architecture.md",
+      "basename": "003-virtual-team-architecture.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "adr",
+      "primary_topic": "Virtual Team Architecture for AI Agent Coordination",
+      "key_signals": [
+        "Decision: Virtual Team Operating System (2026-01-26)",
+        "Engineering Playbook as single source of truth",
+        "Agent strengths: Devin (complex), Claude Code (review), Copilot (quick)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/004-index-service-architecture.md",
+      "basename": "004-index-service-architecture.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "adr",
+      "primary_topic": "Index Service: OpenSearch + pgvector",
+      "key_signals": [
+        "Decision: OpenSearch primary + pgvector fallback (2026-01-26)",
+        "Contract-first: ingest() / search() / explain()",
+        "Profile-driven architecture binds strategies to named profiles",
+        "Always-on triggering on pointer advance"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/005-agent-runtime-framework.md",
+      "basename": "005-agent-runtime-framework.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "adr",
+      "primary_topic": "Agent Runtime: LangGraph",
+      "key_signals": [
+        "Decision: LangGraph as primary runtime (2026-01-26)",
+        "Clear boundary: LangGraph = workflow; kernel = trust/audit",
+        "Checkpoints are operational aids, NOT authoritative record",
+        "Run ledger remains canonical"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/006-session-workspace-architecture.md",
+      "basename": "006-session-workspace-architecture.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "adr",
+      "primary_topic": "Session and Workspace Architecture",
+      "key_signals": [
+        "Decision: Lightweight database session (2026-01-26)",
+        "Context inheritance: Project → Objective → Session",
+        "LangGraph thread binding for continuity"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/007-document-processing-pipeline.md",
+      "basename": "007-document-processing-pipeline.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "adr",
+      "primary_topic": "Document Processing: Tiered Pipeline with Canonical DocIR",
+      "key_signals": [
+        "Decision: Tiered pipeline with adapter pattern (2026-01-26)",
+        "DocIR as canonical format stored as immutable artifact",
+        "Three tiers: Fast, Standard, Deep",
+        "Docling primary, Unstructured/LlamaParse alternatives"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/008-mcp-tool-architecture.md",
+      "basename": "008-mcp-tool-architecture.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "adr",
+      "primary_topic": "MCP Tool Architecture",
+      "key_signals": [
+        "Decision: MCP as primary tool protocol (2026-01-26)",
+        "Namespace: {domain}.{resource}.{action}",
+        "Session-scoped discovery (least privilege)",
+        "Standard pipeline: Validate → Policy → Execute → Log → Return"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/009-human-in-the-loop-governance.md",
+      "basename": "009-human-in-the-loop-governance.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "adr",
+      "primary_topic": "Human-in-the-Loop and Governance Patterns",
+      "key_signals": [
+        "Decision: Policy-driven + LangGraph interrupts (2026-01-26)",
+        "4 policy templates: exploratory, standard, regulated, audit-critical",
+        "GateRules define approval requirements per policy level"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/adr/010-bootstrap-infrastructure.md",
+      "basename": "010-bootstrap-infrastructure.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "adr",
+      "primary_topic": "Bootstrap Infrastructure: PostgreSQL + pgvector + Neo4j",
+      "key_signals": [
+        "Decision: PostgreSQL + pgvector + Neo4j (2026-02-04)",
+        "Neo4j Aura free (50K nodes) for graph/domain ontologies",
+        "Validated by Dify v1.11.4 (80 tables, 565 routes) on PostgreSQL + pgvector"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/PLATFORM_REFERENCE_DESIGN.md",
+      "basename": "PLATFORM_REFERENCE_DESIGN.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "reference",
+      "primary_topic": "Detailed Technical Architecture Reference",
+      "key_signals": [
+        "7 architecture principles: single source of truth, ephemeral compute, schema-on-read, everything inspectable, pointers not mutations, policy-driven levels of care, index is substrate",
+        "11 major sections",
+        "Master architecture document referenced throughout PRD"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/UI_ARCHITECTURE.md",
+      "basename": "UI_ARCHITECTURE.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "reference",
+      "primary_topic": "User Interface Architecture",
+      "key_signals": [
+        "React 18+ + TypeScript + Vite + shadcn/ui + Zustand",
+        "SSE for real-time updates",
+        "Resource URI scheme (project://, artifact://, run://)",
+        "Multi-pane IDE-like workbench"
+      ]
+    },
+    {
+      "path": "/Users/markforster/NYQST-DevinForkByAnyMeans/nyqst-intelli-230126/docs/planning/SUPERAGENT_PARITY_CLEAN_ROOM_PLAN_2026-02-16.md",
+      "basename": "SUPERAGENT_PARITY_CLEAN_ROOM_PLAN_2026-02-16.md",
+      "source_manifest": "devrepo-docs-manifest.json",
+      "document_type": "planning",
+      "primary_topic": "Clean-Room Plan for Superagent Parity",
+      "key_signals": [
+        "5-phase implementation: Contract → Planning → Deliverables v1 → Web Research → Human-in-Loop",
+        "NDM v1 (JSON AST) for deliverable markup",
+        "Unify Sources/Files/Activity around substrate/ledger primitives"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/_app-7122b4604941924b.js",
+      "basename": "_app-7122b4604941924b.js",
+      "source_manifest": "superagent-js-manifest.json",
+      "document_type": "js-bundle",
+      "primary_topic": "Superagent Next.js app shell, global state providers",
+      "size_bytes": 1825086,
+      "key_signals": [
+        "Recoil atoms and selectors for state management",
+        "Multiple analytics providers (PostHog, GA4, Twitter pixel, Facebook pixel)",
+        "Feature flags via /api/feature-flags"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/591-ee776d1e90f29cf3.js",
+      "basename": "591-ee776d1e90f29cf3.js",
+      "source_manifest": "superagent-js-manifest.json",
+      "document_type": "js-bundle",
+      "primary_topic": "Chat streaming logic, real-time message handling",
+      "size_bytes": 389088,
+      "key_signals": ["Dedicated streaming bundle for real-time chat", "Supports retry logic"]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/4d022aba-d65484ccff3256c9.js",
+      "basename": "4d022aba-d65484ccff3256c9.js",
+      "source_manifest": "superagent-js-manifest.json",
+      "document_type": "js-bundle",
+      "primary_topic": "GML rendering engine",
+      "size_bytes": 343995,
+      "key_signals": [
+        "18 GML tags: gml-viewreport, gml-viewwebsite, gml-viewpresentation, gml-viewgenerateddocument, gml-chartcontainer, gml-row, gml-primarycolumn, gml-halfcolumn, gml-sidebarcolumn, gml-blockquote, gml-inlinecitation, gml-downloadfile, gml-components, gml-header-elt, gml-infoblockmetric, gml-infoblockevent, gml-infoblockstockticker, gml-gradientinsightbox",
+        "Plotly.js charting"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/55ccf76ff5ccbea2.css",
+      "basename": "55ccf76ff5ccbea2.css",
+      "source_manifest": "superagent-js-manifest.json",
+      "document_type": "css-bundle",
+      "primary_topic": "Global styles, Tailwind CSS v4, design tokens",
+      "size_bytes": 212769,
+      "key_signals": [
+        "Tailwind CSS v4 CSS-first config",
+        "277 CSS custom properties",
+        "Redesign theme via data-theme='redesign'",
+        "Seasons Sans proprietary font (12 weights)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/5988fe2c-871f-4de0-afcb-381cdecdb107_chat",
+      "basename": "5988fe2c-871f-4de0-afcb-381cdecdb107_chat",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "chat-export",
+      "primary_topic": "SuperAgent chat session — 12+ concurrent research agents",
+      "key_signals": [
+        "Multi-agent parallel execution: 12 concurrent subagents",
+        "NDJSON streaming with 22 typed events",
+        "Plan → Reports → Deliverables pipeline (3-4 async phases)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/Superagent.html",
+      "basename": "Superagent.html",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "presentation",
+      "primary_topic": "Production SuperAgent UI bundle",
+      "key_signals": [
+        "18-tag GML domain language",
+        "Healer: hoists/removes widgets to correct parents",
+        "Seasons Sans font (A-Type foundry, proprietary)",
+        "Dual design system: Geist base + Seasons Sans redesign"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/INDEX.md",
+      "basename": "INDEX.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "early-analysis",
+      "primary_topic": "Master index of SuperAgent analysis",
+      "key_signals": [
+        "v0.app is code generation engine; SuperAgent is orchestrator",
+        "Three architecture patterns: monolithic → coordinator → four-tier",
+        "Frozen 181K template bundle byte-identical in Reports B & C",
+        "Multi-agent execution proven via git history"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/SUPERAGENT_REPORT_ANALYSIS.md",
+      "basename": "SUPERAGENT_REPORT_ANALYSIS.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "design-extraction",
+      "primary_topic": "Report B deep dive (DMN-Ontology Decision Management System)",
+      "key_signals": [
+        "Two-tier architecture: coordinator + flat components",
+        "Royal Blue Corporate design system",
+        "Hub-and-spoke visualization highlighting (Set<string> O(1))",
+        "Recharts + D3 hybrid"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/GML_REPORT_RENDERING_PATTERNS.md",
+      "basename": "GML_REPORT_RENDERING_PATTERNS.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "spec",
+      "primary_topic": "Complete GML markup language specification",
+      "key_signals": [
+        "18 tags with strict width constraints (enforced via healer)",
+        "Citation system decouples rendering from provenance",
+        "Sentiment colors hard-coded per component type",
+        "Container queries (@md, @3xl) for responsive layout"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/GML_CSS_EXTRACTION.md",
+      "basename": "GML_CSS_EXTRACTION.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "design-extraction",
+      "primary_topic": "CSS token extraction from production bundles",
+      "key_signals": [
+        "277 CSS custom properties: 231 OKLCH, 45 Hex, 1 var() alias",
+        "Redesign theme via data-theme='redesign'",
+        "Custom shadow system: 3-tier low/low-hover/high"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/TAILWIND_THEME_EXTRACTION.md",
+      "basename": "TAILWIND_THEME_EXTRACTION.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "design-extraction",
+      "primary_topic": "Complete Tailwind v4 theme extraction",
+      "key_signals": [
+        "OKLCH primary palette (22 families) + Hex semantic (errors, warnings)",
+        "13 custom animation keyframes",
+        "Container queries @md (@28rem) and @3xl (@48rem)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/JS_DESIGN_TOKENS.md",
+      "basename": "JS_DESIGN_TOKENS.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "design-extraction",
+      "primary_topic": "JavaScript bundle token extraction",
+      "key_signals": [
+        "Plotly.js in chat UI, Recharts in exports (dual charting strategy)",
+        "HSLA colors hardcoded in JS: 6-stop teal (186°), green (103°), red gradients",
+        "22 NDJSON streaming event types",
+        "CVA for component variants"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/GENERATION_PIPELINE.md",
+      "basename": "GENERATION_PIPELINE.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "design-extraction",
+      "primary_topic": "7-stage generation pipeline",
+      "key_signals": [
+        "7 stages: Research → Template → Architecture → Theme → Primitives → Sections → Widgets → Export",
+        "Multi-agent: 4 named agents (Report A git history), ~100s each phase",
+        "Output ceiling: ~550K total (~350K generated TSX)",
+        "Widget sizes 506-685 LOC (uniform budgeting)"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/REPORT_C_ANALYSIS.md",
+      "basename": "REPORT_C_ANALYSIS.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "design-extraction",
+      "primary_topic": "Report C deep dive (AAPL/MSFT/GOOG Strategic Market Intelligence)",
+      "key_signals": [
+        "Four-tier architecture: ui → report → sections → widgets",
+        "Soft Brutalism design: offset shadows (4px), hover press",
+        "100% Recharts, react-simple-maps for geography",
+        "Data consistency: MSFT $281.7B in 5+ files proves shared brief"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/FONT_AND_ASSET_EXTRACTION.md",
+      "basename": "FONT_AND_ASSET_EXTRACTION.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "design-extraction",
+      "primary_topic": "Font and external asset extraction",
+      "key_signals": [
+        "Seasons Sans: proprietary, 12 weights including non-standard (440, 550, 580, 650)",
+        "Two-tier font: Geist (base) + Seasons Sans (redesign)",
+        "Vercel CDN with content-hash filenames"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/SCREENSHOT_ANALYSIS.md",
+      "basename": "SCREENSHOT_ANALYSIS.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "design-extraction",
+      "primary_topic": "Visual UI analysis from screenshots",
+      "key_signals": ["Visual complement to CSS/theme extraction"]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/planning/INTELLI_BUILD_STATUS_2026-02-16.md",
+      "basename": "INTELLI_BUILD_STATUS_2026-02-16.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "planning",
+      "primary_topic": "DocuIntelli platform current build status",
+      "key_signals": [
+        "Substrate layer working: artifacts, manifests, pointers",
+        "LangGraph research assistant graph in place (single-agent)",
+        "Gaps: no multi-agent orchestration, no deliverable generators"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/planning/SUPERAGENT_PARITY_CLEAN_ROOM_PLAN_2026-02-16.md",
+      "basename": "SUPERAGENT_PARITY_CLEAN_ROOM_PLAN_2026-02-16.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "planning",
+      "primary_topic": "Six-phase plan to achieve Superagent parity on Intelli",
+      "key_signals": [
+        "Phase 1: Orchestration events",
+        "Phase 2: Entity/citation substrate",
+        "Phase 3: Web research",
+        "Phase 4: Deliverables v1",
+        "Phase 5: Deliverables v2",
+        "Phase 6: Browser-use/HITL"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/2026-02-16-MAPPING-01-RESEARCH-ORCHESTRATOR.md",
+      "basename": "2026-02-16-MAPPING-01-RESEARCH-ORCHESTRATOR.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "planning",
+      "primary_topic": "Research orchestrator technical mapping",
+      "key_signals": [
+        "LangGraph StateGraph: planner → fan_out → parallel subagents → fan_in → synthesizer",
+        "Fan-out via LangGraph Send()",
+        "Option A: store plans as RunEvents (no new tables)",
+        "Web research tools: Brave, Jina/Firecrawl, domain allowlist"
+      ]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/2026-02-16-MAPPING-02-DELIVERABLES-ARTIFACTS.md",
+      "basename": "2026-02-16-MAPPING-02-DELIVERABLES-ARTIFACTS.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "planning",
+      "primary_topic": "Deliverable artifacts mapping",
+      "key_signals": ["Report, Document, Slides, Website types; artifact storage; preview UI; exports"]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/2026-02-16-MAPPING-03-UI-MODULES.md",
+      "basename": "2026-02-16-MAPPING-03-UI-MODULES.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "planning",
+      "primary_topic": "UI module mapping (Sources/Files/Activity panes)",
+      "key_signals": ["Sources/Files/Activity pane unification; deliverable selector UI; citation hover/click"]
+    },
+    {
+      "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/2026-02-16-MAPPING-04-BILLING-TESTING.md",
+      "basename": "2026-02-16-MAPPING-04-BILLING-TESTING.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "planning",
+      "primary_topic": "Billing and testing mapping",
+      "key_signals": ["Cost tracking; multi-agent parallelism billing; test strategy for orchestration"]
+    },
+    {
+      "path": "/Users/markforster/Downloads/propsygnal_document_intelligence_spec.md",
+      "basename": "propsygnal_document_intelligence_spec.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "spec",
+      "primary_topic": "PropSygnal Document Intelligence Module specification",
+      "key_signals": [
+        "Provenance-first design (W3C PROV-DM aligned)",
+        "Hohfeld + defeasible deontic logic for normative representation",
+        "5-tier ontology governance",
+        "Bi-temporal versioning (nothing deleted, time-travel queries)",
+        "OIB: runtime learning from existing artifacts"
+      ]
+    },
+    {
+      "path": "/Users/markforster/Downloads/cursor_branches_from_nyqst_intelli_2301.md",
+      "basename": "cursor_branches_from_nyqst_intelli_2301.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "chat-export",
+      "primary_topic": "Three parallel agent branches merged",
+      "key_signals": [
+        "217 unique files across 3 branches (doc-intelligence, async-ui, cre-workflows)",
+        "Three-agent parallel development pattern executed successfully"
+      ]
+    },
+    {
+      "path": "/Users/markforster/Downloads/nyqst_expert_framework_bundle/nyqst_expert_framework_v1.md",
+      "basename": "nyqst_expert_framework_v1.md",
+      "source_manifest": "root-misc-manifest.json",
+      "document_type": "spec",
+      "primary_topic": "NYQST Expert Framework v1",
+      "key_signals": ["Expert decision procedures, governance, provenance linkage"]
+    }
+  ],
+
+  "decisions": {
+    "DEC-001": { "summary": "Cognitive ERP positioning for NYQST platform", "domain": "strategic", "source_files": ["DECISION-REGISTER.md", "PLATFORM-FRAMING.md", "01_EXECUTIVE_SUMMARY.md"] },
+    "DEC-002": { "summary": "Event-streamed planning required (plan visibility at start of run)", "domain": "strategic", "source_files": ["DECISION-REGISTER.md", "IMPLEMENTATION-PLAN.md"] },
+    "DEC-003": { "summary": "Domain-first data models (not CDM-first)", "domain": "architecture", "source_files": ["DECISION-REGISTER.md", "001-data-model-strategy.md"] },
+    "DEC-004": { "summary": "Index Service contract-first with pluggable backends", "domain": "architecture", "source_files": ["DECISION-REGISTER.md", "004-index-service-architecture.md"] },
+    "DEC-005": { "summary": "LangGraph as primary orchestration runtime", "domain": "architecture", "source_files": ["DECISION-REGISTER.md", "005-agent-runtime-framework.md"] },
+    "DEC-006": { "summary": "MCP as primary tool protocol (namespace: domain.resource.action)", "domain": "architecture", "source_files": ["DECISION-REGISTER.md", "008-mcp-tool-architecture.md"] },
+    "DEC-007": { "summary": "NDJSON event schema v1 for streaming protocol", "domain": "architecture", "source_files": ["DECISION-REGISTER.md", "02_streaming_protocol.md"] },
+    "DEC-008": { "summary": "NDM v1 (JSON AST) for deliverable markup", "domain": "architecture", "source_files": ["DECISION-REGISTER.md", "IMPLEMENTATION-PLAN.md"] },
+    "DEC-009": { "summary": "Entity table for citations (unifies sources, tool outputs, deliverables)", "domain": "architecture", "source_files": ["DECISION-REGISTER.md", "2026-02-16-MAPPING-01-RESEARCH-ORCHESTRATOR.md"] },
+    "DEC-010": { "summary": "Run ledger is canonical (not LangGraph checkpoints)", "domain": "architecture", "source_files": ["DECISION-REGISTER.md", "005-agent-runtime-framework.md", "PLATFORM_REFERENCE_DESIGN.md"] },
+    "DEC-011": { "summary": "Research module as first domain module (test harness for primitives)", "domain": "strategic", "source_files": ["DECISION-REGISTER.md", "PLATFORM-FRAMING.md"] },
+    "DEC-015": { "summary": "SPLIT: see DEC-015a and DEC-015b", "domain": "architecture", "source_files": ["DECISION-REGISTER.md"] },
+    "DEC-015a": { "summary": "Backend JSON AST as deliverable markup format", "domain": "architecture", "source_files": ["DECISION-REGISTER.md", "CONSISTENCY-AUDIT-PLANS.md", "SUPERAGENT-TO-NYQST-MAPPING.md"] },
+    "DEC-015b": { "summary": "Frontend rehype-to-JSX for rendering JSON AST", "domain": "architecture", "source_files": ["DECISION-REGISTER.md", "CONSISTENCY-AUDIT-PLANS.md", "SUPERAGENT-TO-NYQST-MAPPING.md"] },
+    "DEC-032": { "summary": "SUPERSEDED by DEC-046 (MCP search)", "domain": "technology", "source_files": ["DECISION-REGISTER.md"] },
+    "DEC-040a": { "summary": "Wave 0 BL-015 and BL-008 moved from M3", "domain": "implementation", "source_files": ["DECISION-REGISTER.md", "IMPLEMENTATION-PLAN.md"] },
+    "DEC-040b": { "summary": "Wave 0 BL-015 independence confirmed", "domain": "implementation", "source_files": ["DECISION-REGISTER.md"] },
+    "DEC-041": { "summary": "Billing (BL-012) deferred to Wave 3", "domain": "implementation", "source_files": ["DECISION-REGISTER.md"] },
+    "DEC-042": { "summary": "LiteLLM multi-provider hot-swap (OpenAI-only v1)", "domain": "technology", "source_files": ["DECISION-REGISTER.md", "KNOWLEDGE-MAP.md"] },
+    "DEC-043": { "summary": "GML in separate ReportPanel, rehype-to-JSX rendering", "domain": "technology", "source_files": ["DECISION-REGISTER.md", "KNOWLEDGE-MAP.md"] },
+    "DEC-044": { "summary": "Website deliverable iframe-only v1", "domain": "technology", "source_files": ["DECISION-REGISTER.md", "KNOWLEDGE-MAP.md"] },
+    "DEC-045": { "summary": "Langfuse self-hosted + LangGraph state budget ($2/run)", "domain": "technology", "source_files": ["DECISION-REGISTER.md", "KNOWLEDGE-MAP.md"] },
+    "DEC-046": { "summary": "MCP search with hot-swap Brave/Tavily (supersedes DEC-032)", "domain": "technology", "source_files": ["DECISION-REGISTER.md", "KNOWLEDGE-MAP.md"] },
+    "DEC-047": { "summary": "Clarification UI deferred to v1.5", "domain": "technology", "source_files": ["DECISION-REGISTER.md", "KNOWLEDGE-MAP.md"] },
+    "DEC-048": { "summary": "Plotly.js (react-plotly.js) confirmed, NOT Recharts", "domain": "technology", "source_files": ["DECISION-REGISTER.md", "KNOWLEDGE-MAP.md", "LIBRARY-REFERENCE.md"] },
+    "DEC-049": { "summary": "LangSmith Studio + graph-as-code (no visual editor)", "domain": "technology", "source_files": ["DECISION-REGISTER.md", "KNOWLEDGE-MAP.md"] },
+    "DEC-050": { "summary": "LangChain with_structured_output() for all JSON nodes", "domain": "technology", "source_files": ["DECISION-REGISTER.md", "KNOWLEDGE-MAP.md"] },
+    "DEC-051": { "summary": "Per-node async sessions from shared async_sessionmaker", "domain": "technology", "source_files": ["DECISION-REGISTER.md", "KNOWLEDGE-MAP.md"] },
+    "DEC-052": { "summary": "Migration 0005 split into 0005a (DB schema) + 0005b (LangGraph) + 0005c (indices)", "domain": "implementation", "source_files": ["DECISION-REGISTER.md", "KNOWLEDGE-MAP.md"] },
+    "DEC-060": { "summary": "Session architecture: lightweight DB model (Phase 0, upgrade path to containers)", "domain": "architecture", "source_files": ["DECISION-REGISTER.md", "006-session-workspace-architecture.md"] },
+    "DEC-061": { "summary": "Document processing: tiered pipeline with adapter pattern", "domain": "architecture", "source_files": ["DECISION-REGISTER.md", "007-document-processing-pipeline.md"] },
+    "DEC-062": { "summary": "Human-in-the-loop: policy-driven LangGraph interrupts", "domain": "architecture", "source_files": ["DECISION-REGISTER.md", "009-human-in-the-loop-governance.md"] },
+    "DEC-063": { "summary": "Code generation: OpenAPI + openapi-typescript", "domain": "technology", "source_files": ["DECISION-REGISTER.md", "002-code-generation-strategy.md"] },
+    "DEC-064": { "summary": "Index service: OpenSearch primary + pgvector fallback", "domain": "technology", "source_files": ["DECISION-REGISTER.md", "004-index-service-architecture.md"] },
+    "DEC-065": { "summary": "Bootstrap infrastructure: PostgreSQL + pgvector + Neo4j", "domain": "technology", "source_files": ["DECISION-REGISTER.md", "010-bootstrap-infrastructure.md"] },
+    "DEC-066": { "summary": "Virtual team operating system for multi-agent coordination", "domain": "implementation", "source_files": ["DECISION-REGISTER.md", "003-virtual-team-architecture.md"] },
+    "DEC-067": { "summary": "Oracle Cloud Always Free as primary bootstrap infrastructure", "domain": "technology", "source_files": ["DECISION-REGISTER.md", "ADR-ORACLE-INFRA.md"] },
+    "DEC-070": { "summary": "Keep Python backend with LangGraph (no TypeScript migration)", "domain": "strategic", "source_files": ["DECISION-REGISTER.md", "VERCEL-AI-SDK-NATIVE-COMPARISON.md"] },
+    "DEC-071": { "summary": "PostgreSQL RLS for database-enforced multi-tenant isolation", "domain": "architecture", "source_files": ["DECISION-REGISTER.md", "ADR-011-POSTGRESQL-RLS-MULTI-TENANCY.md"] },
+    "DEC-072": { "summary": "MCP backbone with 7 architectural layers shared across all servers", "domain": "architecture", "source_files": ["DECISION-REGISTER.md", "ADR-MCP-BACKBONE.md"] }
+  },
+
+  "schemas": {
+    "ResearchState": {
+      "type": "pydantic",
+      "fields": ["messages", "context_pointer_id", "manifest_sha256", "sources", "error", "run_id"],
+      "source": "PLATFORM-GROUND-TRUTH.md"
+    },
+    "ResearchTask": {
+      "type": "pydantic",
+      "fields": ["task_id", "title", "status", "message", "previous_task_id"],
+      "source": "IMPLEMENTATION-PLAN.md"
+    },
+    "TaskResult": {
+      "type": "pydantic",
+      "fields": ["task_id", "status", "artifacts", "sources", "error"],
+      "source": "IMPLEMENTATION-PLAN.md"
+    },
+    "DataBrief": {
+      "type": "pydantic",
+      "fields": ["run_id", "topic", "data_points", "sources", "generated_at"],
+      "source": "IMPLEMENTATION-PLAN.md"
+    },
+    "RunEventType": {
+      "type": "python-enum",
+      "total_count": 25,
+      "values_include": ["RUN_STARTED", "PLAN_CREATED", "SUBAGENT_STARTED", "SUBAGENT_PROGRESS", "SUBAGENT_COMPLETED", "CONTENT_DELTA", "ARTIFACT_CREATED", "CLARIFICATION_NEEDED", "WARNING"],
+      "source": "PLATFORM-GROUND-TRUTH.md, 2026-02-16-MAPPING-01-RESEARCH-ORCHESTRATOR.md"
+    },
+    "MarkupDocument": {
+      "type": "pydantic",
+      "note": "JSON AST (NDM v1) — stored as immutable artifact",
+      "fields_sketched": true,
+      "source": "IMPLEMENTATION-PLAN.md, SUPERAGENT_PARITY_CLEAN_ROOM_PLAN_2026-02-16.md"
+    },
+    "MarkupNode": {
+      "type": "discriminated-union",
+      "total_count": 18,
+      "source": "IMPLEMENTATION-PLAN.md"
+    },
+    "PlanSet": {
+      "type": "pydantic",
+      "fields": ["chat_id", "workspace_id", "plans (Record<str, Plan>)"],
+      "source": "AGENTIC-SYSTEM.md, TECHNICAL-DEEP-DIVE.md, 2026-02-16-MAPPING-01-RESEARCH-ORCHESTRATOR.md"
+    },
+    "Plan": {
+      "type": "pydantic",
+      "fields": ["id", "title", "status", "previous_plan_id", "used_sources", "plan_tasks (Record<str, PlanTask>)"],
+      "source": "AGENTIC-SYSTEM.md, TECHNICAL-DEEP-DIVE.md"
+    },
+    "PlanTask": {
+      "type": "pydantic",
+      "fields": ["id", "title", "status (LOADING|PROCESSING|CREATING_NOTES|SUCCESS|ERROR)", "message", "previous_task_id"],
+      "source": "AGENTIC-SYSTEM.md, TECHNICAL-DEEP-DIVE.md"
+    },
+    "StreamEvent": {
+      "type": "zod-discriminated-union",
+      "total_count": 22,
+      "variants": ["stream_start", "heartbeat", "done", "ERROR", "message_delta", "ai_message", "message_is_answer", "chat_title_generated", "clarification_needed", "update_message_clarification_message", "task_update", "pending_sources", "node_tools_execution_start", "node_tool_event", "update_subagent_current_action", "node_report_preview_start", "node_report_preview_delta", "node_report_preview_done", "browser_use_start", "browser_use_stop", "browser_use_await_user_input", "references_found"],
+      "source": "02_streaming_protocol.md, TECHNICAL-DEEP-DIVE.md, SYSTEM-ARCHITECTURE.md"
+    },
+    "Entity": {
+      "type": "zod-discriminated-union",
+      "total_count": 12,
+      "variants": ["WEB_PAGE", "EXTERNAL_API_DATA", "GENERATED_CONTENT", "USER_QUERY_PART", "GENERATED_REPORT", "GENERATED_PRESENTATION", "INTRA_ENTITY_SEARCH_RESULT", "EXTRACTED_ENTITY", "SEARCH_PLAN", "KNOWLEDGE_BASE", "WEBSITE", "GENERATED_DOCUMENT"],
+      "source": "SYSTEM-ARCHITECTURE.md, 01_observed_surface.md"
+    },
+    "ChatMessage": {
+      "type": "pydantic",
+      "fields": ["id", "chat_id", "creator_type", "creator_user_id", "message_type", "deliverable_type", "is_answer", "is_running", "needs_clarification_message", "retry_attempts", "content", "hydrated_content", "user_content_artifact_id", "ai_output_id", "first_report_identifier", "entities", "event_stream_artifact_id", "error_type", "created_at"],
+      "source": "CHAT-EXPORT-ANALYSIS.md, TECHNICAL-DEEP-DIVE.md"
+    },
+    "Artifact": {
+      "type": "sqlalchemy",
+      "fields": ["sha256 (PK)", "media_type", "size_bytes", "storage_uri", "created_by", "reference_count"],
+      "source": "PLATFORM-GROUND-TRUTH.md"
+    },
+    "Manifest": {
+      "type": "sqlalchemy",
+      "fields": ["sha256 (PK)", "tree (JSONB)", "parent_sha256", "entry_count", "total_size_bytes", "message"],
+      "source": "PLATFORM-GROUND-TRUTH.md"
+    },
+    "Pointer": {
+      "type": "sqlalchemy",
+      "fields": ["UUID", "namespace", "name", "manifest_sha256 (FK)", "pointer_type", "meta (JSONB)"],
+      "source": "PLATFORM-GROUND-TRUTH.md"
+    },
+    "Run": {
+      "type": "sqlalchemy",
+      "fields": ["UUID", "run_type", "status", "started_at", "completed_at", "input_manifest", "output_manifest", "config (JSONB)", "result (JSONB)", "token_usage (JSONB)", "cost_cents"],
+      "source": "PLATFORM-GROUND-TRUTH.md"
+    },
+    "ChartObject": {
+      "type": "zod",
+      "fields": ["data (DataTrace[])", "layout (LayoutConfig)", "title", "citation"],
+      "chart_types": ["bar", "scatter", "line", "bubble", "candlestick", "histogram", "box", "stacked_bar", "clustered_column", "donut"],
+      "source": "TECHNICAL-DEEP-DIVE.md, SYSTEM-ARCHITECTURE.md"
+    },
+    "GMLComponentRegistry": {
+      "type": "zod-map",
+      "total_tags": 18,
+      "categories": ["view types (4)", "layout primitives (4)", "content blocks (4)", "data visualization (5)", "component library (1)"],
+      "source": "GML_REPORT_RENDERING_PATTERNS.md, 04_prompt_and_output_formats.md, superagent-js-manifest.json"
+    },
+    "DocIR": {
+      "type": "pydantic",
+      "note": "Canonical document intermediate representation — stored as immutable artifact",
+      "fields_include": ["nodes (DocumentNode[])", "metadata", "processing_tier"],
+      "source": "007-document-processing-pipeline.md, PLATFORM_REFERENCE_DESIGN.md"
+    },
+    "DocumentNode": {
+      "type": "pydantic",
+      "fields": ["hierarchy (document/section/paragraph/sentence/table/cell/page)", "position (char_offset, page_number)"],
+      "source": "propsygnal_document_intelligence_spec.md"
+    },
+    "ComponentDescriptor": {
+      "type": "typescript-interface",
+      "fields": ["type", "props", "children", "key", "when", "unless", "bind", "repeat", "on"],
+      "source": "genui-02-renderer.tsx"
+    },
+    "NyqstMCPServer": {
+      "type": "python-class",
+      "layers": ["Transport", "Auth", "Database", "Data Model", "Vector/RAG", "Agentic", "Methods"],
+      "source": "ADR-MCP-BACKBONE.md"
+    }
+  },
+
+  "bl_items": {
+    "BL-001": {
+      "name": "Research Orchestrator (fan-out/fan-in LangGraph)",
+      "size": "XL",
+      "wave": 1,
+      "dependencies": ["Migration 0005", "BL-002", "BL-022"],
+      "blocks": ["BL-004", "BL-005", "BL-006", "BL-007", "BL-008", "BL-011", "BL-013", "BL-014", "BL-016", "BL-017", "BL-018", "BL-019", "BL-020"],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md", "GIT-ISSUES-STRUCTURE.md", "PLATFORM-FRAMING.md", "SLICES.md", "DECISION-REGISTER.md", "2026-02-16-MAPPING-01-RESEARCH-ORCHESTRATOR.md"]
+    },
+    "BL-002": {
+      "name": "Migration 0005a — DB schema (Entity, PlanSet, Deliverable tables)",
+      "size": "M",
+      "wave": 0,
+      "dependencies": [],
+      "blocks": ["BL-001"],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md", "GIT-ISSUES-STRUCTURE.md"]
+    },
+    "BL-003": {
+      "name": "Web Search MCP Tools (Brave/Tavily hot-swap)",
+      "size": "M",
+      "wave": 0,
+      "dependencies": [],
+      "note": "Standalone — no BL-001 dependency (corrected)",
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md", "GIT-ISSUES-STRUCTURE.md", "INTERACTION-POINTS.md", "SLICES.md"]
+    },
+    "BL-004": {
+      "name": "Planner Node (structured PlanSet output)",
+      "size": "L",
+      "wave": 1,
+      "dependencies": ["BL-001", "BL-002"],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md"]
+    },
+    "BL-005": {
+      "name": "Report Generator (NDM v1 / JSON AST)",
+      "size": "L",
+      "wave": 2,
+      "dependencies": ["BL-001", "Migration 0005"],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md", "GIT-ISSUES-STRUCTURE.md", "SLICES.md"]
+    },
+    "BL-006": {
+      "name": "PDF/DOCX Export (WeasyPrint/python-docx)",
+      "size": "M",
+      "wave": 2,
+      "dependencies": ["BL-001", "BL-005", "Migration 0005"],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md"]
+    },
+    "BL-007": {
+      "name": "Slides Generator (PPTX via python-pptx)",
+      "size": "M",
+      "wave": 2,
+      "dependencies": ["BL-001"],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md"]
+    },
+    "BL-008": {
+      "name": "ReportPanel / DeliverableViewer (frontend)",
+      "size": "M",
+      "wave": 0,
+      "dependencies": ["BL-015"],
+      "note": "Moved to Wave 0 (from M3)",
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md", "GIT-ISSUES-STRUCTURE.md", "SLICES.md", "CONSISTENCY-AUDIT-PLANS.md"]
+    },
+    "BL-009": {
+      "name": "Citation System (entity-bound, identifier-based)",
+      "size": "M",
+      "wave": 1,
+      "dependencies": ["BL-001"],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md", "DECISION-REGISTER.md"]
+    },
+    "BL-010": {
+      "name": "Context Engineering (token budget, context pointer)",
+      "size": "M",
+      "wave": 1,
+      "dependencies": [],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md"]
+    },
+    "BL-011": {
+      "name": "Streaming / SSE (NDJSON over PG LISTEN/NOTIFY)",
+      "size": "M",
+      "wave": 2,
+      "dependencies": ["BL-001", "BL-016"],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md"]
+    },
+    "BL-012": {
+      "name": "Billing / Stripe Integration",
+      "size": "L",
+      "wave": 3,
+      "dependencies": ["Migration 0005"],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md", "GIT-ISSUES-STRUCTURE.md", "INTERACTION-POINTS.md", "DECISION-REGISTER.md"]
+    },
+    "BL-013": {
+      "name": "Multi-Agent Executor (parallel subgraph dispatch)",
+      "size": "L",
+      "wave": 1,
+      "dependencies": ["BL-001", "BL-004"],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md"]
+    },
+    "BL-014": {
+      "name": "Document Upload + RAG",
+      "size": "M",
+      "wave": 1,
+      "dependencies": ["BL-001"],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md", "DECISION-REGISTER.md"]
+    },
+    "BL-015": {
+      "name": "Frontend Chat UI (assistant-ui/react, citation-aware text)",
+      "size": "M",
+      "wave": 0,
+      "dependencies": [],
+      "note": "Moved to Wave 0",
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md", "GIT-ISSUES-STRUCTURE.md", "SLICES.md", "CONSISTENCY-AUDIT-PLANS.md", "DECISION-REGISTER.md"]
+    },
+    "BL-016": {
+      "name": "Run Timeline / Activity Panel (frontend)",
+      "size": "M",
+      "wave": 2,
+      "dependencies": ["BL-001"],
+      "note": "Extend existing table vs new table debate",
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md"]
+    },
+    "BL-017": {
+      "name": "Plan Viewer Panel (frontend, task progress)",
+      "size": "M",
+      "wave": 1,
+      "dependencies": ["BL-001"],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md", "DECISION-REGISTER.md", "SLICES.md"]
+    },
+    "BL-018": {
+      "name": "Migration 0005b — LangGraph checkpointer tables",
+      "size": "S",
+      "wave": 0,
+      "dependencies": ["Migration 0005a"],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md", "CONSISTENCY-AUDIT-PLANS.md"]
+    },
+    "BL-019": {
+      "name": "Website Deliverable (iframe-only v1)",
+      "size": "M",
+      "wave": 2,
+      "dependencies": ["BL-001"],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md", "INTERACTION-POINTS.md", "SLICES.md"]
+    },
+    "BL-020": {
+      "name": "Deliverable Selector UI (dropdown/toggle for output type)",
+      "size": "S",
+      "wave": 2,
+      "dependencies": ["BL-001", "BL-008"],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md"]
+    },
+    "BL-021": {
+      "name": "Agent Management UI (list, detail, run history)",
+      "size": "M",
+      "wave": 3,
+      "dependencies": [],
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md", "GIT-ISSUES-STRUCTURE.md", "SLICES.md", "DECISION-REGISTER.md"]
+    },
+    "BL-022": {
+      "name": "Observability / Langfuse self-hosted",
+      "size": "M",
+      "wave": 0,
+      "dependencies": [],
+      "note": "Must PRECEDE BL-001 (corrected; previously listed as depending on BL-001)",
+      "referenced_in": ["BACKLOG.md", "IMPLEMENTATION-PLAN.md", "DEPENDENCY-ANALYSIS.md", "GIT-ISSUES-STRUCTURE.md", "CONSISTENCY-AUDIT-PLANS.md", "SLICES.md"]
+    }
+  },
+
+  "cross_references": [
+    { "from": "PLATFORM-FRAMING.md", "to": "IMPLEMENTATION-PLAN.md", "relationship": "Strategic anchor for all implementation decisions" },
+    { "from": "IMPLEMENTATION-PLAN.md", "to": "DECISION-REGISTER.md", "relationship": "References all 52+ decisions" },
+    { "from": "IMPLEMENTATION-PLAN.md", "to": "BACKLOG.md", "relationship": "Wave plan references all BL items" },
+    { "from": "DEPENDENCY-ANALYSIS.md", "to": "BACKLOG.md", "relationship": "Applied 6 dependency corrections" },
+    { "from": "CONSISTENCY-AUDIT-PLANS.md", "to": "IMPLEMENTATION-PLAN.md", "relationship": "16 inconsistencies resolved in v3" },
+    { "from": "PLATFORM-GROUND-TRUTH.md", "to": "AGENTIC-SYSTEM.md", "relationship": "Confirms 3-node ResearchAssistantGraph" },
+    { "from": "ANALYSIS-COMPARISON-CHECKPOINT.md", "to": "DIFY-ANALYSIS-SUMMARY.md", "relationship": "Identifies 6 critical errors in Dify analysis" },
+    { "from": "ANALYSIS-COMPARISON-CHECKPOINT.md", "to": "CODEX-ANALYSIS-SUMMARY.md", "relationship": "Identifies 2x timeline inflation" },
+    { "from": "OUR-ANALYSIS-SUMMARY.md", "to": "SYSTEM-ARCHITECTURE.md", "relationship": "Consolidates into 14 ground truths" },
+    { "from": "06_ARCHITECTURE.md", "to": "001-data-model-strategy.md", "relationship": "Technical realization of architectural principles" },
+    { "from": "06_ARCHITECTURE.md", "to": "005-agent-runtime-framework.md", "relationship": "LangGraph boundary specification" },
+    { "from": "SUPERAGENT_PARITY_CLEAN_ROOM_PLAN_2026-02-16.md", "to": "PLATFORM_REFERENCE_DESIGN.md", "relationship": "Clean-room approach per platform spec" },
+    { "from": "2026-02-16-MAPPING-01-RESEARCH-ORCHESTRATOR.md", "to": "BACKLOG.md", "relationship": "Specifies BL-001 technical implementation" },
+    { "from": "ADR-011-LANGGRAPH-MCP-BRIDGE.md", "to": "008-mcp-tool-architecture.md", "relationship": "Implements MCP tool pipeline" },
+    { "from": "ADR-011-POSTGRESQL-RLS-MULTI-TENANCY.md", "to": "010-bootstrap-infrastructure.md", "relationship": "Extends bootstrap infra with RLS" },
+    { "from": "CLEANROOM-ANALYSIS.md", "to": "SYSTEM-ARCHITECTURE.md", "relationship": "Source material for GenUI design" },
+    { "from": "genui-cleanroom (all 6 files)", "to": "superagent-clean-room-analysis.txt", "relationship": "GenUI design based on Superagent reverse engineering" },
+    { "from": "SUPERAGENT-TO-NYQST-MAPPING.md", "to": "PLATFORM-FRAMING.md", "relationship": "Validates all Layer 1 primitives" },
+    { "from": "02_streaming_protocol.md", "to": "TECHNICAL-DEEP-DIVE.md", "relationship": "Cross-validates streaming event schemas" },
+    { "from": "propsygnal_document_intelligence_spec.md", "to": "04_PRODUCTS.md", "relationship": "PropSygnal domain spec details" },
+    { "from": "INTELLI_BUILD_STATUS_2026-02-16.md", "to": "SUPERAGENT_PARITY_CLEAN_ROOM_PLAN_2026-02-16.md", "relationship": "Build status superseded by parity plan" }
+  ],
+
+  "timeline": [
+    { "date": "2026-01-25", "key_event": "PRD suite created (11 documents, v1.0)", "files_created": 11, "notes": "00_INDEX through 10_APPENDIX + PLATFORM_REFERENCE_DESIGN + UI_ARCHITECTURE" },
+    { "date": "2026-01-26", "key_event": "10 ADRs locked (001-010)", "files_created": 10, "notes": "All ADRs dated 2026-01-26: data-model, code-gen, virtual-team, index-service, agent-runtime, session, doc-processing, mcp-tools, human-in-loop, bootstrap-infra" },
+    { "date": "2026-02-01", "key_event": "Migration 0004 applied (conversation layer)", "files_created": 0, "notes": "Dify analysis predates this — explains its errors about missing conversation persistence" },
+    { "date": "2026-02-04", "key_event": "ADR-010 locked (bootstrap infrastructure with PostgreSQL+pgvector+Neo4j)", "files_created": 0, "notes": "Revised from Oracle-only to purpose-fit services" },
+    { "date": "2026-02-16", "key_event": "Platform build status documented; 5-phase parity plan created", "files_created": 2, "notes": "INTELLI_BUILD_STATUS_2026-02-16.md, SUPERAGENT_PARITY_CLEAN_ROOM_PLAN_2026-02-16.md" },
+    { "date": "2026-02-16", "key_event": "4 technical mapping documents created (MAPPING-01 through 04)", "files_created": 4, "notes": "Research orchestrator, deliverables, UI modules, billing/testing mappings" },
+    { "date": "2026-02-19", "key_event": "7 open questions resolved; DEC-042–052 added; DECISION-REGISTER v2; LIBRARY-REFERENCE v2; IMPLEMENTATION-PLAN v3", "files_created": 3, "notes": "Platform framing session — all OQs closed, PLATFORM-FRAMING.md created as strategic anchor" },
+    { "date": "2026-02-20", "key_event": "8 inventory manifests created; KNOWLEDGE-MAP and SUPERAGENT-TO-NYQST-MAPPING produced; MASTER-INDEX created", "files_created": 10, "notes": "Design reconstruction pass with full catalog generation" }
+  ]
+}

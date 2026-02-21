@@ -1,0 +1,606 @@
+[
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/SYSTEM-ARCHITECTURE.md",
+    "basename": "SYSTEM-ARCHITECTURE.md",
+    "primary_topic": "Platform Stack",
+    "document_type": "system-analysis",
+    "schemas_found": [
+      "Entity (12 types: WEB_PAGE, EXTERNAL_API_DATA, GENERATED_CONTENT, USER_QUERY_PART, GENERATED_REPORT, GENERATED_PRESENTATION, INTRA_ENTITY_SEARCH_RESULT, EXTRACTED_ENTITY, SEARCH_PLAN, KNOWLEDGE_BASE, WEBSITE, GENERATED_DOCUMENT)",
+      "Message (creator_type, is_answer, deliverable_type, error_type fields)",
+      "ChartObject (Plotly config with 10 chart types: bar, scatter, line, bubble, candlestick, histogram, box, stacked_bar, clustered_column, donut)",
+      "GMLComponent registry (18 tags with TypeScript component mapping)",
+      "PlanSet/Plan/PlanTask hierarchy (with linked-list ordering via previous_id)",
+      "22 StreamEvent types (Zod discriminated union)"
+    ],
+    "code_patterns_found": [
+      "Entity-first architecture with stable IDs for citations and artifacts",
+      "Multi-agent orchestration via plan_set_id/plan_id/node_id hierarchy",
+      "NDJSON streaming protocol over fetch() with envelope format {data, timestamp}",
+      "Durable execution via ReplayStream with event-sourced state",
+      "GML healer/validator system with width constraint validation",
+      "Responsive layout via @3xl container queries and Tailwind",
+      "Citation buffering state machine during token streaming"
+    ],
+    "superagent_features_mapped": [
+      "Multi-agent fan-out execution (13+ parallel workstreams per screenshot)",
+      "Plan decomposition with task lifecycle states (LOADING→PROCESSING→CREATING_NOTES→SUCCESS)",
+      "Tool execution with fallback strategies (FactSet→SEC filings example)",
+      "Meta-reasoning and adaptive re-planning",
+      "Durable run replay capability",
+      "GML report rendering with healer system",
+      "Entity-backed citations with deduplication",
+      "v0.app integration for code/website generation"
+    ],
+    "key_metrics": [
+      "16 confirmed routes",
+      "22 discriminated union stream events",
+      "18 GML layout/content/viewer tags",
+      "10 supported chart types",
+      "9+ external data providers",
+      "6-color HSLA teal palette",
+      "277 CSS custom properties in theme",
+      "30-second watchdog timeout on stream connection",
+      "5 exponential backoff retries with 1s/2s/4s/8s/16s delays",
+      "7-stage website generation pipeline",
+      "4-stage report generation pipeline",
+      "300+ seconds end-to-end for complex research run",
+      "~550K total output ceiling per report"
+    ],
+    "cross_references": [
+      "AGENTIC-SYSTEM.md (agent orchestration details)",
+      "TECHNICAL-DEEP-DIVE.md (GML healer algorithm, chart schemas)",
+      "QUALITY-METHODS.md (output quality pipeline)",
+      "CHAT-EXPORT-ANALYSIS.md (real message schema from SSR export)",
+      "GENERATION_PIPELINE.md (website artifact structure)",
+      "JS_DESIGN_TOKENS.md (design system values)"
+    ],
+    "completeness": 95,
+    "key_signals": [
+      "Next.js frontend with custom GML rendering (not standard HTML)",
+      "NDJSON streaming protocol over HTTP (not WebSockets)",
+      "Entity-first storage model enables deduplication and integrity verification",
+      "Ory Kratos OIDC authentication with 60-day session lifetime",
+      "v0.app code generation integration for deliverables",
+      "Replay capability via event-sourced architecture proves durable execution",
+      "GML healer system allows forgiving LLM markup generation",
+      "Multi-path rendering: chat UI (Plotly+GML) vs export UI (Recharts/D3)"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/AGENTIC-SYSTEM.md",
+    "basename": "AGENTIC-SYSTEM.md",
+    "primary_topic": "Orchestration",
+    "document_type": "system-analysis",
+    "schemas_found": [
+      "PlanSet with linked-list Plan structure (previous_plan_id ordering)",
+      "Plan with Record<id, PlanTask> structure",
+      "PlanTask with status enum (LOADING, PROCESSING, CREATING_NOTES, SUCCESS, ERROR)",
+      "NodeToolEvent with plan_set_id/plan_id/node_id/tool_id hierarchy",
+      "ResearchState with messages, context_pointer_id, manifest_sha256, sources, error, run_id fields",
+      "StreamEvent taxonomy (22 event types with exact field mapping)"
+    ],
+    "code_patterns_found": [
+      "Planner→Fan-out→Synthesizer→Generator multi-stage pipeline",
+      "LangGraph Send() pattern for parallel task dispatch",
+      "Tool-level retry with fallback cascade (primary→fallback tools)",
+      "Meta-reasoning node evaluates research quality and triggers gap-filling",
+      "Task state machine with transitions through tool execution and synthesis phases",
+      "Event-sourced state with replay capability for forensic analysis",
+      "Adaptive planning: observe→reason→adapt→re-dispatch pattern"
+    ],
+    "superagent_features_mapped": [
+      "14+ parallel workstreams per run (screenshot evidence)",
+      "Hierarchical execution IDs for plan/node/tool tracking",
+      "Tool batching via node_tools_execution_start event",
+      "FactSet failure→SEC filings fallback (observed recovery pattern)",
+      "Meta-quality step: 'Considering Results and Refining Research Strategy'",
+      "Browser-use human-in-loop (pause/input/resume pattern)",
+      "Async entity generation post-main-message completion"
+    ],
+    "key_metrics": [
+      "14 parallel research workstreams observed in single session",
+      "4 report generation agents (Standards, Feature A/B/C/D, Integration)",
+      "~100 seconds per agent in parallel code generation phase",
+      "300 seconds total for complex report generation",
+      "13 parallel tasks in 'Devising Initial Research Strategy' phase",
+      "22 event types in streaming protocol",
+      "5 LLM calls minimum per research run (planner, tool synthesis, report, etc)"
+    ],
+    "cross_references": [
+      "SYSTEM-ARCHITECTURE.md (event taxonomy details)",
+      "QUALITY-METHODS.md (meta-reasoning quality checks)",
+      "TECHNICAL-DEEP-DIVE.md (PlanSet schema extraction)",
+      "02_streaming_protocol.md (ReplayStream implementation)",
+      "03_agent_orchestration_inference.md (detailed agent inference)"
+    ],
+    "completeness": 92,
+    "key_signals": [
+      "Parallel fan-out is critical: single linear executor insufficient for parity",
+      "Event-sourced state enables replay, pause/resume, time-travel debugging",
+      "Meta-reasoning drives adaptive re-planning, not rigid retry loops",
+      "Tool failure triggers gap-filling research with alternative sources",
+      "Multi-agent code generation uses orchestrator pattern (Standards→Parallel→Integration)",
+      "Human-in-the-loop via browser_use_await_user_input event type",
+      "Execution hierarchy (plan_set→plan→node→tool) maps to database IDs",
+      "Fallback strategies must be transparent to build user trust"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/QUALITY-METHODS.md",
+    "basename": "QUALITY-METHODS.md",
+    "primary_topic": "Quality Systems",
+    "document_type": "system-analysis",
+    "schemas_found": [
+      "ChartSchema with DataTraceSchema, LayoutSchema, MarginSchema, LegendSchema, AxisSchema",
+      "StreamEventSchema (22 event types with Zod validation)",
+      "GMLComponentRegistry with 18 tag-to-component mappings",
+      "WIDGET_WIDTHS constraint map (tags→valid parent containers)",
+      "HealingBehavior enum (remove|hoist)",
+      "7-stage website generation pipeline schema",
+      "4-stage report generation pipeline schema"
+    ],
+    "code_patterns_found": [
+      "Structured output enforcement via Zod schemas (chart types, stream events)",
+      "GML tag system constrains report markup to 18 allowable tags",
+      "Healer/validator auto-corrects malformed markup post-generation",
+      "Data brief pattern: single source of truth shared to all downstream generators",
+      "Multi-stage pipeline with iterative review passes",
+      "Dual-status UX: primary action + substep + continuous progress bar",
+      "Component scaffold pattern with 7-section structure (imports→data→components→main)",
+      "Frozen shadcn/ui bundle (181KB, byte-identical across reports)"
+    ],
+    "superagent_features_mapped": [
+      "Structured output via GML tags (18 allowable components)",
+      "Healer system corrects LLM output at render time (hoist/remove mutations)",
+      "Data brief consolidation ensures cross-file consistency (MSFT $281.7B measured identical in 5 files)",
+      "Multi-stage generation: outline→components→review→polish",
+      "Progress substeps streamed to UI (Writing outline/Building components/Reviewing/Polishing)",
+      "FactSet failure→SEC filings fallback visible in activity panel",
+      "Iterative quality checks (Reviewing content appears multiple times)",
+      "Report widget output uniformity (8/10 widgets 506-685 LOC ±60)"
+    ],
+    "key_metrics": [
+      "18 GML tags with exact width constraints",
+      "10 chart types supported in Plotly.js",
+      "7-stage website generation pipeline",
+      "4-stage report generation pipeline",
+      "Output uniformity: 8/10 widgets cluster 506-685 LOC",
+      "181KB frozen shadcn/ui template bundle",
+      "~550K total output ceiling per report",
+      "~300K generated TypeScript per complex report",
+      "5-year financial time series consistency across sections",
+      "29-minute wall-clock time for complex WEBSITE run",
+      "226ms response time for clarification follow-up (fast path reusing artifacts)"
+    ],
+    "cross_references": [
+      "SYSTEM-ARCHITECTURE.md (GML rendering system details)",
+      "GML_REPORT_RENDERING_PATTERNS.md (healer rules and validation)",
+      "GENERATION_PIPELINE.md (7-stage website pipeline breakdown)",
+      "JS_DESIGN_TOKENS.md (design system and component library)",
+      "SCREENSHOT_ANALYSIS.md (progress substeps and UI states)"
+    ],
+    "completeness": 93,
+    "key_signals": [
+      "Quality is built into constraints, not left to review loops",
+      "Healer is non-optional: LLM generates imperfect markup, healer fixes at render time",
+      "Output token budgets matter: ~600 LOC per component, ~550K total",
+      "Consistency > perfection: shared data brief ensures accuracy without manual review",
+      "Progress communication is a feature: users tolerate long waits if they see real progress",
+      "Fallback strategies must be transparent: users see gap-filling in activity panel",
+      "Review passes appear multiple times: iterative quality checks, not one-shot generation",
+      "Component scaffold pattern is byte-identical: system-prompt enforcement, not free-form"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/TECHNICAL-DEEP-DIVE.md",
+    "basename": "TECHNICAL-DEEP-DIVE.md",
+    "primary_topic": "Schemas & Protocols",
+    "document_type": "research",
+    "schemas_found": [
+      "WIDGET_WIDTHS map with 18 tags and width constraint validation rules",
+      "HEALING_BEHAVIOR enum (remove|hoist|default)",
+      "WIDTH_TO_CONTAINER mapping (full_row→gml-row, primary→gml-primarycolumn, etc)",
+      "ChartType enum (10 types: bar, scatter, line, bubble, candlestick, histogram, box, stacked_bar, clustered_column, donut)",
+      "DataPoint schema (x, y, open, high, low, close, label, marker_color, marker_size, error_x_value, error_y_value)",
+      "DataTrace schema (name, type, data array, x_type, error_x, error_y, marker_colorbar_title)",
+      "LayoutConfig schema (margins, legend, axes, title, barmode, hovermode, paper_bgcolor, plot_bgcolor)",
+      "ChartObject schema (data array, layout, title, citation)",
+      "22 StreamEvent types with exact Zod field lists",
+      "PlanSet/Plan/PlanTask linked-list structure with previous_id fields",
+      "Message schema (id, creator_type, created_at, is_answer, entities, error_type, needs_clarification_message)",
+      "Entity discriminated union (12 types with type-specific fields)",
+      "CitationBuffer state machine (isInCitation, buffer, readyPointer)",
+      "TimeoutAbortController with watchdog timer and exponential backoff"
+    ],
+    "code_patterns_found": [
+      "GML healer algorithm: unified/hast visitor, mutations collected then applied in reverse",
+      "Citation buffering: character-by-character parsing with [ enters, ] or \\n exits",
+      "Stream connection: exponential backoff (1s/2s/4s/8s/16s), 30s watchdog, 20s heartbeat",
+      "Chart rendering: trend detection (first vs last), gradient fills, color cycling by index",
+      "x-axis type auto-detection: number→ISO date (Date.parse)→category fallback",
+      "Error bar post-processing for both constant/percent and data types",
+      "Replay timing: 5ms between events, heartbeats skipped",
+      "Node action key construction via simple concatenation: plan_set_id+plan_id+node_id"
+    ],
+    "superagent_features_mapped": [
+      "GML healer with exact width constraint validation and hoisting logic",
+      "Chart rendering for 10 types with Plotly.js configuration",
+      "Citation buffering during token streaming (prevents flickering)",
+      "Stream protocol: 22 event types in NDJSON envelope {data, timestamp}",
+      "30-second idle watchdog and 5-retry exponential backoff",
+      "PlanSet hierarchical structure for orchestration tracking",
+      "ReplayStream for forensic event log playback",
+      "Event-to-React-state mapping table for stream→UI updates"
+    ],
+    "key_metrics": [
+      "22 event types in discriminated union",
+      "18 GML tags with width constraints",
+      "10 chart types with full rendering logic",
+      "3 error bar types (constant, percent, data)",
+      "4 retrieval methods for charts (semantic, full-text, hybrid, keyword)",
+      "30-second idle watchdog timeout",
+      "5 exponential backoff retries (1s→2s→4s→8s→16s)",
+      "20-second heartbeat interval",
+      "5ms event replay timing",
+      "6-color teal palette (donut charts)",
+      "2-color teal palette (bar charts)",
+      "Gradient fill for line charts (positive green, negative red)"
+    ],
+    "cross_references": [
+      "SYSTEM-ARCHITECTURE.md (overview of full architecture)",
+      "GML_REPORT_RENDERING_PATTERNS.md (healer rules source)",
+      "JS_DESIGN_TOKENS.md (color palette and theme values)",
+      "0053_1889-c64cad4788e7b7b9.js (minified bundle with healer logic)",
+      "0055_774-e1971e2500ea1c79.js (streaming Zod schemas)",
+      "0027__app-7122b4604941924b.js (data models)"
+    ],
+    "completeness": 98,
+    "key_signals": [
+      "GML healer is exact verbatim extraction from minified bundle code",
+      "Chart rendering is fully deterministic: no interactive pickers, palette system-enforced",
+      "Citation buffering is character-by-character, not line-by-line: spans multiple delta events",
+      "Exponential backoff with 30s watchdog is aggressive recovery: prioritizes responsiveness",
+      "NDJSON envelope format is transport-agnostic: works over HTTP, not restricted to WebSockets",
+      "Replay is forensic-grade: can reproduce entire execution from event log",
+      "Pydantic-equivalent schemas provided for Python implementation",
+      "All values extracted directly from production bundles (HIGH confidence)"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/CHAT-EXPORT-ANALYSIS.md",
+    "basename": "CHAT-EXPORT-ANALYSIS.md",
+    "primary_topic": "Message Schema",
+    "document_type": "system-analysis",
+    "schemas_found": [
+      "ChatMessage (id, chat_id, creator_type, creator_user_id, message_type, deliverable_type, is_answer, is_running, needs_clarification_message, retry_attempts, content, hydrated_content, user_content_artifact_id, ai_output_id, first_report_identifier, entities, event_stream_artifact_id, error_type, created_at)",
+      "ChatDefaultData (messages, plan_sets, user_feedback, title, stream_id, has_async_entities_in_progress)",
+      "Feature flag inventory (websiteDeliverableEnabled, documentDeliverableEnabled, slideDeliverableEnabled, codeDeliverableEnabled, enhancedReportEnabled, multiSectionReportStreamingEnabled, superSlidesGenerationEnabled, fileUploadEnabled, personalizedSuggestionsV0Enabled)",
+      "Ory Kratos session schema (authenticator_assurance_level: aal1, authentication_methods: oidc, schema_url)",
+      "Pricing model schema ($20/month Pro, 200 runs/month, $0.50/run overage)"
+    ],
+    "code_patterns_found": [
+      "Deliverable_type stored on USER message, not chat-level (supports per-message selection)",
+      "Website + Report co-generation: single WEBSITE request produces both gml-ViewWebsite AND gml-ViewReport",
+      "First_report_identifier points to primary deliverable UUID",
+      "<answer> XML wrapper boundary for user-visible prose extraction",
+      "Async entity creation decoupled via has_async_entities_in_progress flag",
+      "Event stream artifact ID key to full run log (tool calls, planning, etc)",
+      "Self-correction flow: follow-up clarification with 226ms response time (fast path)"
+    ],
+    "superagent_features_mapped": [
+      "Deliverable type selection per user message (WEBSITE, REPORT, DOCUMENT, SLIDES, CODE, etc)",
+      "Co-generation of website + report from single request",
+      "Message retry tracking via retry_attempts field",
+      "Clarification workflow via needs_clarification_message",
+      "Async entity generation post-main-message",
+      "Public URL sharing patterns for website/report/share paths",
+      "Session lifetime: 60 days",
+      "Ory Kratos OIDC authentication with Google OAuth"
+    ],
+    "key_metrics": [
+      "Pricing: $20/month Pro, 200 runs/month, $0.50/run overage",
+      "Session lifetime: 60 days (2026-02-16 → 2026-04-17 example)",
+      "Wall-clock time for complex WEBSITE run: 29 minutes",
+      "Clarification follow-up response time: 226ms",
+      "Feature flags: 7 enabled (v1 scope), 3 deferred",
+      "Public URL patterns: /website/[id], /report/preview/[id], /share/[id], /thumbnail/[id]",
+      "1 run = 1 AI generation (billing unit)",
+      "Reads are free (only generations billable)"
+    ],
+    "cross_references": [
+      "AGENTIC-SYSTEM.md (run event stream details)",
+      "GENERATION_PIPELINE.md (website artifact structure)",
+      "GML_REPORT_RENDERING_PATTERNS.md (gml-View* component details)"
+    ],
+    "completeness": 85,
+    "key_signals": [
+      "Deliverable_type is per-message, not per-chat (different messages can request different types)",
+      "Website + Report co-generation is expected, not exceptional",
+      "Entity/citation creation is async post-processing, not inline",
+      "Reads are free, only generations billable (important for revenue model)",
+      "Public hosting of generated websites implies robust S3/CDN infrastructure",
+      "Response format is strict: <answer>...</answer> wrapper is non-optional",
+      "<gml-*> custom web components for deliverable references",
+      "Session/workspace model is multi-tenant (workspace_id in headers)"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/PLATFORM-GROUND-TRUTH.md",
+    "basename": "PLATFORM-GROUND-TRUTH.md",
+    "primary_topic": "NYQST Platform",
+    "document_type": "system-analysis",
+    "schemas_found": [
+      "ResearchState with messages, context_pointer_id, manifest_sha256, sources, error, run_id",
+      "Artifact (SHA256 PK, media_type, size_bytes, storage_uri, created_by, reference_count)",
+      "Manifest (SHA256 PK, tree JSONB, parent_sha256, entry_count, total_size_bytes, message)",
+      "Pointer (UUID, namespace, name, manifest_sha256 FK, pointer_type, meta JSONB)",
+      "PointerHistory (audit trail for pointer moves)",
+      "Run (UUID, run_type, status, started_at, completed_at, input_manifest, output_manifest, config JSONB, result JSONB, token_usage JSONB, cost_cents)",
+      "RunEvent (append-only ledger with 25 event types)",
+      "RunEventType enum (RUN_STARTED through WARNING, 25 total)",
+      "Tenant, User, APIKey (auth models)",
+      "Conversation, Message, MessageFeedback, Tag (session management, added in migration 0004)",
+      "RagChunk (vector search chunks)"
+    ],
+    "code_patterns_found": [
+      "Content-addressed artifacts with SHA-256 integrity verification",
+      "Immutable manifest DAGs with parent linking (Git-like)",
+      "Mutable pointer heads (bundle semantics)",
+      "Append-only run ledger for audit trail",
+      "Event-sourced execution state (replay capability)",
+      "AsyncPostgresSaver checkpointer for LangGraph",
+      "PG LISTEN/NOTIFY for SSE streaming",
+      "Dual-mode auth (X-API-Key + Bearer JWT)",
+      "LangGraph StateGraph with ToolNode and conditional edges"
+    ],
+    "superagent_features_mapped": [
+      "Full auth system (JWT + API key, rate limiting, scopes)",
+      "Artifact upload/download (S3-compatible, MinIO in dev)",
+      "Manifest creation/history/diff",
+      "Pointer advance/reset/history",
+      "Run lifecycle CRUD + events",
+      "SSE streaming via PG LISTEN/NOTIFY",
+      "Conversation persistence (migration 0004)",
+      "Message feedback (migration 0004)",
+      "ResearchAssistantGraph (3-node: agent/tools/capture_sources)",
+      "Streaming chat endpoint (POST /api/v1/agent/chat)",
+      "MCP server with 10 substrate tools"
+    ],
+    "key_metrics": [
+      "16 tables total across 4 migrations",
+      "11 API routers (agent, artifacts, auth, conversations, health, manifests, pointers, rag, runs, sessions, streams, tags)",
+      "25 RunEventType entries",
+      "4 migrations: 0001 (initial), 0002 (auth), 0003 (rag), 0004 (conversations)",
+      "3-node LangGraph (no fan-out Send() pattern yet)",
+      "10 MCP substrate tools",
+      "Full @assistant-ui/react integration (v0.12+)",
+      "Vercel AI SDK v3 + FastAPI backend",
+      "PostgreSQL + asyncpg for persistence and streaming"
+    ],
+    "cross_references": [
+      "AGENTIC-SYSTEM.md (orchestration patterns)",
+      "SYSTEM-ARCHITECTURE.md (Superagent comparison)",
+      "QUALITY-METHODS.md (quality systems pattern)"
+    ],
+    "completeness": 100,
+    "key_signals": [
+      "ResearchAssistantGraph exists and is fully implemented (not empty as previously assumed)",
+      "Four migrations exist (not three): migration 0004 adds conversation layer",
+      "Content-addressed substrate is architecturally superior to blob storage",
+      "Event-sourced run ledger enables replay, pause/resume, debugging",
+      "No Send() fan-out pattern is the #1 gap for Superagent parity",
+      "OpenAI-only (no Anthropic SDK): langchain-openai with custom base_url support",
+      "Billing/Stripe is greenfield (cost_cents/token_usage are placeholders)",
+      "No Dockerfile: development uses uv + docker-compose for infrastructure"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/CODEX-ANALYSIS-SUMMARY.md",
+    "basename": "CODEX-ANALYSIS-SUMMARY.md",
+    "primary_topic": "Parity Plan",
+    "document_type": "research",
+    "schemas_found": [
+      "Phase-based delivery plan (6 phases, 2-3/2-4/2-4/4-6/6-10/6-12 weeks)",
+      "PlanSet/Plan/PlanTask data models",
+      "Infrastructure swap matrix (auth/db/storage/search/models/etc)",
+      "Decision template with rationale/risk columns"
+    ],
+    "code_patterns_found": [
+      "Phased implementation maintaining kernel (artifacts/manifests/pointers/run ledger)",
+      "LangGraph for orchestration of planner/executor/synthesizer graphs",
+      "NYQST Markup v1 as clean-room GML equivalent",
+      "Dual-stream (AI SDK SSE + PG LISTEN/NOTIFY) vs unified NDJSON"
+    ],
+    "superagent_features_mapped": [
+      "6-phase roadmap to Superagent parity",
+      "Phase 1: Orchestration event contract + plan visualization",
+      "Phase 2: Entity & citation substrate",
+      "Phase 3: Web research toolchain",
+      "Phase 4: Deliverables v1 (Report + Document)",
+      "Phase 5: Deliverables v2 (Slides + Website)",
+      "Phase 6: Browser-use / HITL"
+    ],
+    "key_metrics": [
+      "6 phases total",
+      "22-39 weeks total (2-3 + 2-4 + 2-4 + 4-6 + 6-10 + 6-12)",
+      "10 critical unresolved infrastructure decisions",
+      "20+ verification checklist items"
+    ],
+    "cross_references": [
+      "PLATFORM-GROUND-TRUTH.md (actual platform capabilities)",
+      "DIFY-ANALYSIS-SUMMARY.md (alternative approach analysis)",
+      "OUR-ANALYSIS-SUMMARY.md (Superagent ground truth)"
+    ],
+    "completeness": 72,
+    "key_signals": [
+      "6-phase timeline is 2x longer than actual requirements",
+      "Browser-use/HITL deferred to v2 inflates estimate by 6-12 weeks",
+      "Infrastructure swap matrix is valuable reference (auth/db/storage/search decisions)",
+      "Intentional divergences list prevents scope creep",
+      "NYQST Markup v1 naming is premature (JSON AST already locked in DEC-015)",
+      "Run replay UX is identified as feature opportunity",
+      "Phase durations assume more greenfield work than exists",
+      "Includes verification checklist for claims"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/OUR-ANALYSIS-SUMMARY.md",
+    "basename": "OUR-ANALYSIS-SUMMARY.md",
+    "primary_topic": "Consolidated Analysis",
+    "document_type": "digest",
+    "schemas_found": [
+      "All 22 stream event types",
+      "All 18 GML tags with width constraints",
+      "10 chart type enum",
+      "PlanSet/Plan/PlanTask linked-list structure",
+      "Entity discriminated union (12 types)",
+      "CitationBuffer state machine",
+      "Run ledger with 25 event types",
+      "Conversation/Message schema from migration 0004"
+    ],
+    "code_patterns_found": [
+      "Structured output > prompting (Zod schemas enforced)",
+      "Event-sourced execution (append-only logs, replay capability)",
+      "Transparency = trust (activity panel shows work)",
+      "Data brief consolidation (single source for all generators)",
+      "Multi-agent as composition (Standards→Parallel→Integration)",
+      "Streaming-first UX (real-time progress feedback)"
+    ],
+    "superagent_features_mapped": [
+      "Complete feature set from 6 analysis documents synthesized",
+      "14 ground-truth facts ranked by confidence",
+      "10 lowest-confidence items needing verification",
+      "Cross-cutting themes (structured output, event sourcing, transparency, data consistency, composition, streaming UX)"
+    ],
+    "key_metrics": [
+      "6 analysis documents consolidated",
+      "22 stream events documented",
+      "18 GML tags cataloged",
+      "10 chart types enumerated",
+      "25 run event types listed",
+      "12 entity types identified",
+      "14 high-confidence facts extracted",
+      "10 low-confidence items flagged"
+    ],
+    "cross_references": [
+      "SYSTEM-ARCHITECTURE.md (comprehensive reverse-engineered architecture)",
+      "AGENTIC-SYSTEM.md (agent orchestration and execution patterns)",
+      "QUALITY-METHODS.md (quality constraints and pipelines)",
+      "TECHNICAL-DEEP-DIVE.md (schema extraction and algorithm details)",
+      "CHAT-EXPORT-ANALYSIS.md (real production message schema)",
+      "PLATFORM-GROUND-TRUTH.md (actual NYQST platform capabilities)"
+    ],
+    "completeness": 96,
+    "key_signals": [
+      "Structured output is non-negotiable: LLM output must conform to schemas",
+      "Event-sourcing is foundational: enables replay, pause/resume, debugging",
+      "Transparency builds trust: users tolerate long waits if they see progress",
+      "Data brief pattern ensures consistency: replaces manual review",
+      "Multi-agent as composition (not orchestration): Standards→Parallel→Integration for code generation",
+      "Streaming-first UX: progress bars, substeps, real-time feedback",
+      "Authority ranking: Ground Truth > Our Analysis > Dify > Codex",
+      "All 6 documents converge on same core architecture"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/DIFY-ANALYSIS-SUMMARY.md",
+    "basename": "DIFY-ANALYSIS-SUMMARY.md",
+    "primary_topic": "Competitive Analysis",
+    "document_type": "comparison",
+    "schemas_found": [
+      "Dify's conversation model: messages table with token counts, cost tracking, latency, error tracking, file attachments, agent thoughts",
+      "Dify's RAG configuration: paragraph/QA/parent-child index types, 3 chunking modes, 4 retrieval methods, reranking, metadata filtering",
+      "Dify's 7 app modes with dedicated runners and configurations",
+      "NYQST vs Dify event specification: recommended 18-event catalog"
+    ],
+    "code_patterns_found": [
+      "Conversation persistence as table stakes",
+      "RAG quality improvements (reranking, hybrid search, chunking, embedding cache)",
+      "Document processing status machine (waiting→parsing→cleaning→splitting→indexing→completed)",
+      "Agent thought visualization via event types",
+      "File attachment support in messages",
+      "Multi-layer state management (TanStack Query + Zustand + Context)"
+    ],
+    "superagent_features_mapped": [
+      "Conversation persistence (flagged as critical gap, but WRONG—migration 0004 exists)",
+      "RAG quality improvements (plausible but unverified against actual code)",
+      "Document processing visibility (legitimate production need)",
+      "Agent thought visualization (medium priority for transparency)",
+      "SSE event specification (18-event catalog with LangGraph mapping)"
+    ],
+    "key_metrics": [
+      "Dify has ~80 tables, NYQST has 16 (but this misses migration 0004)",
+      "Dify emits 25+ event types, recommended NYQST 18",
+      "RAG improvements: 10-30% precision gain from reranking alone",
+      "4-6 weeks estimated for RAG improvements",
+      "2-3 weeks for conversation persistence (ALREADY DONE)",
+      "3-4 weeks for LangGraph to TypeScript migration (strawman analysis)"
+    ],
+    "cross_references": [
+      "PLATFORM-GROUND-TRUTH.md (corrections to false claims)",
+      "ANALYSIS-COMPARISON-CHECKPOINT.md (error attribution)"
+    ],
+    "completeness": 68,
+    "key_signals": [
+      "Critical error: claims conversation persistence is missing (migration 0004 exists since 2026-02-01)",
+      "Critical error: characterizes graph as 2-node retrieve→generate pipeline (actually 3-node ReAct with ToolNode)",
+      "Valuable contribution: detailed RAG quality roadmap (reranking, hybrid search, chunking, embedding cache)",
+      "Valuable contribution: SSE event specification with LangGraph mapping table",
+      "Valuable contribution: document processing status machine pattern",
+      "Analysis is based on outdated or incomplete codebase snapshot (pre-migration 0004)",
+      "TypeScript migration analysis is a strawman (nobody proposed it)",
+      "Correctly identifies NYQST as 'functioning platform, not prototype' despite earlier false claims"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/analysis/ANALYSIS-COMPARISON-CHECKPOINT.md",
+    "basename": "ANALYSIS-COMPARISON-CHECKPOINT.md",
+    "primary_topic": "Cross-validation",
+    "document_type": "audit",
+    "schemas_found": [
+      "Contradiction tracking table across 4 sources",
+      "Error summary by source with critical/minor categorization",
+      "Authority ranking hierarchy (Ground Truth > Our Analysis > Dify > Codex)",
+      "Strategic decision points map (OQ-001 through OQ-005)"
+    ],
+    "code_patterns_found": [
+      "Source triangulation to identify ground truth",
+      "Error attribution with confidence assessment",
+      "Decision register validation against analysis sources",
+      "Timeline comparison across three phased plans"
+    ],
+    "superagent_features_mapped": [
+      "Conversation persistence (CONFIRMED: migration 0004 exists, Dify analysis WRONG)",
+      "ResearchAssistantGraph complexity (CONFIRMED: 3-node ReAct, Dify analysis WRONG)",
+      "Database schema maturity (CONFIRMED: 16 tables, Dify count WRONG)",
+      "RAG capability (PARTIALLY CORRECT: works, but quality gaps plausible)",
+      "Checkpointing status (CONFIRMED: infrastructure exists, but unused in production UX)"
+    ],
+    "key_metrics": [
+      "7 contradictions identified and resolved",
+      "6 critical errors attributed to Dify analysis",
+      "Codex timeline 2x too long (24 weeks vs 13 weeks actual)",
+      "13-week implementation timeline is most realistic",
+      "Conversation persistence work already complete (saves 2-3 weeks vs Dify plan)",
+      "Fan-out orchestration is #1 technical gap (all sources agree)",
+      "Content-addressed substrate is genuine differentiator (all sources agree)"
+    ],
+    "cross_references": [
+      "CODEX-ANALYSIS-SUMMARY.md (plan being cross-checked)",
+      "DIFY-ANALYSIS-SUMMARY.md (errors identified)",
+      "OUR-ANALYSIS-SUMMARY.md (ground truth synthesis)",
+      "PLATFORM-GROUND-TRUTH.md (authoritative baseline)"
+    ],
+    "completeness": 100,
+    "key_signals": [
+      "Authority ranking: Ground Truth > Our Analysis > Dify > Codex (when sources conflict)",
+      "Dify analysis contains 6 critical errors (conversation persistence, graph complexity, table count)",
+      "Dify analysis is based on outdated codebase snapshot (pre-migration 0004)",
+      "Codex timeline 2x inflated (includes deferred browser-use/HITL, assumes greenfield work)",
+      "Our plan (13 weeks, 4 phases) is most realistic and grounded in actual codebase",
+      "Remove conversation persistence from Phase 1 scope (already done)",
+      "RAG quality improvements should be Phase 2 (4-6 weeks reduced to 2-3 weeks)",
+      "GML healer and fan-out orchestration should proceed in parallel (Phase 1)"
+    ]
+  }
+]

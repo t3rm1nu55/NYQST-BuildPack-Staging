@@ -1,0 +1,214 @@
+# Report C Analysis: Strategic Market Intelligence Report 2026
+
+Extracted from v0-generated Next.js project (`aa71f148-4b46-470a-bbc8-0549b99bc178.zip`).
+
+---
+
+## TL;DR
+
+This is the **third SuperAgent report export** analyzed. It introduces a **four-tier component architecture** (ui/report/sections/widgets), a new **"Soft Brutalism"** design system with offset shadows and geometric patterns, and **10 interactive financial analysis widgets** built entirely with Recharts + react-simple-maps (no D3). The report covers AAPL, MSFT, and GOOG competitive positioning in an AI-transformed market.
+
+---
+
+## Technology Stack
+
+| Layer | Technology | Version | Notes |
+|-------|-----------|---------|-------|
+| Framework | Next.js | 16.0.10 | Same as Reports A & B |
+| React | React | 19.2.0 | Same as Reports A & B |
+| CSS | Tailwind CSS v4 | ^4.1.9 | Same as Reports A & B |
+| UI Library | shadcn/ui (new-york) | 57 components | Identical bundle to Report B |
+| Charts | Recharts | 2.15.4 | Primary viz library |
+| Maps | react-simple-maps | 3.0.0 | NEW — for geographic heat map |
+| Icons | Lucide React | ^0.454.0 | Same as Reports A & B |
+| Generator | v0.app | — | `generator: 'v0.app'` in metadata |
+
+**Key difference from Report B**: No D3 dependency. Adds react-simple-maps and prop-types.
+
+---
+
+## Architecture: Four-Tier Component System
+
+```
+app/page.tsx (30 LOC — pure import coordinator)
+  ├── components/report/     (11 layout primitives)
+  ├── components/sections/   (8 content compositions) ← NEW LAYER
+  ├── components/widgets/    (10 interactive visualizations) ← NEW DIRECTORY
+  └── components/ui/         (57 shadcn bundle, 85% unused)
+```
+
+### vs Previous Reports
+
+| Layer | Report A | Report B | Report C |
+|-------|----------|----------|----------|
+| Page | 997 LOC monolithic | 567 LOC coordinator | **30 LOC pure imports** |
+| Primitives | N/A | 7 in report/ | **11 in report/** |
+| Sections | N/A | N/A | **8 in sections/** |
+| Widgets | 7 in gallery/ | 11 in report/ (mixed) | **10 in widgets/** |
+| UI bundle | 3 components | 57 components | **57 components** |
+
+---
+
+## Design System: "Soft Brutalism"
+
+### Color Palette
+
+```css
+--primary: #1e3a8a          /* Royal blue (shared with Report B) */
+--accent: #ea580c           /* Muted orange (NEW — Report B used #dbeafe light blue) */
+--deep-teal: #0d9488        /* Chart secondary */
+--deep-teal-light: #14b8a6  /* Chart secondary hover */
+--muted-orange-light: #f97316
+--background: #f8fafc       /* Off-white (Report B used #ffffff) */
+--border: #cbd5e1           /* Heavier than Report B's #e2e8f0 */
+```
+
+### Brutalist Utilities
+
+```css
+.brutalist-shadow    { box-shadow: 4px 4px 0px 0px #1e293b; }
+.brutalist-shadow-sm { box-shadow: 2px 2px 0px 0px #1e293b; }
+.brutalist-shadow-lg { box-shadow: 6px 6px 0px 0px #1e293b; }
+.brutalist-shadow-blue { box-shadow: 4px 4px 0px 0px #1e3a8a; }
+```
+
+Hover interaction: shadows disappear with `translate-x-1 translate-y-1` creating a "press" effect.
+
+### Typography
+
+| Role | Font | Notes |
+|------|------|-------|
+| Sans (body) | Inter | Same as Report B |
+| Serif (display) | **Space Grotesk** | Report B used Playfair Display |
+| Mono (code/labels) | **IBM Plex Mono** | Report B used Geist Mono |
+
+### Surface Hierarchy (NEW)
+
+```css
+--surface-elevated: #ffffff  /* Cards, modals */
+--surface-sunken: #f1f5f9    /* Recessed backgrounds */
+--surface-hero: #1e3a8a      /* Hero section */
+```
+
+### Section Variants (evolved from Report B)
+
+Report B: `alternate` boolean (white/gray toggle)
+Report C: `variant` enum with 4 options:
+- `default` — white background
+- `royal` — royal blue background, white text
+- `dark` — deep gray background, white text
+- `sunken` — #f1f5f9 recessed background
+
+---
+
+## Report Primitives (11 components)
+
+| Component | Size | Purpose | vs Report B |
+|-----------|------|---------|-------------|
+| `section-wrapper.tsx` | 1.0K | Section container with variant system | Evolved: 4 variants vs boolean |
+| `section-header.tsx` | 1.6K | Numbered section titles with decorative line | **NEW** — was inline in B |
+| `hero-section.tsx` | 4.6K | Full-screen hero with geometric SVG overlay | Evolved: dot grid pattern, brutalist metrics strip |
+| `content-columns.tsx` | 625B | Flex layout with optional sticky sidebar | Renamed from content-row, simpler |
+| `metric-card.tsx` | 2.2K | KPI card with sentiment + brutalist shadows | Evolved: dark variant, offset shadow |
+| `table-of-contents.tsx` | 3.2K | Clickable section grid with numbered badges | **NEW** — replaces sticky-nav |
+| `prose.tsx` | 968B | Typography wrapper for body text | **NEW** |
+| `insight-box.tsx` | 1.5K | Callout box (3 variants: default/teal/orange) | **NEW** |
+| `block-quote.tsx` | 757B | Styled blockquote | **NEW** |
+| `widget-placeholder.tsx` | 2.1K | Widget wrapper with icon title bar | Evolved: brutalist border + header bar |
+| `report-footer.tsx` | 1.0K | Footer with "Generated by Superagent." | Same pattern as B |
+
+---
+
+## Sections (8 components)
+
+Each section follows the same composition pattern:
+
+```tsx
+<SectionWrapper id="..." variant="sunken|default|dark">
+  <SectionHeader sectionNumber="0N" title="..." subtitle="..." />
+  <ContentColumns sidebar={<MetricCard metric="..." sentiment="good" />}>
+    <Prose><p>...</p></Prose>
+    <InsightBox variant="teal"><p>...</p></InsightBox>
+    <WidgetWrapper><Widget /></WidgetWrapper>
+    <Prose><p>...</p></Prose>
+  </ContentColumns>
+</SectionWrapper>
+```
+
+| Section | Variant | Widget(s) Embedded |
+|---------|---------|-------------------|
+| 01 Executive Summary | default | — (metrics grid only) |
+| 02 Market Landscape | sunken | CompetitiveMatrix |
+| 03 Financial Performance | default | DynamicFinancialChart, FinancialRatiosTable |
+| 04 Technology Innovation | sunken | TechEvolutionTimeline |
+| 05 Risk & ESG | dark | RiskAssessmentDashboard, ESGScorecard |
+| 06 Geographic Expansion | sunken | GeographicHeatMap |
+| 07 Customer Insights | default | CustomerPersonaExplorer, InvestorSentimentDashboard |
+| 08 Future Outlook | royal | ScenarioPlanner |
+
+---
+
+## Widgets (10 components, ~5,929 LOC)
+
+### Size Distribution
+
+| Widget | Lines | Library | Interactivity |
+|--------|------:|---------|---------------|
+| competitive-matrix.tsx | 685 | Recharts (Scatter) | Click company → detail panel, scatter + card views |
+| dynamic-financial-chart.tsx | 677 | Recharts (Line, Composed) | Toggle annual/quarterly, 3 metric selectors |
+| scenario-planner.tsx | 667 | Recharts (Area, Bar, Radar) | 4 sliders + 3 preset scenarios |
+| customer-persona-explorer.tsx | 649 | Recharts (Radar) | Click persona card → attribute radar + detail |
+| investor-sentiment-dashboard.tsx | 630 | Recharts (Bar, Line) | Toggle metric view, analyst detail cards |
+| geographic-heat-map.tsx | 624 | react-simple-maps + Recharts | Click region → drill-down, metric toggle |
+| risk-assessment-dashboard.tsx | 568 | Recharts (Bar, Radar) | Toggle risk category pillars |
+| tech-evolution-timeline.tsx | 550 | Custom SVG | Horizontal scroll timeline, milestone cards |
+| esg-scorecard.tsx | 506 | Recharts (Bar, RadialBar) | Toggle E/S/G pillars, company comparison |
+| financial-ratios-table.tsx | 373 | HTML table | Column sort |
+
+### Widget Scaffold Pattern
+
+All 10 widgets follow identical structure (system prompt evidence):
+1. `"use client"` + React imports + cn utility + useScrollReveal
+2. `/* ───── DATA ───── */` — TypeScript interfaces + inline data arrays
+3. Sub-components as named functions
+4. Main component with useState/useMemo, control panel, ResponsiveContainer, detail panel
+
+### Visualization Approach
+
+**100% Recharts** for charting (no D3). Only exceptions:
+- `geographic-heat-map.tsx` uses **react-simple-maps** for world map base + Recharts for detail charts
+- `tech-evolution-timeline.tsx` uses **custom SVG** for horizontal timeline tracks
+
+### Data Consistency
+
+Financial figures are consistent across all widgets and sections:
+- MSFT FY2025 revenue: $281.7B (appears in 5+ files)
+- AAPL FY2025 revenue: $416.2B (appears in 5+ files)
+- GOOG FY2025 revenue: $402.8B (appears in 4+ files)
+
+This proves a shared data brief feeding all generators.
+
+---
+
+## Template Bundle Confirmation
+
+Identical to Report B:
+- `components/ui/` — 57 files, 181,174 bytes (byte-for-byte)
+- `hooks/use-mobile.ts`, `hooks/use-toast.ts` — identical
+- `lib/utils.ts`, `components.json`, `tsconfig.json` — identical
+- `pnpm-lock.yaml` — 93-byte stub (identical)
+- `public/` — identical asset set with content-hash dedup files
+
+Only 8 of 57 UI components are actually imported by report code (14% utilization).
+
+---
+
+## What's Distinct About Report C
+
+1. **Four-tier architecture** — cleanest separation of concerns across all three reports
+2. **"Soft Brutalism" design** — hard offset shadows, 2px borders, geometric overlays, press-effect hover
+3. **No D3** — drops complex library in favor of simpler Recharts-only approach
+4. **react-simple-maps** — first use of geographic visualization library
+5. **Section composition layer** — sections as explicit orchestrators of primitives + widgets
+6. **Uniform widget sizing** — 8 of 10 widgets between 506-685 lines (normalized output)
+7. **Non-CRE domain** — first report analyzing tech companies rather than commercial real estate

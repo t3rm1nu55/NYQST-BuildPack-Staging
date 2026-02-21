@@ -1,0 +1,450 @@
+[
+  {
+    "path": "/Users/markforster/Downloads/genui-00-findings.md",
+    "basename": "genui-00-findings",
+    "extension": ".md",
+    "primary_topic": "GenUI architecture fundamentals and three-tier component system",
+    "document_type": "analysis",
+    "components_defined": [],
+    "design_patterns": [
+      "three-tier architecture (primitives/patterns/configs)",
+      "config-driven UI (JSON descriptors instead of TSX)",
+      "universal renderer (single engine for app + AI output)",
+      "tool-based streaming (AI SDK pattern)",
+      "component registry pattern"
+    ],
+    "schemas_or_types": [
+      "ComponentEntry interface (component, schema, category)",
+      "ComponentDescriptor (type, props, children, when, unless, bind, repeat, on)",
+      "RenderContext (state, actions, theme, locale)"
+    ],
+    "streaming_patterns": [
+      "AI SDK tool-based streaming (7 tools replace 20 custom events)",
+      "tool state machine (input-streaming → input-available → output-available)",
+      "streaming tool inputs (partial tool inputs rendered as they arrive)"
+    ],
+    "gml_tags_referenced": [
+      "Not GML-specific; discusses replacing GML with universal renderer"
+    ],
+    "reusable_code": "Complete conceptual framework for moving from bespoke React components to config-driven rendering. 27 primitives + 1 renderer + JSON configs = entire app UI.",
+    "key_signals": [
+      "Superagent has TWO rendering systems (React + GML); GenUI unifies into ONE",
+      "Bundle size reduction from 2.08MB to ~60KB (1.83MB app + 177KB GML → 30KB primitives + 5KB renderer + 15KB configs)",
+      "Enables AI to generate not just content but UI structure (Level 3 generativity)",
+      "Config-driven approach enables white-labeling, theming, AI-generated interfaces",
+      "Tool-based streaming eliminates custom 20-event protocol complexity",
+      "Universal renderer supports all UI (app chrome, reports, websites, dashboards)",
+      "Time to MVP: ~1 week for 1 engineer (27 primitives + renderer + 5 page configs)"
+    ]
+  },
+  {
+    "path": "/Users/markforster/Downloads/genui-01-primitive-registry.tsx",
+    "basename": "genui-01-primitive-registry",
+    "extension": ".tsx",
+    "primary_topic": "Implementation of 27 atomic UI primitives with Zod schemas",
+    "document_type": "prototype-code",
+    "components_defined": [
+      "Text", "Heading", "Button", "Badge", "Avatar", "Icon", "Divider", "Spacer", "Skeleton", "Spinner", "StatusDot",
+      "Card", "Row", "Column", "Grid", "ScrollArea", "Collapsible", "Modal", "Tabs",
+      "Metric", "Table", "Chart", "Timeline",
+      "Markdown", "Iframe",
+      "TextInput", "Switch",
+      "Toast", "Progress", "EmptyState"
+    ],
+    "design_patterns": [
+      "component registry pattern (flat map of ComponentEntry)",
+      "Zod schema validation (every component has schema)",
+      "Tailwind CSS utility classes",
+      "props-as-JSON pattern (components accept flat props objects)",
+      "category-based organization (primitive/container/data/media/form/feedback)"
+    ],
+    "schemas_or_types": [
+      "ComponentEntry { component, schema, category }",
+      "TextSchema (content, variant, weight, color, truncate, maxLines)",
+      "ButtonSchema (label, variant, size, icon, disabled, fullWidth, action)",
+      "CardSchema (padding, border, shadow, rounded, background, children)",
+      "RowSchema (gap, align, justify, wrap, children)",
+      "GridSchema (cols, gap, children)",
+      "TableSchema (columns, rows, compact)",
+      "ChartSchema (traces, layout, height)",
+      "FormSchema examples (TextInput, Switch with name/checked/label)"
+    ],
+    "streaming_patterns": [
+      "No streaming in registry itself; primitives are rendering targets for streamed descriptors"
+    ],
+    "gml_tags_referenced": [],
+    "reusable_code": "Complete, production-ready primitive component library. 27 components with Zod schemas can be copied directly into implementation. All use Tailwind CSS with no external dependencies beyond React + Zod.",
+    "key_signals": [
+      "27 primitives organized into 6 categories (10 primitive, 8 container, 4 data, 2 media, 2 form, 3 feedback)",
+      "Each component takes flat props object (no nested structure)",
+      "Schema validation advisory (renders anyway if invalid in dev mode)",
+      "No inter-primitive imports (composition via children prop)",
+      "Icons, skeletons, spinners have size presets (xs/sm/md/lg)",
+      "Forms support multiline TextInput with autoexpanding",
+      "Data components (Metric, Table, Chart, Timeline) support streaming-friendly props",
+      "Card/Row/Column are flex-based layout primitives, Grid uses CSS Grid"
+    ]
+  },
+  {
+    "path": "/Users/markforster/Downloads/genui-02-renderer.tsx",
+    "basename": "genui-02-renderer",
+    "extension": ".tsx",
+    "primary_topic": "Universal renderer engine that converts JSON descriptors to React components",
+    "document_type": "prototype-code",
+    "components_defined": [
+      "renderDescriptor (core renderer function)",
+      "PageRenderer (page-level renderer)"
+    ],
+    "design_patterns": [
+      "recursive descriptor rendering (tree traversal)",
+      "conditional rendering (when/unless)",
+      "data binding ($-prefixed state paths)",
+      "event binding (on handlers mapped to actions)",
+      "repeat/loop support (array iteration with 'as' variable)",
+      "state path resolution (dot notation: 'chat.messages.0.content')",
+      "pattern registry expansion (resolve type → look up pattern → expand)"
+    ],
+    "schemas_or_types": [
+      "ComponentDescriptor { type, props, children, key, when, unless, bind, repeat, on }",
+      "PatternRegistry { [name]: (props: any) => ComponentDescriptor }",
+      "RenderContext { state, actions, theme, locale }",
+      "PageConfig { id, title, layout, initialState, actions }"
+    ],
+    "streaming_patterns": [
+      "Renderer is stateless (context changes trigger re-renders)",
+      "Streaming updates state → re-render with new context",
+      "Conditional sections (when/unless) hide/show based on state changes"
+    ],
+    "gml_tags_referenced": [],
+    "reusable_code": "Core renderDescriptor function is production-ready. Handles all rendering logic: type resolution, prop validation, state binding, event binding, conditionals, loops. Can be copied and extended with custom pattern registry.",
+    "key_signals": [
+      "Single renderDescriptor function handles app + AI output rendering",
+      "State path resolver supports nested object/array access (e.g., 'messages.0.content')",
+      "String interpolation ($var notation) for dynamic prop values",
+      "Repeat loops with context augmentation per item",
+      "Event handlers map to action function names (onClickHandler called with onClick event)",
+      "Patterns expand recursively (nested pattern resolution)",
+      "Prop validation via Zod but renders anyway in production",
+      "Key prop for React list rendering (descriptor.key or index fallback)",
+      "RenderContext includes theme and locale for internationalization"
+    ]
+  },
+  {
+    "path": "/Users/markforster/Downloads/genui-03-pattern-registry.ts",
+    "basename": "genui-03-pattern-registry",
+    "extension": ".ts",
+    "primary_topic": "Tier 2 composed patterns built from primitive descriptors",
+    "document_type": "prototype-code",
+    "components_defined": [
+      "ChatMessage", "ChatInput", "ChatList",
+      "ReportHeader", "InsightCallout", "SourceCard", "FileCard",
+      "PlanProgress", "BrowserAgentBanner",
+      "PageHeader", "NavSidebar", "SettingsCard", "PricingCard", "WebsitePreview", "DeliverableTypeCards", "SuggestionGrid"
+    ],
+    "design_patterns": [
+      "pattern factory pattern (props → descriptor tree)",
+      "composition via children arrays",
+      "conditional children (spread operator with ternary)",
+      "loop composition (map over props array)",
+      "data binding within patterns ($ string interpolation)"
+    ],
+    "schemas_or_types": [
+      "ChatMessage pattern props { role, content, attachments[], badges[], timestamp }",
+      "ChatInput pattern props { placeholder, isStreaming }",
+      "PlanProgress pattern props { phases[], isStreaming }",
+      "ReportHeader pattern props { title, generatedDate, tocItems[] }",
+      "SourceCard pattern props { index, title, description, favicon, sourceType, siteName }",
+      "NavSidebar pattern props { logo, items[], sections[], user, collapsed }",
+      "SettingsCard pattern props { title, children[] }",
+      "WebsitePreview pattern props { title, src, actions[] }"
+    ],
+    "streaming_patterns": [
+      "PlanProgress shows Spinner vs StatusDot based on isStreaming flag",
+      "ChatInput button changes from 'send' to 'stop' when isStreaming",
+      "BrowserAgentBanner emits pulse animation when agent is active"
+    ],
+    "gml_tags_referenced": [],
+    "reusable_code": "All 17 patterns are directly usable. Each pattern function returns a descriptor tree that can be expanded by renderer. Patterns demonstrate composition techniques: conditional children, loops, data binding within markup.",
+    "key_signals": [
+      "17 patterns composed from primitives eliminate ~60 bespoke React components",
+      "Patterns replace Superagent's hand-coded page components",
+      "Each pattern is a pure function (props in → descriptor out)",
+      "Patterns can nest (ChatList contains multiple ChatMessage patterns)",
+      "Conditional rendering via spread operator + ternary (clean composition)",
+      "Data binding within patterns ($msg.content, $user.name, etc.)",
+      "Streaming state drives button/indicator changes (isStreaming prop)",
+      "Two category patterns: chat/report (3 + 4), pipeline (2), app chrome (5), content (3)",
+      "NavSidebar supports collapsed state with icon-only layout"
+    ]
+  },
+  {
+    "path": "/Users/markforster/Downloads/genui-04-page-configs.ts",
+    "basename": "genui-04-page-configs",
+    "extension": ".ts",
+    "primary_topic": "Complete page configurations for 6 pages (home, chat, account, tasks, modal, error)",
+    "document_type": "specification",
+    "components_defined": [
+      "homePage", "chatPage", "accountPage", "tasksPage", "chatInfoModal", "errorPage"
+    ],
+    "design_patterns": [
+      "page config as JSON (replaces TSX page components)",
+      "nested descriptor trees (Row → Column → Card → Text)",
+      "routing via route map (match path to config)",
+      "repeat binding to state arrays (repeat: { source, as })",
+      "conditional rendering (when: 'state.flag')",
+      "Tab components with activeTab binding"
+    ],
+    "schemas_or_types": [
+      "PageConfig { id, title, layout, initialState, actions }",
+      "Route map { [path]: PageConfig }"
+    ],
+    "streaming_patterns": [
+      "PlanProgress shown conditionally when 'stream.isActive'",
+      "BrowserAgentBanner shown when 'stream.browserAgentActive'",
+      "Website preview shown when 'chat.hasWebsite'"
+    ],
+    "gml_tags_referenced": [],
+    "reusable_code": "Complete 6-page app specification. Each page is a ~50-100 line JSON config. Chat page demonstrates complexity (nested Row/Column, repeat binding, conditional sections, tab switching). Can be used as template for other apps.",
+    "key_signals": [
+      "6 full pages specified as JSON (no TSX needed for pages)",
+      "Home page with suggestions grid and deliverable type cards",
+      "Chat page with split layout (sidebar, center messages, right preview)",
+      "Account settings page with 2-column grid + cards",
+      "Tasks page with tab switching",
+      "Modal page for chat info (sources/files/activity tabs)",
+      "Error page for 404 handling",
+      "Route map enables dynamic routing ({'/': homePage, '/chat/[chatId]': chatPage})",
+      "All state bindings use $ notation ($chat.title, $currentUser, $suggestions)",
+      "Tabs support badges (message counts)",
+      "Empty states shown conditionally (EmptyState when 'projects.isEmpty')"
+    ]
+  },
+  {
+    "path": "/Users/markforster/Downloads/genui-05-streaming-tools.ts",
+    "basename": "genui-05-streaming-tools",
+    "extension": ".ts",
+    "primary_topic": "AI SDK tool definitions replacing Superagent's 20-event custom protocol with 7 standard tools",
+    "document_type": "prototype-code",
+    "components_defined": [],
+    "design_patterns": [
+      "tool-based UI generation (AI calls tools, client renders based on tool parts)",
+      "discriminated unions (tool parts typed by tool name)",
+      "streaming tool inputs (partial inputs rendered as they arrive)",
+      "client-side tools (user confirmation, input gathering)",
+      "server-side tools (execution and side effects)"
+    ],
+    "schemas_or_types": [
+      "Tool schema from Vercel AI SDK (createTool with description + inputSchema)",
+      "updateResearchPlan input { phases[] with { title, status, tasks[] } }",
+      "streamReportSection input { sectionTitle, content, sectionIndex, isComplete }",
+      "reportSources input { sources[] with { title, url, description, sourceType, favicon }, totalCount }",
+      "askClarification input { message, options[] }",
+      "browserAgentAction input { action enum, url, description }",
+      "renderUI input { component descriptor { type, props, children } }",
+      "deployWebsite input { title, code (TSX source) }"
+    ],
+    "streaming_patterns": [
+      "Tool inputs stream in (input-streaming state)",
+      "Tool outputs appear when complete (output-available state)",
+      "Partial tool inputs skeletoned (Skeleton component shown during streaming)",
+      "Client-side tool rendering (askClarification waits for user response)",
+      "Server tools execute and return results"
+    ],
+    "gml_tags_referenced": [],
+    "reusable_code": "Complete tool definitions with Zod schemas. Server route handler and client renderer code both included. Can be adapted for any Vercel AI SDK implementation. RouteHandler shows POST /api/chat/message pattern with streamText, convertToModelMessages, and tool invocation.",
+    "key_signals": [
+      "7 tools replace 20 custom events (updateResearchPlan, streamReportSection, reportSources, askClarification, browserAgentAction, setChatTitle, renderUI, deployWebsite)",
+      "No custom streaming protocol; AI SDK handles state machine (input-streaming → input-available → output-available)",
+      "Each tool has inputSchema for validation and code generation",
+      "Client renderer maps tool parts to GenUI patterns (tool-updateResearchPlan → PlanProgress pattern)",
+      "Streaming content shown as Skeleton until complete",
+      "Clarification rendering waits for addToolOutput call (human-in-the-loop)",
+      "renderUI tool accepts ComponentDescriptor directly (universal UI rendering)",
+      "deployWebsite returns { title, url, status: 'live' }",
+      "Server route uses stopWhen: stepCountIs(20) for multi-step research",
+      "All tool inputs validated by Zod schemas"
+    ]
+  },
+  {
+    "path": "/Users/markforster/Downloads/genui-06-comparison.md",
+    "basename": "genui-06-comparison",
+    "extension": ".md",
+    "primary_topic": "Detailed comparison of Superagent bespoke architecture vs GenUI config-driven approach",
+    "document_type": "comparison",
+    "components_defined": [],
+    "design_patterns": [
+      "Two-system vs one-system (React + GML vs universal renderer)",
+      "Code vs data (TSX page files vs JSON configs)",
+      "Custom protocol vs standard tools (20 events vs AI SDK)",
+      "Custom state vs Zustand (Redux vs lightweight client state)"
+    ],
+    "schemas_or_types": [],
+    "streaming_patterns": [
+      "Custom streaming (20 event types) vs tool-based (7 tools + AI SDK state machine)"
+    ],
+    "gml_tags_referenced": [
+      "GML system (16 components: gml-row, gml-primarycolumn, gml-chart, gml-blockquote, etc.)",
+      "Comparison shows GenUI unifies GML + React into single 27-primitive system"
+    ],
+    "reusable_code": "Comparison table provides clear mapping from Superagent architecture to GenUI alternatives. Useful for refactoring decisions.",
+    "key_signals": [
+      "Component reduction: 60 React files + 16 GML components → 27 primitives + 17 patterns",
+      "Page definition: TSX files → JSON configs",
+      "Report rendering: GML parser → universal renderer (same primitives as app)",
+      "Streaming: 20 custom events + custom Redux → 7 AI SDK tools + Zustand",
+      "Bundle size: 1.83MB app + 177KB GML + 22KB stream → ~60KB total",
+      "Adding widget: new React file + parser + Redux → add to registry (~20 lines)",
+      "Theming: modify CSS + potentially code → swap design tokens config (zero code)",
+      "White-labeling: fork entire app → new config set + token set",
+      "Three levels of generativity: content → structure → full interface",
+      "Time to implement: ~1 week MVP, ~2 weeks full parity"
+    ]
+  },
+  {
+    "path": "/Users/markforster/Downloads/superagent-clean-room-analysis.txt",
+    "basename": "superagent-clean-room-analysis",
+    "extension": ".txt",
+    "primary_topic": "Complete reverse-engineered Superagent architecture from clean room browser analysis",
+    "document_type": "analysis",
+    "components_defined": [
+      "16 GML components (gml-Row, gml-PrimaryColumn, gml-Chart, gml-Blockquote, gml-InfoBlockMetric, gml-InfoBlockEvent, gml-InlineCitation, gml-ViewReport, gml-ViewWebsite, etc.)"
+    ],
+    "design_patterns": [
+      "streaming via fetch() + ReadableStream + TextDecoder (not WebSocket/SSE)",
+      "NDJSON line-by-line parsing",
+      "plan decomposition (PlanSet → Plan → PlanTask linked lists)",
+      "parallel research agents (5-15 tasks per research phase)",
+      "multi-section report streaming",
+      "replay system (useReplayStream hook)"
+    ],
+    "schemas_or_types": [
+      "ChatMessage { id, creator_type, deliverable_type, entities[], hydrated_content, is_answer, needs_clarification_message }",
+      "PlanSet { chat_id, creator_user_id, plans[] }",
+      "Plan { id, status, title, plan_tasks[], used_sources[], previous_plan_id }",
+      "PlanTask { id, title, status, message, previous_task_id }",
+      "Entity { identifier, entity_type, content_artifact_id, stored_entity_id, mimetype, title, created_at }",
+      "GML component schemas (29 Zod schemas found)"
+    ],
+    "streaming_patterns": [
+      "20 stream event types (stream_start, heartbeat, task_update, node_report_preview_start/delta/done, message_delta, references_found, browser_use_start/stop, clarification_needed, done, error)",
+      "has_async_entities_in_progress flag drives polling after stream ends",
+      "Browser agent with await_user_input for human-in-the-loop"
+    ],
+    "gml_tags_referenced": [
+      "16 GML tags documented: gml-Row, gml-PrimaryColumn, gml-SidebarColumn, gml-HalfColumn, gml-Header, gml-Blockquote, gml-GradientInsightBox, gml-InfoBlockMetric, gml-InfoBlockEvent, gml-InfoBlockStockTicker, gml-InlineCitation, gml-ChartContainer, gml-ViewReport, gml-ViewGeneratedDocument, gml-ViewPresentation, gml-ViewWebsite, gml-DownloadFile"
+    ],
+    "reusable_code": "Complete API endpoint list (29+), stream event types (20), GML tag reference (16), Redux action catalog (28+), feature flags (16), page routes (16), state models. This is the source material for GenUI design.",
+    "key_signals": [
+      "Next.js Pages Router + React 18 + Radix UI + Tailwind CSS stack",
+      "Redux custom implementation (not RTK) with request caching",
+      "Ory Kratos for auth (OIDC/Google OAuth)",
+      "Google Cloud Storage for artifacts (gs://credit-doc-analysis-artifacts-us-central-prod/)",
+      "Zod for validation (29 schemas in GML chunk)",
+      "NDJSON streaming proven at scale (20-30KB chunks)",
+      "70+ unique task node IDs observed (node_xyz_depth pattern)",
+      "248-680 entities per chat (81+ web pages, 157+ API data points)",
+      "GML streaming parse bug: incomplete JSON causes 80+ error spam per response",
+      "Plan execution: always search_agent → strategy → parallel research (5-15 tasks) → synthesis → generation",
+      "Browser agent can pause for user input (login, CAPTCHA, confirmation)",
+      "Website deployment to Vercel/Netlify with subdomain"
+    ]
+  },
+  {
+    "path": "/Users/markforster/Downloads/superagent-system-insights.txt",
+    "basename": "superagent-system-insights",
+    "extension": ".txt",
+    "primary_topic": "Deep technical analysis of Superagent's streaming engine, data model, and API surface",
+    "document_type": "analysis",
+    "components_defined": [],
+    "design_patterns": [
+      "NDJSON streaming protocol (proven in production)",
+      "Plan-driven execution (PlanSet → Plans → Tasks → Results)",
+      "Multi-model gateway pattern (router for different LLMs)",
+      "Feature flags for progressive rollout",
+      "Signed URLs for time-limited artifact access"
+    ],
+    "schemas_or_types": [
+      "Session object with AAL (Authenticator Assurance Level)",
+      "Workspace { billingStatus, hasHadTrialPeriod, id, planType, userId }",
+      "Chat flow: user message → POST /api/chat → { chat_id, chat_message_id } → open stream → events → polling for completion",
+      "Subscription { current_period_start/end_unix_timestamp, payment_method, promo_code_details, trial_end_unix_timestamp }"
+    ],
+    "streaming_patterns": [
+      "Lifecycle: POST /api/chat → stream_start → heartbeat → task_update → node_report_preview_* → message_delta → ai_message → message_is_answer → done",
+      "Visibility handling: chat_visibility_changed_while_streaming event",
+      "Polling fallback when streaming stalls (has_async_entities_in_progress flag)"
+    ],
+    "gml_tags_referenced": [
+      "18 GML tags with complete schema validation"
+    ],
+    "reusable_code": "Complete streaming protocol specification, polling strategy, API endpoint catalog, Redux action patterns, feature flag structure. All validated in production at scale.",
+    "key_signals": [
+      "Streaming tested with 55 script tags and 1.83MB _app chunk",
+      "Website status polled every 5s (GET /api/website/status with XHR)",
+      "Websocket state unused (pristine: true, connected: false) — proves HTTP/ReadableStream is the right choice",
+      "Download/upload progress tracked separately from requests cache",
+      "Normalized data cache for entity deduplication",
+      "16 feature flags enable progressive feature rollout",
+      "Multi-section report streaming enables progressive rendering (not waiting for full synthesis)",
+      "Retry flow: POST /api/chat/retry creates new PlanSet with 'Retry XYZ' title",
+      "User feedback tracking exists but implementation unclear",
+      "Task node IDs follow semantic naming (node_domain_descriptor_depth)",
+      "Chat visibility monitoring prevents state loss on tab switch",
+      "Replay system records initialStreamedMessage for re-watch capability"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/CLEANROOM-ANALYSIS.md",
+    "basename": "CLEANROOM-ANALYSIS",
+    "extension": ".md",
+    "primary_topic": "Architectural replication guide comparing Superagent, DocuIntelli, and NYQST platform design patterns",
+    "document_type": "analysis",
+    "components_defined": [],
+    "design_patterns": [
+      "prompt-to-deliverable pipeline (decompose → dispatch → stream → synthesize → render)",
+      "12-agent parallel orchestration (CRE example with 12 research subagents)",
+      "linked-list ordering for plans/tasks (previous_plan_id, previous_task_id)",
+      "tool registry abstraction (9 tools in Superagent, extensible)",
+      "source pack governance (domain allowlists, reputation scores)",
+      "multi-deliverable type handling (report, website, slides, document, code)",
+      "policy profiles (FAST vs DEEP response modes)",
+      "universal primitives (same components for all UI)"
+    ],
+    "schemas_or_types": [
+      "ChatMessage { id, creator_type, deliverable_type, hydrated_content, is_answer, error_type, entities[], needs_clarification_message }",
+      "PlanSet { chat_id, workspace_id, plans[] }",
+      "Plan { id, title, status, previous_plan_id, used_sources[], plan_tasks[] }",
+      "PlanTask { id, title, status, message, previous_task_id }",
+      "Entity { entity_type, content_artifact_id, stored_entity_id, generation_status }",
+      "SourcePack { url, title, domain, search_query, relevance_score, reputation_score, retrieved_at }",
+      "Run { id, user_prompt, deliverable_type, response_mode, status, stream_id, created_at, completed_at }"
+    ],
+    "streaming_patterns": [
+      "NDJSON over HTTP ReadableStream (not SSE due to auth issues in DocuIntelli)",
+      "Plan creation event emitted first",
+      "Task progress events streamed throughout",
+      "Content deltas streamed (node_report_preview_delta or content.delta)",
+      "Run completion event marks final state",
+      "Error events for retry logic"
+    ],
+    "gml_tags_referenced": [
+      "GML discussion as predecessor; SML (Structured Markup Language) proposed as evolution"
+    ],
+    "reusable_code": "Complete build specification for NYQST SuperAgent including: database schema (41 tables), API specification, streaming protocol, orchestrator design, tool registry, LLM model strategy, frontend component architecture, 7-phase implementation plan. Production-grade specification ready for engineering.",
+    "key_signals": [
+      "Superagent origin: 'credit-doc-analysis' by Preemo, evolved to general-purpose research platform",
+      "Captured user prompt: CRE metrics library generation (very complex, 12 parallel research subagents)",
+      "Decomposition quality: 12-agent orchestration with semantic task naming (node_cre_lifecycle_stages_research_1)",
+      "260+ sources cited in single report (46 extracted from cache)",
+      "Tech stack alignment: Next.js + React 18 + Tailwind → React 19 + Vite + Tailwind 4 (Superagent proven, newer tooling)",
+      "Auth choice: Ory Kratos (Superagent) → Supabase Auth (simpler, RLS proven)",
+      "Database: Unknown (Superagent) → PostgreSQL + pgvector (DocuIntelli pattern)",
+      "Streaming: NDJSON over ReadableStream (Superagent proven) vs SSE (DocuIntelli failed due to auth)",
+      "Tool registry: 9 sources in Superagent (Brave, Firecrawl, Polygon, Quartr, Kalshi, Crunchbase, FRED, QuiverQuant) → 8 tools + document processing",
+      "LLM strategy: Model tiering (Haiku for cheap, Opus for synthesis)",
+      "Risk mitigation: Superagent's 60-citation provenance system validates governance approach",
+      "MVP: 7-phase plan with gates at each phase (foundation → streaming → plans → synthesis → deliverables → documents → polish)",
+      "Architectural decisions table shows how Superagent evidence informs each choice"
+    ]
+  }
+]

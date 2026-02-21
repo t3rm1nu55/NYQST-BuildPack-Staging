@@ -1,0 +1,182 @@
+diff --git a/src/intelli/core/jobs.py b/src/intelli/core/jobs.py
+index 0000000..1111111 100644
+--- a/src/intelli/core/jobs.py
++++ b/src/intelli/core/jobs.py
+@@
+ # NOTE: This patch assumes you register jobs via a @job decorator that adds
+ # functions into _job_registry at import time.
+@@
+-_job_registry: dict[str, Callable[..., Any]] = {}
++_job_registry: dict[str, Callable[..., Any]] = {}
+@@
+-class WorkerSettings:
+-    functions = list(_job_registry.values())
++#
++# IMPORTANT: arq expects WorkerSettings.functions to be an iterable of callables,
++# not a callable returning them. If you set it at class definition time, but
++# register jobs after, you will snapshot an empty list.
++#
++# Fix: define jobs first, then assign functions afterwards.
++#
++class WorkerSettings:
++    functions: list[Callable[..., Any]]
+     redis_settings = RedisSettings.from_dsn(settings.redis_url)
+     # ... other settings ...
+@@
+ @job
+ async def parse_document_job(ctx, artifact_id: str) -> None:
+     ...
+@@
+ @job
+ async def generate_embeddings_job(ctx, artifact_id: str) -> None:
+     ...
++
++# Snapshot registry AFTER job definitions.
++WorkerSettings.functions = list(_job_registry.values())
++
+diff --git a/docker-compose.yml b/docker-compose.yml
+index 0000000..2222222 100644
+--- a/docker-compose.yml
++++ b/docker-compose.yml
+@@
+ services:
+   redis:
+-    profiles: ["full"]
+     image: redis:7
+     ports:
+       - "6379:6379"
+     restart: unless-stopped
+@@
+diff --git a/.env.example b/.env.example
+index 0000000..3333333 100644
+--- a/.env.example
++++ b/.env.example
+@@
+ # Redis (arq)
++REDIS_URL=redis://localhost:6379
++
+diff --git a/src/intelli/repositories/runs.py b/src/intelli/repositories/runs.py
+index 0000000..4444444 100644
+--- a/src/intelli/repositories/runs.py
++++ b/src/intelli/repositories/runs.py
+@@
+-async def _get_next_sequence(...):
+-    # SELECT max(seq)+1 ... (racy)
+-    ...
+-
+-async def append_event(...):
+-    seq = await self._get_next_sequence(run_id)
+-    insert run_event with seq
++#
++# P0-EXISTENTIAL: deterministic per-run sequence allocation.
++# Use a counter table allocator. (See migration below.)
++#
++from sqlalchemy import text
++
++async def _allocate_event_seq(self, run_id: UUID) -> int:
++    result = await self.session.execute(
++        text("""
++        INSERT INTO run_event_counters(run_id, next_seq)
++        VALUES (:run_id, 1)
++        ON CONFLICT (run_id)
++        DO UPDATE SET next_seq = run_event_counters.next_seq + 1
++        RETURNING next_seq
++        """),
++        {"run_id": str(run_id)},
++    )
++    return int(result.scalar_one())
++
++async def append_event(self, run_id, event_type, payload, duration_ms=None):
++    seq = await self._allocate_event_seq(run_id)
++    stmt = (
++      insert(RunEvent)
++      .values(
++        run_id=run_id,
++        sequence_num=seq,
++        event_type=event_type,
++        payload=payload,
++        duration_ms=duration_ms,
++        timestamp=utc_now(),
++      )
++      .returning(RunEvent)
++    )
++    result = await self.session.execute(stmt)
++    await self.session.flush()
++    return result.scalar_one()
++
+diff --git a/migrations/versions/20260220_0005d_run_event_counters_and_jobs.py b/migrations/versions/20260220_0005d_run_event_counters_and_jobs.py
+new file mode 100644
+index 0000000..5555555
+--- /dev/null
++++ b/migrations/versions/20260220_0005d_run_event_counters_and_jobs.py
+@@
++"""run_event_counters + jobs
++
++Revision ID: 0005d
++Revises: 0005c
++Create Date: 2026-02-20
++"""
++
++from alembic import op
++import sqlalchemy as sa
++
++revision = "0005d"
++down_revision = "0005c"
++branch_labels = None
++depends_on = None
++
++def upgrade():
++    op.create_table(
++        "run_event_counters",
++        sa.Column("run_id", sa.Uuid(), sa.ForeignKey("runs.id", ondelete="CASCADE"), primary_key=True),
++        sa.Column("next_seq", sa.Integer(), nullable=False),
++    )
++    op.create_table(
++        "jobs",
++        sa.Column("id", sa.Uuid(), primary_key=True),
++        sa.Column("job_key", sa.Text(), nullable=False, unique=True),
++        sa.Column("run_id", sa.Uuid(), sa.ForeignKey("runs.id", ondelete="CASCADE"), nullable=False, index=True),
++        sa.Column("job_type", sa.Text(), nullable=False),
++        sa.Column("status", sa.Text(), nullable=False),
++        sa.Column("result_artifact_id", sa.Text(), nullable=True),
++        sa.Column("error", sa.Text(), nullable=True),
++        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False),
++        sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False),
++    )
++
++def downgrade():
++    op.drop_table("jobs")
++    op.drop_table("run_event_counters")
++
+diff --git a/src/intelli/api/v1/streams.py b/src/intelli/api/v1/streams.py
+index 0000000..6666666 100644
+--- a/src/intelli/api/v1/streams.py
++++ b/src/intelli/api/v1/streams.py
+@@
+-@router.get("/runs/{run_id}/events/stream")
+-async def stream_run_events(run_id: UUID):
+-    # listen/notify only
++@router.get("/runs/{run_id}/events/stream")
++async def stream_run_events(run_id: UUID, after_seq: int = 0, request: Request = None):
++    # P0-EXISTENTIAL: backfill + live stream
++    # 1) emit events where sequence_num > after_seq
++    # 2) subscribe to NOTIFY for live events
++    # 3) send ping every N seconds with last_seq
++    ...
++
+diff --git a/.github/pull_request_template.md b/.github/pull_request_template.md
+new file mode 100644
+index 0000000..7777777
+--- /dev/null
++++ b/.github/pull_request_template.md
+@@
++## Checklist (Definition of Done)
++
++- [ ] Tests added/updated
++- [ ] Migrations tested up/down (if any)
++- [ ] Event changes updated all surfaces (enum, schema, UI filter, adapters)
++- [ ] Codegen run and committed (TS types)
++- [ ] Error cases handled
++- [ ] Logs redact secrets
++- [ ] UI changes include screenshot/GIF (if relevant)
++

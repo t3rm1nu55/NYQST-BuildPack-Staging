@@ -1,0 +1,443 @@
+[
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/IMPLEMENTATION-PLAN.md",
+    "basename": "IMPLEMENTATION-PLAN.md",
+    "size_estimate": "~1220 lines, 47KB",
+    "primary_topic": "Implementation roadmap",
+    "document_type": "plan",
+    "version": 3,
+    "status": "Draft v3 — Platform-framed restructure with all consistency fixes applied",
+    "key_decisions": [
+      "DEC-001", "DEC-002", "DEC-003", "DEC-004", "DEC-005",
+      "DEC-010", "DEC-011", "DEC-012", "DEC-013", "DEC-014", "DEC-015a", "DEC-015b", "DEC-016", "DEC-017", "DEC-018", "DEC-019", "DEC-020", "DEC-021", "DEC-022", "DEC-023", "DEC-024", "DEC-025",
+      "DEC-030", "DEC-031", "DEC-032", "DEC-033", "DEC-034", "DEC-035", "DEC-036", "DEC-037", "DEC-038", "DEC-039", "DEC-040a", "DEC-040b", "DEC-041",
+      "DEC-042", "DEC-043", "DEC-044", "DEC-045", "DEC-046", "DEC-047", "DEC-048", "DEC-049", "DEC-050", "DEC-051", "DEC-052"
+    ],
+    "schemas_defined": [
+      "ResearchState (extended)",
+      "ResearchTask",
+      "TaskResult",
+      "DataBrief",
+      "RunEventType (19 new types)",
+      "MarkupDocument",
+      "MarkupNode (18 types)"
+    ],
+    "bl_items_referenced": [
+      "BL-001", "BL-002", "BL-003", "BL-004", "BL-005", "BL-006", "BL-007", "BL-008", "BL-009", "BL-010",
+      "BL-011", "BL-012", "BL-013", "BL-014", "BL-015", "BL-016", "BL-017", "BL-018", "BL-019", "BL-020",
+      "BL-021", "BL-022"
+    ],
+    "dependencies_on": [
+      "BACKLOG.md",
+      "DEPENDENCY-ANALYSIS.md",
+      "DECISION-REGISTER.md",
+      "PLATFORM-FRAMING.md",
+      "LIBRARY-REFERENCE.md",
+      "STRATEGIC-REVIEW.md",
+      "GIT-ISSUES-STRUCTURE.md",
+      "OBJECTIVES.md",
+      "PROJECT-BRIEF.md"
+    ],
+    "completeness": 95,
+    "key_signals": [
+      "Wave model: 4 waves (0-3), 22 items, 7-week critical path, 5 parallel tracks",
+      "10 platform primitives: agentic runtime, GENUI, MCP tools, document management, provenance, context engineering, LLM integration, streaming, agent management, billing",
+      "Critical path: Migration 0005 → BL-002 → BL-001 → BL-005 → BL-016 → BL-011 (6.5 weeks minimum)",
+      "BL-001 (Research Orchestrator) is XL complexity bottleneck with 7 downstream blockers",
+      "All 52 locked decisions with no open questions remaining (OQ-001–OQ-007 all resolved)"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/BACKLOG.md",
+    "basename": "BACKLOG.md",
+    "size_estimate": "~223 lines, 8.5KB",
+    "primary_topic": "Build items inventory",
+    "document_type": "plan",
+    "version": "living document",
+    "key_decisions": [],
+    "schemas_defined": [
+      "BL item structure: component, existing, change, spec, dependencies, status"
+    ],
+    "bl_items_referenced": [
+      "BL-001", "BL-002", "BL-003", "BL-004", "BL-005", "BL-006", "BL-007", "BL-008", "BL-009", "BL-010",
+      "BL-011", "BL-012", "BL-013", "BL-014", "BL-015", "BL-016", "BL-017", "BL-018", "BL-019", "BL-020",
+      "BL-021", "BL-022"
+    ],
+    "dependencies_on": [
+      "MAPPING-01-RESEARCH-ORCHESTRATOR.md",
+      "MAPPING-02-DELIVERABLES-ARTIFACTS.md",
+      "MAPPING-03-UI-MODULES.md",
+      "MAPPING-04-BILLING-TESTING.md"
+    ],
+    "completeness": 85,
+    "key_signals": [
+      "22 backlog items with corrected dependencies (6 corrections from DEPENDENCY-ANALYSIS applied)",
+      "Each item includes: component location, existing baseline, change description, spec reference, dependencies, status",
+      "Tradeoffs log captures architectural decisions (BL-016 extend vs new table, BL-017 latency cost, BL-019 server-side PDF, BL-021 schema now UI later)",
+      "Interaction points listed: Brave API, Jina API, Stripe, doc processing, financial data connectors",
+      "Revision: 2026-02-20 applied DEPENDENCY-ANALYSIS corrections"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/DECISION-REGISTER.md",
+    "basename": "DECISION-REGISTER.md",
+    "size_estimate": "~143 lines, 10KB",
+    "primary_topic": "Locked decisions",
+    "document_type": "decision",
+    "version": 2,
+    "key_decisions": [
+      "DEC-001", "DEC-002", "DEC-003", "DEC-004", "DEC-005",
+      "DEC-010", "DEC-011", "DEC-012", "DEC-013", "DEC-014", "DEC-015", "DEC-015a", "DEC-015b", "DEC-016", "DEC-017", "DEC-018", "DEC-019", "DEC-020", "DEC-021", "DEC-022", "DEC-023", "DEC-024", "DEC-025",
+      "DEC-030", "DEC-031", "DEC-032", "DEC-033", "DEC-034", "DEC-035", "DEC-036", "DEC-037", "DEC-038", "DEC-039", "DEC-040", "DEC-041",
+      "DEC-042", "DEC-043", "DEC-044", "DEC-045", "DEC-046", "DEC-047", "DEC-048", "DEC-049", "DEC-050", "DEC-051", "DEC-052",
+      "DEC-060", "DEC-061", "DEC-062", "DEC-063", "DEC-064", "DEC-065", "DEC-066", "DEC-067",
+      "DEC-070", "DEC-071", "DEC-072"
+    ],
+    "schemas_defined": [
+      "Decision structure: DEC-ID, decision statement, date, rationale, source, status"
+    ],
+    "bl_items_referenced": [
+      "BL-001", "BL-002", "BL-003", "BL-004", "BL-005", "BL-006", "BL-009", "BL-012", "BL-014", "BL-015", "BL-017", "BL-021"
+    ],
+    "dependencies_on": [
+      "IMPLEMENTATION-PLAN.md",
+      "DEPENDENCY-ANALYSIS.md",
+      "STRATEGIC-REVIEW.md",
+      "PLATFORM-FRAMING.md"
+    ],
+    "completeness": 98,
+    "key_signals": [
+      "71 total decisions (52 locked + 8 'not replicating' + 3 testing + 7 OQ resolutions added in v2)",
+      "Organized by sections: 2A scope (5), 2B architecture (13), 2C technology (13), 2D testing (3), 2E not-replicating (8), plus DEC-042–052 (11 new)",
+      "All 7 open questions resolved as of 2026-02-19: OQ-001 (LiteLLM), OQ-002 (slides viewer), OQ-003 (website route), OQ-004 (budget enforcement), OQ-005 (GML rendering), OQ-006 (Brave confirmed), OQ-007 (clarification UI timing)",
+      "v2 updates: split DEC-015 into 015a/015b, superseded DEC-032 with DEC-046 (MCP search), added 11 new decisions DEC-042–052",
+      "No open questions remain — platform development can proceed"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/DEPENDENCY-ANALYSIS.md",
+    "basename": "DEPENDENCY-ANALYSIS.md",
+    "size_estimate": "~720 lines, 28KB",
+    "primary_topic": "Dependency graph analysis",
+    "document_type": "analysis",
+    "version": 1,
+    "key_decisions": [
+      "Wave 0 — foundation (1.5 weeks, parallel)",
+      "Wave 1 — core platform (2 weeks)",
+      "Wave 2 — deliverables (2 weeks)",
+      "Wave 3 — polish (1.5 weeks)"
+    ],
+    "schemas_defined": [
+      "Corrected dependency table (22 items, 6 corrections)",
+      "Wave execution model (4 waves, 5 parallel tracks)"
+    ],
+    "bl_items_referenced": [
+      "BL-001", "BL-002", "BL-003", "BL-004", "BL-005", "BL-006", "BL-007", "BL-008", "BL-009", "BL-010",
+      "BL-011", "BL-012", "BL-013", "BL-014", "BL-015", "BL-016", "BL-017", "BL-018", "BL-019", "BL-020",
+      "BL-021", "BL-022"
+    ],
+    "dependencies_on": [
+      "BACKLOG.md",
+      "IMPLEMENTATION-PLAN.md (v2)"
+    ],
+    "completeness": 92,
+    "key_signals": [
+      "6 dependency corrections identified and applied: BL-003 standalone, BL-022 precedes BL-001, BL-005/006/018 need Migration 0005, BL-012 needs Migration 0005, BL-008 weakly depends on BL-015, BL-011 depends on BL-016",
+      "Critical path: 7 weeks minimum (Migration 0005 → BL-002 → BL-001 → BL-005 → BL-016 → BL-011), or 6.5 weeks with parallel Wave 0",
+      "5 developer tracks with detailed task sequencing and merge points",
+      "Risk register: 7 risks (AR-1 through AR-7) with likelihood/impact/mitigation",
+      "Sub-element DAGs for 5 largest items (BL-001, BL-005, BL-006, BL-012, BL-016) showing internal decomposition and parallelism"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/GIT-ISSUES-STRUCTURE.md",
+    "basename": "GIT-ISSUES-STRUCTURE.md",
+    "size_estimate": "~100 lines (truncated in read)",
+    "primary_topic": "GitHub issues schema",
+    "document_type": "mapping",
+    "version": 1,
+    "key_decisions": [],
+    "schemas_defined": [
+      "Issue template with: title, description, acceptance criteria, labels, blocked-by, blocks, team, estimate",
+      "22 issues (one per BL item)",
+      "26 labels: 8 type + 5 wave + 4 priority + 5 track + 4 size"
+    ],
+    "bl_items_referenced": [
+      "BL-001", "BL-002", "BL-003", "BL-004", "BL-005", "BL-006", "BL-007", "BL-008", "BL-009", "BL-010",
+      "BL-011", "BL-012", "BL-013", "BL-014", "BL-015", "BL-016", "BL-017", "BL-018", "BL-019", "BL-020",
+      "BL-021", "BL-022"
+    ],
+    "dependencies_on": [
+      "IMPLEMENTATION-PLAN.md",
+      "DEPENDENCY-ANALYSIS.md",
+      "BACKLOG.md"
+    ],
+    "completeness": 70,
+    "key_signals": [
+      "5 wave-based milestones (M0–M3) with target dates",
+      "26 labels organized by: type (8), wave (5), priority (4), track (5), size (4)",
+      "gh CLI setup commands provided for bulk label and milestone creation",
+      "Note: CONSISTENCY-AUDIT-PLANS identifies that GIT-ISSUES dependency fields need 8 corrections per DEPENDENCY-ANALYSIS findings"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/LIBRARY-REFERENCE.md",
+    "basename": "LIBRARY-REFERENCE.md",
+    "size_estimate": "~1038 lines, 41KB",
+    "primary_topic": "Third-party library catalog",
+    "document_type": "reference",
+    "version": 2,
+    "key_decisions": [
+      "LIB-01 through LIB-21 (21 libraries documented with install, patterns, gotchas)"
+    ],
+    "schemas_defined": [
+      "Library entry structure: purpose, install, version, docs, patterns, code example, gotchas",
+      "Summary table with 21 libraries"
+    ],
+    "bl_items_referenced": [
+      "All BL items map to libraries: BL-001 (LangGraph), BL-004/005 (Pydantic), BL-006 (WeasyPrint), etc."
+    ],
+    "dependencies_on": [
+      "IMPLEMENTATION-PLAN.md",
+      "GML-RENDERING-ANALYSIS.md",
+      "LANGSMITH-COST-EVAL-RESEARCH.md"
+    ],
+    "completeness": 94,
+    "key_signals": [
+      "21 libraries cataloged: 10 backend (LangGraph, FastAPI, SQLAlchemy, Alembic, Pydantic, WeasyPrint, python-docx, Stripe, arq, httpx), 5 frontend (@assistant-ui/react, Zustand, Plotly.js, reveal.js, shadcn/ui), 2 external APIs (Brave, Jina), 4 GML rendering (unified, rehype-parse, rehype-react, react-plotly.js)",
+      "Each entry includes: purpose, install command, version target, docs URL, key patterns with code examples, known gotchas",
+      "Note: CONSISTENCY-AUDIT-PLANS flags chart library conflict (Plotly vs Recharts) — this document says Plotly.js but IMPLEMENTATION-PLAN says Recharts"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/PLATFORM-FRAMING.md",
+    "basename": "PLATFORM-FRAMING.md",
+    "size_estimate": "~245 lines, 10KB",
+    "primary_topic": "Three-layer architecture",
+    "document_type": "plan",
+    "version": 1,
+    "status": "CRITICAL — Strategic anchor for all NYQST implementation work",
+    "key_decisions": [],
+    "schemas_defined": [
+      "Platform Primitive to Module Reuse Matrix (10x5 grid)",
+      "Three-layer architecture: Layer 1 (10 primitives), Layer 2 (5 domain modules), Layer 3 (enterprise shell)"
+    ],
+    "bl_items_referenced": [
+      "All 22 BL items mapped to 10 platform primitives"
+    ],
+    "dependencies_on": [
+      "PRD-ADR-VISION-DIGEST.md",
+      "DECISION-REGISTER.md",
+      "DEPENDENCY-ANALYSIS.md",
+      "BACKLOG.md",
+      "PLATFORM-GROUND-TRUTH.md",
+      "AGENTIC-SYSTEM.md"
+    ],
+    "completeness": 100,
+    "key_signals": [
+      "Core insight: Superagent parity builds PLATFORM PRIMITIVES; research module is TEST HARNESS proving they work; domain modules (Lease CDs, Debt MVP, PropSygnal, RegSygnal) run ON this platform",
+      "10 Layer 1 primitives: Agentic Runtime, GENUI, MCP Tools, Document Management, Provenance & Citation, Context Engineering, LLM Integration, Reactive State & Streaming, Agent Management, Billing & Metering",
+      "Layer 2: Research (v1), Lease CDs (wedge), Debt MVP (Q2 2026), PropSygnal, RegSygnal",
+      "Layer 3: SSO/OIDC/SAML, RBAC/ABAC, multi-tenant isolation, data residency, audit trails, enterprise billing",
+      "Success criterion: 'Can a NEW domain module use this primitive WITHOUT modifying platform code?'"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/STRATEGIC-REVIEW.md",
+    "basename": "STRATEGIC-REVIEW.md",
+    "size_estimate": "~100 lines (partial read)",
+    "primary_topic": "Pre-implementation audit",
+    "document_type": "audit",
+    "version": 1,
+    "key_decisions": [
+      "DG-1 (chart library conflict — Plotly vs Recharts)",
+      "DG-2 (arq worker verification needed)",
+      "DG-3 (LLM structured output enforcement)",
+      "DG-4 (GML component parser — OQ-005 resolution)",
+      "DG-5 (DB session management in parallel nodes)",
+      "DG-6 (Migration 0005 scope — split or monolith)"
+    ],
+    "schemas_defined": [
+      "Decision gaps matrix (6 critical gaps)",
+      "Assumption audit table (12 assumptions with probability and validation)"
+    ],
+    "bl_items_referenced": [
+      "All 22 BL items mentioned in context of assumptions and risks"
+    ],
+    "dependencies_on": [
+      "LIBRARY-REFERENCE.md",
+      "DEPENDENCY-ANALYSIS.md",
+      "DECISION-REGISTER.md",
+      "GIT-ISSUES-STRUCTURE.md",
+      "IMPLEMENTATION-PLAN.md"
+    ],
+    "completeness": 75,
+    "key_signals": [
+      "6 decision gaps requiring immediate resolution before Wave 1 (DG-1 through DG-6)",
+      "12 assumptions audited; 4 flagged as Medium-High risk (A2, A4, A5, A6)",
+      "Critical gap DG-1: chart library conflict (Plotly in LIB-REF vs Recharts in IMPL-PLAN) affects BL-004, BL-005, BL-009, BL-019",
+      "Critical gap DG-2: arq worker process may not be operational (marked High risk, A1)",
+      "Critical gap DG-5: async DB session pattern in Send() nodes — hardest technical problem in entire project"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/INTERACTION-POINTS.md",
+    "basename": "INTERACTION-POINTS.md",
+    "size_estimate": "~75 lines (partial read)",
+    "primary_topic": "Service boundaries registry",
+    "document_type": "reference",
+    "version": "living document",
+    "key_decisions": [],
+    "schemas_defined": [
+      "External services (9 entries)",
+      "Internal services (5 entries)",
+      "Data boundaries (7 entries)",
+      "User-facing boundaries (8 entries)",
+      "Not replicating table (7 entries)"
+    ],
+    "bl_items_referenced": [
+      "BL-003 (Brave/Jina APIs)",
+      "BL-012 (Stripe)",
+      "BL-019 (PDF export)",
+      "BL-016 (entity storage)"
+    ],
+    "dependencies_on": [
+      "BACKLOG.md",
+      "PROJECT-BRIEF.md"
+    ],
+    "completeness": 90,
+    "key_signals": [
+      "9 external services: Brave Search, Jina Reader, Stripe, LLM providers, MinIO, Langfuse, data connectors, PDF export",
+      "5 internal services already in intelli: genui-dashboards-v2, wiki-propresearch, Docling, PostgreSQL+pgvector, OpenSearch",
+      "7 data boundaries from artifacts to entity/citation store to data brief",
+      "8 user-facing boundaries: chat streaming, run events, artifact download, Stripe checkout, file upload, generation overlay, clarification, PDF/DOCX download",
+      "7 explicitly NOT replicating: v0.app, Firecrawl, FactSet, Ory Kratos, PostHog, Sanity CMS, OneSignal"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/OBJECTIVES.md",
+    "basename": "OBJECTIVES.md",
+    "size_estimate": "~100 lines (partial read)",
+    "primary_topic": "Project objectives",
+    "document_type": "plan",
+    "version": 1,
+    "key_decisions": [],
+    "schemas_defined": [
+      "4 project objectives (OBJ-1 through OBJ-4)",
+      "Three-layer analysis methodology: Product / Agents / Quality",
+      "Agent dispatch protocol by tier (haiku/sonnet/opus)"
+    ],
+    "bl_items_referenced": [],
+    "dependencies_on": [],
+    "completeness": 85,
+    "key_signals": [
+      "OBJ-1: Understand Superagent system completely → SYSTEM-ARCHITECTURE.md",
+      "OBJ-2: Understand agentic system completely → AGENTIC-SYSTEM.md",
+      "OBJ-3: Infer methods for top-class results → QUALITY-METHODS.md",
+      "OBJ-4: Continuous goal focus — deliver at least as good, living backlog",
+      "Agent dispatch: haiku (summarize, catalog), sonnet (investigate, implement), opus (review, validate, dispatch complex work)",
+      "Methodology: three-layer decomposition (product → agents → quality)"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/PROJECT-BRIEF.md",
+    "basename": "PROJECT-BRIEF.md",
+    "size_estimate": "~100 lines (partial read)",
+    "primary_topic": "Master project reference",
+    "document_type": "plan",
+    "version": 1,
+    "status": "Active — design approved, implementation planning next",
+    "key_decisions": [
+      "v1 feature scope locked (9 features + 6 explicitly deferred)",
+      "Platform extension strategy: build on existing intelli, not greenfield"
+    ],
+    "schemas_defined": [
+      "v1 feature scope table (9 core features + 6 deferred)",
+      "Information storage registry (analysis, reports, mappings, planning documents, chat export)"
+    ],
+    "bl_items_referenced": [
+      "All 22 BL items in context of v1 scope"
+    ],
+    "dependencies_on": [
+      "All other planning documents"
+    ],
+    "completeness": 88,
+    "key_signals": [
+      "v1 scope: research orchestrator, 4 deliverable types (report, website, slides, document), billing/quotas, doc upload+RAG, deliverable selector UI, plan viewer + timeline",
+      "Deferred: scheduled tasks, content library, browser agent, public share, replay bar, push notifications",
+      "Operational rules for AI agents: context management (read only sections), file reading strategy, use agent tiers appropriately",
+      "CRITICAL context: NOT a greenfield build — extending nyqst-intelli-230126 (working platform, existing LangGraph graph, 4 migrations, full auth/artifact/streaming infrastructure)"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/CONSISTENCY-AUDIT-PLANS.md",
+    "basename": "CONSISTENCY-AUDIT-PLANS.md",
+    "size_estimate": "~100 lines (partial read)",
+    "primary_topic": "Consistency audit findings",
+    "document_type": "audit",
+    "version": 1,
+    "key_decisions": [
+      "I-01 (chart library conflict — recommend resolution)",
+      "I-02 through I-16 (inconsistency matrix with 16 entries)"
+    ],
+    "schemas_defined": [
+      "Inconsistency matrix (16 entries with Doc A, Doc B, inconsistency, severity, resolution)",
+      "Open questions status after later research (7 OQ resolutions)"
+    ],
+    "bl_items_referenced": [
+      "BL-003, BL-005, BL-006, BL-008, BL-009, BL-012, BL-015, BL-016, BL-018, BL-022"
+    ],
+    "dependencies_on": [
+      "LIBRARY-REFERENCE.md",
+      "DEPENDENCY-ANALYSIS.md",
+      "DECISION-REGISTER.md",
+      "GIT-ISSUES-STRUCTURE.md",
+      "STRATEGIC-REVIEW.md",
+      "IMPLEMENTATION-PLAN.md",
+      "LANGSMITH-COST-EVAL-RESEARCH.md",
+      "GML-RENDERING-ANALYSIS.md",
+      "GRAPH-EDITOR-RESEARCH.md"
+    ],
+    "completeness": 82,
+    "key_signals": [
+      "16 inconsistencies identified between 6 planning docs plus 3 analysis docs written later",
+      "5 BLOCKING severity issues: I-01 (chart library), I-02 (BL-003 wave assignment), I-03 (BL-022 dependency arrow), I-07 (Migration 0005 deps), I-10 (BL-022 critical path direction)",
+      "I-11 through I-13: 7 open questions need conversion to locked decisions; DEC-037 needs enrichment with LiteLLM/budget details; DEC-015 needs split into 015a/015b",
+      "4 stale claims (SC-01 through SC-04) with required corrections to planning docs",
+      "Chart library conflict unresolved: Plotly in LIB-REF/GML-RENDERING-ANALYSIS vs Recharts in IMPL-PLAN/GIT-ISSUES"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/SLICES.md",
+    "basename": "SLICES.md",
+    "size_estimate": "~139 lines, 4.5KB",
+    "primary_topic": "Team slice structure",
+    "document_type": "plan",
+    "status": "Concept — implementation pending",
+    "version": 1,
+    "key_decisions": [
+      "10 discipline-based slices for function-level team coordination"
+    ],
+    "schemas_defined": [
+      "Slice structure (10 slices with directory, discipline, mandate)",
+      "BL item assignments by slice (22 items distributed across 8 primary slices)",
+      "Cross-slice interface map (7 primary flows)"
+    ],
+    "bl_items_referenced": [
+      "BL-001", "BL-002", "BL-003", "BL-005", "BL-006", "BL-007", "BL-008", "BL-009", "BL-010", "BL-011", "BL-012", "BL-013", "BL-014", "BL-015", "BL-016", "BL-017", "BL-018", "BL-019", "BL-020", "BL-021", "BL-022"
+    ],
+    "dependencies_on": [
+      "IMPLEMENTATION-PLAN.md",
+      "BACKLOG.md"
+    ],
+    "completeness": 70,
+    "key_signals": [
+      "10 slices: Backend, Agentic, Context Management, Orchestration & Planning, Core Services, Infrastructure, Testing, Product/UX/Frontend, Research, Standards",
+      "Frontend merged into Product/UX (owns whole user journey, not separate track)",
+      "Context Management separate from Agentic (token budget/memory vs graph execution)",
+      "Research and Standards are first-class slices (not support functions)",
+      "Concession model: slices decide independently within domain; schema/API/SSE/security changes require Standards review",
+      "Implementation structure: 3 parallel agents writing CLAUDE.md in Phase 1 (Backend/Agentic/Context, then Orchestration/Core/Infrastructure, then Testing/Product/Research), then 1 agent for Standards + root index"
+    ]
+  }
+]

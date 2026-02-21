@@ -1,0 +1,605 @@
+[
+  {
+    "path": "/Users/markforster/NYQST-MCP/research/dify-analysis/DESIGN-KNOWLEDGE-CONTEXT-SYSTEM.md",
+    "basename": "DESIGN-KNOWLEDGE-CONTEXT-SYSTEM.md",
+    "primary_topic": "Knowledge and context management system architecture for organizational intelligence platform",
+    "document_type": "architecture-decision",
+    "architectural_decisions": [
+      "D1: Polymorphic scope binding (tenant/environment/project/objective/workflow/task) over separate FKs",
+      "D2: Config snapshot on conversation creation for reproducibility",
+      "D3: Universal tagging system over per-entity classification columns",
+      "D4: Insights as first-class entities with embeddings",
+      "D5: Cost tracking in microdollars (BIGINT) over DECIMAL",
+      "D6: Tool registry in database over configuration files",
+      "D7: Cross-org intelligence as Phase 4 product core, not deferred",
+      "D8: Session as environment lifecycle (VM-backed with inactivity gates)",
+      "D9: Insights stored as substrate artifacts (immutable, content-addressed)",
+      "D10: Conversation branching via parent_message_id from Phase 1",
+      "D11: Two-tier tagging (core system-governed + custom tenant-governed)",
+      "D12: Schema/data model store as Platform MCP module",
+      "D13: Never share insights across tenants (pure tenant isolation)",
+      "D14: Auto-idle (30min) + manual end for sessions",
+      "D15: Insight dedup = auto-merge + diagnostic investigation",
+      "D16: Full unit economics tracking (LLM + infra + time)"
+    ],
+    "infrastructure_components": [
+      "PostgreSQL relational tables (conversations, messages, insights, sessions, tags)",
+      "VECTOR embeddings for insights and semantic retrieval",
+      "Run ledger integration for event tracking",
+      "Substrate artifacts for insight immutability",
+      "Redis for caching (implicit from architecture)"
+    ],
+    "comparison_findings": [
+      "Dify's annotation system is narrower - NYQST's insights are organizational learning assets",
+      "NYQST provides better conversation persistence than current implementation",
+      "Polymorphic scope binding is more flexible than Dify's app-level config",
+      "Two-tier tagging enables both consistency and flexibility"
+    ],
+    "mcp_patterns": [
+      "Schema service namespace: schema.register, schema.validate, schema.list, schema.get",
+      "Tag service namespace: tag.core.set, tag.core.list_registries, tag.custom.set, tag.custom.create_registry",
+      "Profile-driven retrieval pattern (mentioned for Phase 2+)"
+    ],
+    "reusable_insights": [
+      "Hierarchical scope binding is more maintainable than hardcoded levels",
+      "Snapshot configuration at conversation start prevents resolution drift",
+      "Universal tagging enables cross-cutting analytics across domain models",
+      "Insight deduplication with diagnostic investigation detects context injection failures",
+      "Cost tracking at microdollar precision enables true unit economics for competitiveness"
+    ],
+    "key_signals": [
+      "Four-phase implementation plan: Conversations+Tags → Insights+Tool Registry → Environments+Scope Configs → Cross-Org Intelligence",
+      "16 decision records documenting all design trade-offs and rationale",
+      "Integration with existing substrate, run ledger, and MCP architecture",
+      "Comprehensive SQL schema with proper indexing for all access patterns"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-MCP/research/dify-analysis/COMPARISON-NYQST-VS-DIFY.md",
+    "basename": "COMPARISON-NYQST-VS-DIFY.md",
+    "primary_topic": "Brutally honest gap analysis between NYQST prototype and Dify production system",
+    "document_type": "competitive-analysis",
+    "architectural_decisions": [
+      "NYQST uses Vercel AI SDK v3 adapter instead of native TypeScript backend",
+      "LangGraph chosen over AI SDK's manual agent loop for checkpointing and workflows",
+      "MCP tools exposed as primary interface (vs Dify's tool provider architecture)"
+    ],
+    "infrastructure_components": [
+      "LangGraph runtime with PostgreSQL checkpointing",
+      "Vercel AI SDK v3 Data Stream Protocol (10 event types)",
+      "FastAPI backend + Python MCP tools",
+      "Run ledger for audit trail (25 event types)",
+      "RAG pipeline with Docling, pgvector, OpenSearch"
+    ],
+    "comparison_findings": [
+      "Streaming: NYQST has 10 event types (minimal), Dify has 25+ (comprehensive). NYQST advantage in maintainability via Vercel SDK",
+      "Conversation model: NYQST has NONE (client-side only), Dify has full 8-table schema with cost/latency tracking. THIS IS THE SINGLE LARGEST GAP",
+      "RAG quality: Dify significantly better - 2K char chunks (vs standard 500-800), reranking, hybrid search, metadata filtering",
+      "Agent capabilities: Dify has multi-step tool calling, workflows, branching. NYQST is RAG-only (2-node graph)",
+      "Chat UI: Dify production-quality, NYQST is developer workbench. Markdown, citations, agent thoughts, feedback",
+      "Database maturity: Dify ~80 tables, NYQST 11. Gap is real but Dify's substrate layer (content-addressed, manifest chain) is genuinely novel",
+      "MCP tools: NYQST has 10 implemented substrate tools (unique to NYQST), Dify only consumes external MCP"
+    ],
+    "mcp_patterns": [
+      "NYQST MCP substrate tools: list_pointers, resolve_pointer, checkout_manifest, create_artifact, etc.",
+      "Tool execution pipeline: validate → policy check → execute → log → return (5 stages)"
+    ],
+    "reusable_insights": [
+      "Vercel AI SDK approach is maintainable for streaming but requires manual adapter (200 lines)",
+      "LangGraph's checkpointing is architecturally superior to AI SDK's manual state management",
+      "Content-addressed substrate (SHA-256 artifacts + manifest chains) is genuinely innovative vs Dify's UUID-keyed files",
+      "Python backend with LangGraph trade-off: more code for streaming but gains graph workflows, human-in-the-loop, MCP integration",
+      "Conversation persistence is TABLE STAKES - cannot be deferred"
+    ],
+    "key_signals": [
+      "NYQST has architectural innovations (substrate, run ledger, MCP tools) but is 6-12 months behind on customer-facing features",
+      "Critical path to parity: (1) conversation persistence, (2) RAG quality (reranking, smaller chunks), (3) project/configuration model",
+      "Run ledger integration is NYQST's key differentiator - enables audit, policy checks, reproducibility that Dify cannot match",
+      "Python backend is correct choice for audit requirements, not a mistake"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-MCP/research/dify-analysis/NYQST-SSE-EVENT-SPECIFICATION.md",
+    "basename": "NYQST-SSE-EVENT-SPECIFICATION.md",
+    "primary_topic": "Server-Sent Events specification for streaming agent and workflow responses with Vercel AI SDK v3 compatibility",
+    "document_type": "infrastructure-design",
+    "architectural_decisions": [
+      "18 total event types (14 existing + 4 new): text, tool, reasoning, source-document, lifecycle",
+      "High priority: ping (connection keepalive) and error events (structured error handling)",
+      "Medium priority: message-file (attachments) and usage-update (token tracking)",
+      "Reject Dify's workflow/iteration/loop events - LangGraph orchestration is internal",
+      "SSE wire format with both standard AI SDK events and custom NYQST events"
+    ],
+    "infrastructure_components": [
+      "LangGraphToAISDKAdapter (200 lines) converts LangGraph astream_events to AI SDK protocol",
+      "EventSource browser API with exponential backoff reconnection",
+      "Redis-backed distributed rate limiting (deferred from bootstrap)",
+      "Connection health monitoring via ping events (10s intervals)",
+      "Structured error taxonomy: rate_limit_exceeded, tool_execution_failed, llm_request_failed, validation_error, context_length_exceeded, unknown_error"
+    ],
+    "comparison_findings": [
+      "NYQST 18 events vs Dify 25+ events - difference is workflow engine complexity (Dify has visual DAG)",
+      "NYQST's Vercel AI SDK v3 choice is superior to Dify's custom SSE parser (maintainability wins)",
+      "Reasoning events (o1/o3 support) in NYQST are more advanced than Dify's basic thought display",
+      "NYQST lacks TTS and content moderation (out of scope for bootstrap)"
+    ],
+    "mcp_patterns": [
+      "Tool execution events with full request/response JSON in providerMetadata",
+      "Source-document citations using AI SDK's citation-aware text rendering",
+      "Error event recovery strategy matrix: retry vs fallback vs abort vs require_approval"
+    ],
+    "reusable_insights": [
+      "Ping events essential for preventing proxy/CDN timeout (recommend all streaming APIs)",
+      "Token usage should be streamed incrementally, not aggregated in finish event",
+      "Error codes should map to frontend actions (retry with delay, show inline error, etc.)",
+      "Connection health monitoring is critical for mobile/unstable networks",
+      "ReasoningStreamPart support (o1/o3 models) differentiates from older platforms"
+    ],
+    "key_signals": [
+      "4-phase implementation roadmap with clear prioritization (connection → errors → usage → files)",
+      "Integration tests for event stream contract with both successful and error paths",
+      "Verified compatibility with Vercel AI SDK v3 Data Stream Protocol",
+      "Event firing points documented in LangGraph adapter code (on_chat_model_stream, on_tool_start/end, etc.)"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-MCP/research/dify-analysis/VERCEL-AI-SDK-NATIVE-COMPARISON.md",
+    "basename": "VERCEL-AI-SDK-NATIVE-COMPARISON.md",
+    "primary_topic": "Analysis of Vercel AI SDK native features vs NYQST's Python backend architecture trade-offs",
+    "document_type": "architecture-decision",
+    "architectural_decisions": [
+      "Keep Python backend with LangGraph - do NOT migrate to TypeScript",
+      "Accept 200-line adapter tax for streaming (LangGraphToAISDKAdapter)",
+      "Hybrid architecture for RSC support if needed (Next.js API routes + FastAPI backend)",
+      "LangGraph checkpointing as primary conversation persistence (not AI SDK's onFinish hook)"
+    ],
+    "infrastructure_components": [
+      "FastAPI Python backend (cannot use Next.js server actions without rewriting 8K LOC)",
+      "LangGraph with PostgreSQL-backed checkpoints",
+      "MCP tool pipeline (72 tools across 6 servers)",
+      "Run ledger for execution audit trail",
+      "Vercel AI SDK v3 on frontend with custom adapter"
+    ],
+    "comparison_findings": [
+      "Native AI SDK streamText(): 5 lines vs NYQST adapter: 200 lines (40x simpler for basic streaming)",
+      "AI SDK tool execution: inline functions vs NYQST: MCP pipeline with policy/audit (NYQST wins for auditability)",
+      "Message persistence: AI SDK requires custom implementation (no built-in) vs LangGraph checkpoints (built-in)",
+      "AI SDK RSC support: TypeScript-only, not available to Python backends",
+      "Graph workflows: AI SDK has no equivalent to LangGraph's conditional edges, subgraphs, or parallel branches"
+    ],
+    "mcp_patterns": [
+      "ToolExecutionPipeline 5-stage pattern works through MCPToolNode bridge in LangGraph",
+      "Checkpointer selection: PostgresSaver for production, SqliteSaver for dev/tests",
+      "Error recovery strategies: RETRY, FALLBACK, ABORT, SKIP, REQUIRE_APPROVAL"
+    ],
+    "reusable_insights": [
+      "Python backend is CORRECT CHOICE for this use case - graph workflows + audit requirements + MCP tools make TypeScript migration unjustifiable",
+      "Cost of LangGraphToAISDKAdapter (200 lines) is worth the price of LangGraph's capabilities",
+      "Hybrid architecture (Next.js for RSC + FastAPI for core) viable if RSC becomes critical (not now)",
+      "AI SDK is better for simple chatbots, LangGraph mandatory for complex workflows",
+      "Streaming adapter is transparent - frontend code unchanged if adapter bugs fixed"
+    ],
+    "key_signals": [
+      "Migration cost estimate: 7-9 weeks, high risk of losing LangGraph checkpointing and human-in-the-loop",
+      "Recommendation: Do not migrate to TypeScript backend - gains (RSC, simpler streaming) far outweighed by losses",
+      "If RSC becomes critical post-funding, run parallel Next.js routes (don't replace FastAPI)",
+      "Current stack is architecturally optimal for NYQST's requirements"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/NYQST-MCP-INFRASTRUCTURE-DESIGN.md",
+    "basename": "NYQST-MCP-INFRASTRUCTURE-DESIGN.md",
+    "primary_topic": "Full cloud infrastructure design for NYQST MCP platform deployment with Oracle Cloud Always Free as primary platform",
+    "document_type": "infrastructure-design",
+    "architectural_decisions": [
+      "Oracle Cloud Always Free is ONLY viable option for zero-cost bootstrap",
+      "Converged Autonomous Database (relational + vector + graph + JSON) replaces 4 separate databases",
+      "4-server bootstrap fleet: Platform, Project Registry, Domain Model, Slack Connector (defer Admin/Ops and additional connectors)",
+      "ARM Ampere A1 VM (4 OCPU, 24 GB RAM) with Docker Compose stack layout",
+      "Caddy reverse proxy for TLS termination and path-based routing",
+      "GCP Pub/Sub + Cloud Functions as supplementary (Oracle has no free queue service)",
+      "Transaction-mode Pgbouncer for connection pooling with SET LOCAL session variables"
+    ],
+    "infrastructure_components": [
+      "Oracle Cloud Always Free: 4 OCPU ARM VM (24 GB RAM), 2x Autonomous Database (1+20 GB), 20 GB Object Storage, Vault, Monitoring",
+      "GCP Always Free: Cloud Run, Pub/Sub (10 GB/month), Cloud Functions, Firestore (1 GB), Firebase Hosting",
+      "Azure optional: Cosmos DB Gremlin for CDM experiments",
+      "Docker Compose: Caddy (256 MB), Redis (2 GB), LangGraph (4 GB), Platform MCP (2 GB), Domain Model (1.5 GB), Project Registry (1 GB), Slack Connector (512 MB), Worker Pool (4-6 GB)",
+      "PostgreSQL checkpointer for LangGraph state persistence"
+    ],
+    "comparison_findings": [
+      "Oracle score: 9.5/10 - ONLY provider with converged DB + substantial compute",
+      "GCP score: 7/10 hybrid - excellent serverless but e2-micro (0.25 vCPU, 1 GB) insufficient",
+      "AWS score: 2/10 - no permanent VMs/DBs, serverless-only incompatible with MCP",
+      "Azure score: 7/10 optional - Cosmos DB for CDM experiments, but no permanent VMs"
+    ],
+    "mcp_patterns": [
+      "NyqstMCPServer base class with 7 architectural layers: Transport, Auth, Database, Data Model, Vector/RAG, Agentic, Methods",
+      "MCP backbone provides swappable backends (PostgreSQL, Oracle ADB, SQLite for DB; pgvector, Oracle AI VS, OpenSearch, Qdrant for vector)",
+      "Profile-driven retrieval system - modules select profiles, not raw configurations"
+    ],
+    "reusable_insights": [
+      "Converged database eliminates operational complexity - single service for relational, vector, graph, JSON, full-text",
+      "ARM provisioning can fail - multi-region retry script with 7-day persistence window essential",
+      "Session variable approach (SET LOCAL) is more portable than JWT claims for RLS",
+      "Contract-first architecture enables backend swaps (Oracle to PostgreSQL/GCP/AWS post-funding)",
+      "Bootstrap RAM budget: 24 GB allows comfortable headroom for spikes (6 GB buffer)"
+    ],
+    "key_signals": [
+      "12 identified risks with mitigation strategies and residual risk levels",
+      "8-week bootstrap roadmap: Foundation (Weeks 1-2) → Platform MCP (Weeks 3-4) → Domain+Registry (Weeks 5-6) → Slack (Week 7) → Integration (Week 8)",
+      "From bootstrap to production: What stays (architecture, contracts, code) vs What changes (compute, database scale, auth, rate limiting)",
+      "Self-hosted migration possible at scale (OVH/Hetzner + K8s replaces Oracle at ~£500-1K/month vs £10K+/month cloud)"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/CLOUD-COMPARISON-SUMMARY.md",
+    "basename": "CLOUD-COMPARISON-SUMMARY.md",
+    "primary_topic": "Executive decision document comparing Oracle, GCP, AWS, Azure free tiers with comprehensive scoring and migration paths",
+    "document_type": "comparison",
+    "architectural_decisions": [
+      "Oracle primary platform (9.5/10) with GCP supplementary (7/10 hybrid) and Azure optional (7/10 selective)",
+      "Hybrid multi-cloud strategy: Oracle core infrastructure, GCP serverless, Azure for CDM",
+      "Bootstrap phase: zero cost with 24 GB RAM and converged database",
+      "Early funding phase (£1K-5K/month): Upgrade Oracle, expand GCP, test Cosmos DB",
+      "Growth phase (£10K+/month): Multi-region OKE clusters, Exadata, global distribution"
+    ],
+    "infrastructure_components": [
+      "Oracle: Autonomous Database (ATP + ADW), ARM VM, Object Storage, Vault, Monitoring",
+      "GCP: Cloud Run, Pub/Sub, Cloud Functions, Firestore, Firebase Auth, BigQuery",
+      "Azure: Cosmos DB (Gremlin), Azure SQL Database, Entra ID",
+      "Caddy for reverse proxy with TLS termination"
+    ],
+    "comparison_findings": [
+      "Oracle converged database is decisive advantage - eliminates PostgreSQL + pgvector + Neo4j + OpenSearch stack",
+      "GCP excels at serverless (Cloud Run, Pub/Sub, Firebase) but e2-micro insufficient for primary infrastructure",
+      "AWS unsuitable for bootstrap (no permanent compute/DB), but Bedrock/Textract valuable post-funding",
+      "Azure Cosmos DB Gremlin interesting for CDM but Entra ID/SQL Database not free tier",
+      "Always-free tier definitions critical: Oracle/GCP/Azure permanent, AWS 12-month trial only"
+    ],
+    "mcp_patterns": [
+      "ORDS REST/GraphQL auto-API layer over Oracle Autonomous DB",
+      "Service-to-service authentication via HMAC-signed tokens with shared secret",
+      "Distributed rate limiting via Redis (Oracle has no free queue service)"
+    ],
+    "reusable_insights": [
+      "Multi-cloud strategy enables vendor lock-in mitigation through contract-first architecture",
+      "GCP Pub/Sub fills critical gap in Oracle (no free queue service) - essential for async job dispatch",
+      "ARM provisioning shortage risk is manageable with multi-region retry (7-day window)",
+      "Idle VM reclamation (20% CPU at p95) not a blocker - LangGraph + MCP baseline load ~30-40%",
+      "Storage budget (20 GB ADB + 20 GB Object) sufficient for 1M embeddings + 5GB raw documents with lifecycle policies"
+    ],
+    "key_signals": [
+      "Top 5 risks: ARM provisioning failure (HIGH), multi-cloud complexity (MEDIUM), vendor lock-in (MEDIUM), Cosmos RU/s throttling (MEDIUM), GCP e2-micro insufficient as fallback (LOW)",
+      "Migration path documented: Bootstrap (£0) → Early funding (£200-500/month) → Growth (£2K-10K/month) → Exit strategy (self-hosted at £500-1K/month)",
+      "Budget spreadsheet: 18 GB of 20 GB ADB used by proposal (2 GB headroom), 20 GB Object Storage allocated for artifacts",
+      "Recommendation locked: Use Oracle Always Free as primary, supplement with GCP, defer Azure to post-funding"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/ADR-011-LANGGRAPH-MCP-BRIDGE.md",
+    "basename": "ADR-011-LANGGRAPH-MCP-BRIDGE.md",
+    "primary_topic": "Dual-mode tool architecture enabling LangGraph graphs to invoke MCP tools through unified execution pipeline",
+    "document_type": "architecture-decision",
+    "architectural_decisions": [
+      "MCPToolNode as bridge between LangGraph and ToolExecutionPipeline (5-stage validation→policy→execute→log→return)",
+      "Both internal (LangGraph) and external (Claude Desktop, VS Code) agents use same pipeline",
+      "Checkpoint after every tool call for conversation continuity and replay capability",
+      "LangGraph event listener maps astream_events to run ledger events in parallel (8 event type mappings)",
+      "Error recovery strategies: RETRY (exponential backoff), FALLBACK, ABORT, SKIP, REQUIRE_APPROVAL (human-in-the-loop via interrupt())"
+    ],
+    "infrastructure_components": [
+      "LangGraph with PostgreSQL-backed checkpointer (PostgresSaver for prod, SqliteSaver for dev)",
+      "Vercel AI SDK adapter for streaming events (token-level + node-level)",
+      "LangGraphEventListener for audit trail integration",
+      "Policy engine with approval gate integration",
+      "Run ledger with 25 event types"
+    ],
+    "comparison_findings": [
+      "NYQST approach superior to Dify's VariablePool - checkpointing is more robust than manual state serialization",
+      "LangGraph's interrupt() primitive enables human-in-the-loop that AI SDK lacks entirely",
+      "Unified execution pipeline eliminates duplicate tool handling logic between internal and external agents"
+    ],
+    "mcp_patterns": [
+      "MCPToolNode implementation pattern: extract tool calls → ExecutionContext builder → dispatch through pipeline → return ToolMessages",
+      "ExecutionContext dataclass carries: tenant_id, principal_id, session_id, run_id, capabilities, policy_template, trace_id",
+      "ToolResponse envelope: status (success/error/denied/pending), data, refs, warnings, tool_call_id",
+      "Event mapping matrix: on_chain_start→run.started, on_chat_model_end→llm.completion.completed, on_tool_start→tool.call.started, etc."
+    ],
+    "reusable_insights": [
+      "Checkpointing strategy: snapshot at every tool call, LLM response, before approval, and manual state updates",
+      "Checkpoint state includes full AgentState (messages, sources, metadata) - enables time-travel debugging",
+      "Error recovery taxonomy is clear and extensible - maps error codes to frontend actions",
+      "Streaming output pattern: both token-level (chat model stream) and node-level (astream) provide good UX",
+      "Human-in-the-loop approval via interrupt() returns to same checkpoint - no state loss on rejection"
+    ],
+    "key_signals": [
+      "Dual-mode architecture proven pattern - same pipeline for internal and external agents eliminates code duplication",
+      "Event listener implementation separates concerns: LangGraph orchestration vs run ledger audit",
+      "Error classification and recovery strategy matrix enables intelligent retry logic without application code",
+      "4-week implementation plan with clear phase dependencies (bridge → checkpointing → event mapping → testing)",
+      "State machine diagrams document tool execution and conversation flow with all edge cases"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/ADR-011-POSTGRESQL-RLS-MULTI-TENANCY.md",
+    "basename": "ADR-011-POSTGRESQL-RLS-MULTI-TENANCY.md",
+    "primary_topic": "PostgreSQL Row-Level Security implementation for database-enforced multi-tenant isolation",
+    "document_type": "architecture-decision",
+    "architectural_decisions": [
+      "PostgreSQL RLS (Row-Level Security) as primary tenant isolation mechanism (not just application-level filtering)",
+      "Session variable approach: SET LOCAL app.current_tenant_id per transaction",
+      "Three-role model: app_user (RLS enforced), app_admin (BYPASSRLS), postgres (superuser for migrations)",
+      "RLS policy template on all 11 tenant-scoped tables with USING and WITH CHECK clauses",
+      "Transaction-mode Pgbouncer/Supabase Pooler for SET LOCAL compatibility"
+    ],
+    "infrastructure_components": [
+      "PostgreSQL 16.3+ with RLS enabled on: tenants, users, api_keys, audit_logs, artifacts, manifests, pointers, pointer_history, runs, run_events, rag_chunks",
+      "Three-role RBAC: app_user (standard app connections, RLS enforced), app_admin (admin operations, RLS bypassed), postgres (schema migrations)",
+      "Pgbouncer with transaction-mode pooling (pool_mode = transaction)",
+      "SQLAlchemy async session factory with get_tenant_session(tenant_id) context manager",
+      "Integration tests verifying RLS for every tenant-scoped table"
+    ],
+    "comparison_findings": [
+      "NYQST design superior to Dify - Dify relies entirely on application-level WHERE clauses (single forgotten filter = data leak)",
+      "RLS provides defense-in-depth protection against SQL injection and ORM bugs",
+      "PostgreSQL's BYPASSRLS for admin sessions is cleaner than application-level admin flags",
+      "Supabase Pooler supports RLS natively (transaction-mode by default) - easier than bare Pgbouncer"
+    ],
+    "mcp_patterns": [
+      "get_tenant_session(tenant_id) context manager - sets session variable at transaction start, auto-clears at commit/rollback",
+      "get_admin_session() for cross-tenant operations with explicit auth check before use",
+      "SQLAlchemy tenant middleware could auto-inject tenant context (deferred for future optimization)"
+    ],
+    "reusable_insights": [
+      "RLS policies are transparent to application - existing queries work without WHERE clause changes after migration",
+      "Session variables are transaction-scoped and connection-pooler safe (with correct pool_mode)",
+      "Indexes on tenant_id columns are essential - RLS adds implicit WHERE clause, must be indexed for performance",
+      "Append-only tables (audit_logs, run_events) need separate INSERT policy allowing appends, no updates/deletes",
+      "Admin bypass via BYPASSRLS privilege is simpler than per-table admin policies"
+    ],
+    "key_signals": [
+      "Phase 1 migration: Add RLS alongside manual filters for double protection (weeks 1-2)",
+      "Phase 2 validation: Run full integration tests with RLS enabled (week 2)",
+      "Phase 3 cleanup: Remove manual WHERE tenant_id clauses, reduces ~500 LOC (weeks 3-4)",
+      "Performance overhead: <10% on all query types per benchmark (AWS RDS db.t4g.micro with 1M artifacts)",
+      "Four detailed implementation patterns: isolation, admin operations, cross-tenant joins, RLS policy debugging"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/LANGGRAPH-DORMANT-CAPABILITIES.md",
+    "basename": "LANGGRAPH-DORMANT-CAPABILITIES.md",
+    "primary_topic": "LangGraph capabilities NYQST isn't currently using, with implementation cost estimates and activation roadmap",
+    "document_type": "infrastructure-design",
+    "architectural_decisions": [
+      "Prioritize human-in-the-loop (interrupt/resume) for approval gates - already designed in ADR-011",
+      "Defer multi-agent orchestration until single-agent patterns exhausted",
+      "Phase in time-travel debugging after core platform stable (checkpoint inspection, fork, replay)",
+      "Add parallel execution for RAG optimization (query vector DB + Neo4j + full-text simultaneously)"
+    ],
+    "infrastructure_components": [
+      "LangGraph interrupt() API for human-in-the-loop pauses with JSON payload to external systems",
+      "Graph branching: conditional edges, parallel nodes via Send() API, subgraph composition",
+      "Checkpoint history API: get_state_history(), get_state(), update_state() for time-travel",
+      "Multi-agent supervisor-worker patterns with state sharing via Annotated[list, operator.add]"
+    ],
+    "comparison_findings": [
+      "AI SDK has no equivalent to LangGraph's interrupt(), checkpointing, or graph workflows",
+      "LangGraph's parallel execution via Send() is cleaner than manually coordinating async tasks",
+      "Time-travel debugging (fork from checkpoint, replay) is powerful for A/B testing and troubleshooting"
+    ],
+    "mcp_patterns": [
+      "interrupt() returns arbitrary JSON to external systems - enables approval UI, form filling, human-in-the-loop",
+      "Send() API for dynamic fan-out based on state - enables multi-source RAG, quality control pipelines",
+      "get_state_history() for audit trails, A/B testing, production debugging"
+    ],
+    "reusable_insights": [
+      "Human-in-the-loop capability is table stakes for enterprise (document approval, policy gates, compliance reviews)",
+      "Parallel execution for RAG is immediate win - 3x speed improvement for multi-strategy search",
+      "Time-travel debugging enables 'rewind and fix' pattern - critical for troubleshooting production issues",
+      "Multi-agent orchestration is advanced feature - only add when single-agent patterns exhausted",
+      "All four capabilities integrate with existing run ledger and policy engine"
+    ],
+    "key_signals": [
+      "Activation order: (1) Parallel RAG execution + human-in-the-loop (week 1-2), (2) Time-travel debugging (week 3-4), (3) Multi-agent orchestration (month 2+)",
+      "Implementation costs: Parallel = 2-4 days, Human-in-the-loop = 2-3 days, Time-travel = 3-5 days, Multi-agent = 1-2 weeks",
+      "Run ledger extensions: subgraph.started/completed, checkpoint.inspected, state.forked, execution.replayed, approval.requested/granted/denied",
+      "All capabilities are thread-safe when used with MCPToolNode, checkpoint persistence, and policy engine"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/common-mcp-architecture/ADR-MCP-BACKBONE.md",
+    "basename": "ADR-MCP-BACKBONE.md",
+    "primary_topic": "Architecture decision for common Python backbone shared by all NYQST MCP servers",
+    "document_type": "architecture-decision",
+    "architectural_decisions": [
+      "All MCP servers share common backbone providing 7 architectural layers",
+      "Transport layer supports HTTP Streamable (prod), stdio (dev), SSE (legacy)",
+      "Single-language stack (Python 3.12+) for agent runtime, RAG, and all MCP servers",
+      "Swappable backends: Database (PostgreSQL/Oracle/SQLite), Vector (pgvector/Oracle AI/OpenSearch/Qdrant), Auth (API key/OAuth2/OIDC)",
+      "Profile-driven retrieval system - modules select named profiles, not raw configurations",
+      "Non-negotiable audit trail via 5-stage tool execution pipeline"
+    ],
+    "infrastructure_components": [
+      "NyqstMCPServer base class extending mcp.server.Server",
+      "Seven layers: Transport, Auth, Database, Data Model, Vector/RAG, Agentic, Methods",
+      "Abstract interfaces (Protocols): DatabaseBackend, VectorStoreBackend, AuthMiddleware, ToolExecutionPipeline, PolicyEngine",
+      "Shared entities: Tenant, Principal, ApiKey, AccessPolicy, ToolDefinition, RunEvent, AuditLog, ConfigSetting",
+      "FastAPI sidecar for admin/health endpoints on same port as MCP protocol"
+    ],
+    "comparison_findings": [
+      "Domain-grouped architecture (6-8 servers) balances monolith vs microservices",
+      "Backbone ensures consistent audit, auth, multi-tenancy across all servers without reimplementation"
+    ],
+    "mcp_patterns": [
+      "Tool registration decorator pattern: @tool(name, description, sensitivity, version)",
+      "Structured error hierarchy: all errors inherit from NyqstError with code, message, details, retryable, http_status",
+      "Background task pattern: background_task(tool_name, **kwargs) for fire-and-forget async work",
+      "Health/readiness probes: /health (liveness always 200), /ready (checks DB + vector store)",
+      "Tenant middleware: SQLAlchemy event hooks inject WHERE tenant_id = :tid"
+    ],
+    "reusable_insights": [
+      "Strong kernel / weak periphery philosophy: backbone rigid with semver, domain servers extend freely",
+      "Contract-first interfaces (Protocols) enable backend swaps without code changes",
+      "Backbone versioning prevents breaking changes from impacting all servers simultaneously",
+      "Profile registry pattern avoids hardcoding chunking/embedding/retrieval configuration",
+      "Shared Docker Compose template reduces scaffold time from weeks to hours"
+    ],
+    "key_signals": [
+      "Backbone provides 7 architectural layers covering transport through audit to patterns",
+      "New MCP servers scaffolded with register_tools() method - everything else inherited",
+      "Backend swaps (e.g., pgvector to Oracle AI VS) happen once in backbone, transparently to servers",
+      "Strong kernel ensures non-negotiable invariants: audit trail, multi-tenancy, policy checks"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/common-mcp-architecture/SUMMARY.md",
+    "basename": "common-mcp-architecture-SUMMARY.md",
+    "primary_topic": "Comprehensive summary of 7-layer MCP backbone architecture with all abstractions, data models, patterns, and open questions",
+    "document_type": "infrastructure-design",
+    "architectural_decisions": [
+      "Seven mandatory layers: Transport, Auth, Database, Data Model, Vector/RAG, Agentic, Methods",
+      "Database Protocol over PostgreSQL, Oracle ADB, or SQLite (not code-driven)",
+      "VectorStoreBackend Protocol over pgvector, Oracle AI VS, OpenSearch, Qdrant",
+      "Profile-driven retrieval system with named profiles (docs.default, docs.citation_strict, runs.trace_search, projects.cross_project)",
+      "Multi-tenant from day one via tenant_id column on all shared tables"
+    ],
+    "infrastructure_components": [
+      "8 shared data entities: Tenant, Principal, ApiKey, AccessPolicy, ToolDefinition, RunEvent, AuditLog, ConfigSetting",
+      "3 abstract protocols: DatabaseBackend, VectorStoreBackend, ToolExecutionPipeline",
+      "6 abstractions: AuthMiddleware, PolicyEngine, IndexProfile, NyqstMCPServer, ToolRegistry, ExecutionContext",
+      "Supporting dataclasses: ToolResponse, ResourceRef, EvidenceSpan, ChunkRecord, VectorSearchResult"
+    ],
+    "comparison_findings": [
+      "Backbone approach is superior to per-server independent stacks - eliminates duplication and inconsistency",
+      "Profile-driven retrieval beats hardcoded configuration - enables marketplace of retrieval strategies"
+    ],
+    "mcp_patterns": [
+      "Base server pattern: extend NyqstMCPServer, pass dependencies, register_tools(), run()",
+      "Tool registration via decorator: @tool(name, description, sensitivity, version)",
+      "Streaming responses: AsyncGenerator[dict, None] yields progress updates, converted to SSE/JSON-RPC",
+      "Background tasks: fire-and-forget work dispatched via background_task() helper",
+      "Tenant middleware: auto-injects tenant context into all queries on tenant-scoped models"
+    ],
+    "reusable_insights": [
+      "Backbone enables rapid server scaffolding - overhead only of domain-specific tools",
+      "Swappable backends strategy is powerful - test with SQLite locally, deploy with Oracle/PostgreSQL",
+      "Profile registry pattern avoids configuration explosion - modules don't touch embedding/chunking/retrieval tuning",
+      "Shared Docker template ensures consistent containerization across all servers",
+      "Strong kernel / weak periphery balance prevents backbone bloat while preserving flexibility"
+    ],
+    "key_signals": [
+      "15 open questions identified: service token rotation, rate limiter migration, approval queue backend, GraphRAG entity extraction, schema migration coordination, etc.",
+      "Statistics: 7 layers, 8 shared entities, 3 abstract protocols, 4 standard index profiles, 12 open questions resolved",
+      "Dependencies documented: 24 Python packages from mcp to langchain to SQLAlchemy to structlog",
+      "All capabilities integrated with run ledger events and policy engine - no isolated decisions"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/oracle-plan/ADR-ORACLE-INFRA.md",
+    "basename": "ADR-ORACLE-INFRA.md (secondary)",
+    "primary_topic": "Oracle Cloud Always Free infrastructure selection decision for bootstrap phase",
+    "document_type": "architecture-decision",
+    "architectural_decisions": [
+      "Oracle Cloud Always Free selected over AWS, GCP, Azure for bootstrap infrastructure",
+      "Converged Autonomous Database as key differentiator - eliminates separate PostgreSQL, pgvector, Neo4j, OpenSearch",
+      "ARM capacity shortage mitigation: multi-region retry script with 7-day provisioning window"
+    ],
+    "infrastructure_components": [
+      "2x Autonomous Database instances (1 OCPU, 20 GB each) - converged relational + vector + graph + JSON + full-text",
+      "4 OCPU ARM Ampere A1 VM (24 GB RAM) - sufficient for full NYQST stack",
+      "20 GB Object Storage, Vault (150 secrets), Load Balancer (10 Mbps), Monitoring (10 GB logs)",
+      "OCIR container registry (~5 GB)"
+    ],
+    "comparison_findings": [
+      "Oracle 9.5/10 vs GCP 7/10 vs AWS 2/10 vs Azure 7/10 - Oracle decisive winner on infrastructure completeness",
+      "Only Oracle offers permanent free tier with converged database + substantial compute"
+    ],
+    "mcp_patterns": [
+      "ORDS REST/GraphQL auto-API layer - Oracle-specific but standard SQL underneath",
+      "Session variables for RLS: SET LOCAL app.current_tenant_id"
+    ],
+    "reusable_insights": [
+      "Converged database is game-changer - simplifies ops, eliminates data sync, enables transaction consistency across relational+vector+graph",
+      "ARM capacity shortage is managed risk - 7-day retry window and CPU keepalive are sufficient",
+      "Migration to paid tier scales vertically (more OCPUs) not horizontally (different architecture)"
+    ],
+    "key_signals": [
+      "Production-grade infrastructure from day one (not trial-based)",
+      "Always-free tier is permanent (not 12-month like AWS)",
+      "Scale path to funded phase well-defined: Oracle paid tier + GCP expansion + optional Azure"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/mcp-specifications/ADR-MCP-SERVER-DECOMPOSITION.md",
+    "basename": "ADR-MCP-SERVER-DECOMPOSITION.md (secondary)",
+    "primary_topic": "Domain-grouped MCP server decomposition strategy balancing monolith vs microservices",
+    "document_type": "architecture-decision",
+    "architectural_decisions": [
+      "6-server domain-grouped architecture: Platform, Project Registry, Domain Model, RAG Service (deferred to Platform), Connectors, Admin/Ops",
+      "Criteria: domain boundary, deployment independence, team ownership, scaling characteristics, data locality, security boundary",
+      "Bootstrap phase: 4 servers (defer Admin/Ops and additional connectors to Phase 2-3)"
+    ],
+    "infrastructure_components": [
+      "Platform MCP: 45 tools across substrate/run/index/knowledge/document/claim/schema namespaces",
+      "Project Registry MCP: 4 tools for GitHub-fed inventory",
+      "Domain Model MCP: 8 tools for ISDA CDM, CRE ontologies, regulatory taxonomies",
+      "Slack Connector MCP: 5 tools for Slack API integration",
+      "RAG Service MCP (deferred): 5 tools - will be merged into Platform MCP per review feedback"
+    ],
+    "comparison_findings": [
+      "Domain-grouped avoids monolith (100+ tools = context overload) and microservices (50+ servers = ops nightmare)",
+      "Tool counts per server: 4-45 tools (MCP-compatible range is 10-50 tools per client)"
+    ],
+    "mcp_patterns": [
+      "Domain boundary pattern: one conceptual domain per server (substrate, ontology, registry, connector)",
+      "Scaling characteristics pattern: group similar resource requirements (Platform/Domain/RAG medium-high, Registry/Connectors low)"
+    ],
+    "reusable_insights": [
+      "6-8 server decomposition is right balance - clear ownership, independent deployment, right-sized scaling",
+      "Tool counts matter for agent context - 100 tools in one server breaks reasoning",
+      "Data locality principle - tools operating on similar data should be grouped to reduce cross-service calls"
+    ],
+    "key_signals": [
+      "RAG Service MCP deferred to Phase 2 - Platform MCP assumes index/search tools (merger decision from review)",
+      "Admin/Ops MCP deferred to Phase 2 - use database CLI and ORDS API calls during bootstrap",
+      "Bootstrap fleet: 4 servers with 72 core tools (variable connectors added later)",
+      "Each server independently versionable, deployable, scalable, and owned"
+    ]
+  },
+  {
+    "path": "/Users/markforster/NYQST-MCP/research/cloud-mcp-infrastructure/mcp-specifications/SUMMARY.md",
+    "basename": "mcp-specifications-SUMMARY.md (secondary)",
+    "primary_topic": "Complete inventory of MCP servers, tools, namespaces, and decomposition strategy",
+    "document_type": "infrastructure-design",
+    "architectural_decisions": [
+      "Bootstrap with 4 servers (72 core tools), expand to 6 servers (100+ tools) post-Phase 1",
+      "Platform MCP is largest server - 45 tools across 7 namespaces"
+    ],
+    "infrastructure_components": [
+      "Platform MCP: 45 tools (substrate 12, run 8, index 7, knowledge 6, document 5, claim 4, schema 3)",
+      "Project Registry MCP: 4 tools (list, get, search, health)",
+      "Domain Model MCP: 8 tools (query, search, citations, relationships)",
+      "RAG Service MCP: 5 tools - for phase 2+",
+      "Connector MCPs: 3-10 tools per provider (Slack, HubSpot, SharePoint, Jira, GitHub)",
+      "Admin/Ops MCP: 10 tools - for phase 2+"
+    ],
+    "comparison_findings": [
+      "Tool inventory exceeds Dify's 80-table flat schema - NYQST's MCP decomposition provides cleaner boundaries"
+    ],
+    "mcp_patterns": [
+      "Domain-grouped decomposition enables independent tool namespaces (substrate, run, index, knowledge, etc.)",
+      "Tool naming convention: {namespace}.{resource}.{action} (e.g., substrate.pointer.list)"
+    ],
+    "reusable_insights": [
+      "72 core tools across 6 servers is more manageable than single 100+ tool monolith",
+      "Tool count per server (4-45) matches MCP protocol expectations (10-50 tools for client context)",
+      "Namespace organization clarifies tool grouping (substrate tools vs run tools vs knowledge tools)"
+    ],
+    "key_signals": [
+      "Bootstrap focuses on 12 core Platform tools + 4 Registry + 4 Domain + 5 Slack = 25 tools phase 1",
+      "Full fleet adds 45 remaining Platform tools + 5 RAG + 10 Admin = 100+ tools phase 2-3",
+      "Each server independently testable, deployable, scalable with shared backbone infrastructure"
+    ]
+  }
+]

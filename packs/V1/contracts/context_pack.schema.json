@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NYQST Context Pack",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "context_pack_id",
+    "project_id",
+    "name",
+    "sources",
+    "permissions"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "context_pack_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "sources": {
+      "type": "object",
+      "properties": {
+        "project_context_blocks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bundle_versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "crm_entities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "model_versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "web_enabled": {
+          "type": "boolean"
+        },
+        "skills_enabled": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "allow_web": {
+          "type": "boolean"
+        },
+        "allow_write_models": {
+          "type": "boolean"
+        },
+        "allow_create_artifacts": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

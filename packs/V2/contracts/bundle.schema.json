@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NYQST Bundle + Versions",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "bundle_id",
+    "project_id",
+    "name",
+    "bundle_type",
+    "versions"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "bundle_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "bundle_type": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "versions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/BundleVersion"
+      }
+    }
+  },
+  "$defs": {
+    "BundleVersion": {
+      "type": "object",
+      "required": [
+        "bundle_version_id",
+        "version",
+        "created_at",
+        "status",
+        "artifact_ids",
+        "ingest_run_id"
+      ],
+      "properties": {
+        "bundle_version_id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "PENDING",
+            "PROCESSING",
+            "COMPLETED",
+            "FAILED"
+          ]
+        },
+        "artifact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ingest_run_id": {
+          "type": "string"
+        },
+        "extraction_output_artifact_id": {
+          "type": "string"
+        },
+        "index_status": {
+          "type": "string"
+        },
+        "metrics": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

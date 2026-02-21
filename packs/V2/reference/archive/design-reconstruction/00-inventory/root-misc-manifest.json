@@ -1,0 +1,652 @@
+[
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/5988fe2c-871f-4de0-afcb-381cdecdb107_chat",
+    "basename": "5988fe2c-871f-4de0-afcb-381cdecdb107_chat",
+    "primary_topic": "SuperAgent chat session — multi-agent parallel research with 12+ concurrent agents executing web search/scrape tasks",
+    "document_type": "chat-export",
+    "timeline_position": "early-mid",
+    "design_decisions_found": [
+      "Multi-agent parallel execution pattern (12 concurrent subagents)",
+      "Plan/node/task hierarchical decomposition",
+      "Web search + content extraction as primary research tools",
+      "NDJSON event stream with discriminated union event types (22 types)",
+      "Browser-use / human-in-the-loop interrupt patterns"
+    ],
+    "schemas_or_data": [
+      "PlanSet { plans: Record<string, Plan> }",
+      "Plan { plan_tasks: Record<string, PlanTask>, status: LOADING|ERROR|SUCCESS }",
+      "StreamEvent union (22 types: stream_start, task_update, node_tool_event, node_report_preview_*, message_delta, references_found, done, ERROR, etc.)",
+      "Pending source schema (plan_id, plan_set_id, plan_task_id, title, type: WEB|DOCUMENT|CODING_AGENT)"
+    ],
+    "key_insights": [
+      "Superagent uses explicit plan/node/task identifiers in streaming, not implicit event correlation",
+      "Web research sources are tracked as first-class 'pending sources' before completion",
+      "Run ledger includes both agent orchestration events AND chat streaming events (dual stream pattern)",
+      "Multi-agent execution model: decomposer (planner) → 12 parallel executors (research agents) → synthesizer (report generator)"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "12 parallel agents, web search + scrape tools, decomposition before dispatch",
+      "NDJSON streaming with typed events, plan/node/tool hierarchy explicit in payloads",
+      "Pending sources tracked, delivered as entity references in final synthesis",
+      "Plan → Reports → Deliverables pipeline (3-4 async phases)",
+      "Event streaming dual stream: chat output + orchestration/run events"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/Superagent.html",
+    "basename": "Superagent.html",
+    "primary_topic": "Production SuperAgent UI bundle — complete Next.js app with chat interface, report rendering, and GML component system",
+    "document_type": "presentation",
+    "timeline_position": "late",
+    "design_decisions_found": [
+      "Custom GML (Gradient Markup Language) for report rendering with 18 tags",
+      "Dual rendering path: GML for chat preview, React/JSX for v0.app exports",
+      "CVA (class-variance-authority) for component variant management",
+      "Plotly.js for chat charts, Recharts in v0.app exports",
+      "Structural 'healer' system that auto-repairs malformed LLM-generated GML markup"
+    ],
+    "schemas_or_data": [
+      "GML tag registry (18 tags: gml-row, gml-primarycolumn, gml-sidebarcolumn, gml-chartcontainer, gml-infoblockmetric, gml-infoblockevent, gml-gradientinsightbox, etc.)",
+      "Citation system with entity-bound references and hover previews",
+      "Plotly data schemas: chart type enum (bar, scatter, line, donut, candlestick, etc.), layout object, data traces, error bars",
+      "HSLA color palette: 6-stop teal (186° hue, varying lightness), green accent (103°), red error gradients"
+    ],
+    "key_insights": [
+      "GML is a domain-specific markup language, not generic HTML—strict tag registry with width constraints (sidebar components CAN'T appear in primary column)",
+      "Healer pattern: LLM output often malformed; renderer hoists/removes widgets to correct parents automatically",
+      "Seasons Sans font (A-Type foundry, 12 weights including non-standard 440/550/580/650) custom-licensed for SuperAgent",
+      "Dual design system support: base theme (Geist, teal palette) + redesign theme (Seasons Sans, warm white + black, HSLA alpha scale)",
+      "Report widgets are highly uniform: 506-685 LOC per widget suggests output token budgeting per component"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "GML: 18-tag domain language with structural validation, citation binding, responsive layout",
+      "Healer: auto-repair malformed LLM markup (hoist/remove pattern)",
+      "Plotly.js in chat, Recharts in exports, no D3 except in advanced reports",
+      "Seasons Sans font: proprietary, 12 weights, A-Type foundry licensed",
+      "Two-tier theme: Geist (base) + Seasons Sans (redesign), OKLCH + HSLA color models"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/INDEX.md",
+    "basename": "INDEX.md",
+    "primary_topic": "Master index of SuperAgent analysis — synthesizes chat UI reverse engineering, three v0.app report exports, and generation pipeline forensics",
+    "document_type": "early-analysis",
+    "timeline_position": "mid",
+    "design_decisions_found": [
+      "v0.app is the code generation engine; SuperAgent is the orchestrator/product layer",
+      "Three distinct architectural patterns observed across three reports (monolithic → coordinator → four-tier)",
+      "Frozen 181K shadcn/ui template bundle with 8 custom SuperAgent components + modifications to 45 stock components",
+      "Atomic export pattern: all files written simultaneously with identical timestamp (not interactive development)",
+      "Multi-agent parallel execution proven via git history in Report A (standards → 4 parallel agents → integration phase)"
+    ],
+    "schemas_or_data": [
+      "Comparative table: Reports A/B/C architecture, viz libraries, shadcn bundle, custom hooks, animations, fonts, TSX LOC, zip size",
+      "Template bundle: 181,174 bytes (byte-for-byte identical in Reports B & C), 57 shadcn/ui components, 8 custom SuperAgent additions",
+      "Generation pipeline stages (0-7): Research/RAG → Template assembly → Architecture decision → Theme generation → Layout primitives → Content sections → Widget generation → Atomic export"
+    ],
+    "key_insights": [
+      "SuperAgent's product layer selects architecture mode (monolithic/coordinator/four-tier) based on content complexity or time evolution",
+      "Report A (older?) uses 3-component bundle; Reports B & C (newer) use full 57-component frozen bundle shipped regardless of utilization (85% unused components)",
+      "Template bundle is byte-identical across reports, confirming it's a frozen export from v0.app, not generated per-report",
+      "Cross-file data consistency (MSFT $281.7B in 5+ files across Report C) proves shared data brief feeds all downstream generators",
+      "Vestigial artifacts prove code generation pipeline: `[v0] Failed to load D3` console logs, unused `styles/globals.css`, duplicated `use-mobile` hook"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "v0.app engine + SuperAgent orchestrator separation proven by watermarks and atomic exports",
+      "Three architecture patterns: monolithic (A) → coordinator (B) → four-tier composition (C)",
+      "Frozen 181K template bundle confirmed byte-for-byte in B & C, proving v0.app exports",
+      "Multi-agent execution: Report A git history shows 4 named agents in parallel (standards → 4 executors → integration)",
+      "Atomic export: all files same timestamp, no build artifacts, pragmatic error-ignoring config (next.config: ignoreBuildErrors)"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/SUPERAGENT_REPORT_ANALYSIS.md",
+    "basename": "SUPERAGENT_REPORT_ANALYSIS.md",
+    "primary_topic": "Deep dive into Report B (DMN-Ontology Decision Management System) — 11 interactive visualization components, Royal Blue Corporate design system, two-tier architecture",
+    "document_type": "design-extraction",
+    "timeline_position": "mid",
+    "design_decisions_found": [
+      "Two-tier report architecture: coordinator page (567 LOC) + flat component layer (11 components, 8,658 lines total)",
+      "Royal Blue Corporate design system: #1e3a8a primary, #dbeafe light blue accent, Inter + Geist Mono + Playfair Display fonts",
+      "Hub-and-spoke visualization highlighting: Set<string> for O(1) membership checks across multiple viz components",
+      "Recursive upstream/downstream path tracing for metric cascade (implicit graph algorithm)",
+      "SVG animated particles using `<animateMotion>` for 'data flowing' visual metaphor"
+    ],
+    "schemas_or_data": [
+      "11 visualization components: LineChartDemo, BarChartDemo, ScatterPlotDemo, HistogramDemo, HeatmapDemo, SankeyDemo, TreemapDemo, ForcedDirectedGraphDemo, MetricCascade, etc.",
+      "Design tokens: Royal Blue (#1e3a8a), Light Blue Accent (#dbeafe), no custom shadows, animation via CSS transitions",
+      "Component-level state management: React useState + useMemo, no external state library"
+    ],
+    "key_insights": [
+      "Report B uses Recharts + custom D3 (force graph, sankey, treemap) — no single charting library dogmatism",
+      "Hub-and-spoke pattern proves deliberate UX design (shared state across vizs), not accidental coupling",
+      "Recursive path tracing suggests domain-specific requirements (knowledge graphs, decision trees) not generic components",
+      "Two-tier architecture is simpler than Report C's four-tier, suggesting older generation or simpler domain",
+      "Design system is minimal (no custom shadows, no animations outside of transitions), suggesting tight output budgeting"
+    ],
+    "superseded_by": "REPORT_C_ANALYSIS.md (Report C shows evolution to four-tier architecture, Soft Brutalism design, uniform widget sizing)",
+    "key_signals": [
+      "Two-tier: coordinator + flat components (simpler than Report C)",
+      "Royal Blue Corporate theme: minimal (no shadows, basic fonts), hex-only colors",
+      "Recharts + D3 hybrid: Sankey, treemap, forced-directed graph (domain-specific viz)",
+      "Hub-and-spoke state pattern: Set<string> for O(1) membership in visualization highlighting",
+      "8,658 LOC across 11 components = ~786 lines per component average (vs Report C's ~650 tighter budget)"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/GML_REPORT_RENDERING_PATTERNS.md",
+    "basename": "GML_REPORT_RENDERING_PATTERNS.md",
+    "primary_topic": "Complete GML markup language specification — 18 tags, layout patterns, citation system, structural healing/validation rules",
+    "document_type": "spec",
+    "timeline_position": "mid",
+    "design_decisions_found": [
+      "GML width constraints: sidebar components (metrics, events, tickers) MUST be in gml-sidebarcolumn; primary components (charts, blockquotes) in gml-primarycolumn",
+      "Healing behavior: 'hoist' (move misplaced element to correct ancestor) or 'remove' (strip invalid element)",
+      "Citation architecture: identifier-based lookup, entity-bound references, hover/click to expand",
+      "Container queries (@md, @3xl) for responsive layout switching (mobile → desktop)",
+      "Metric cards with sentiment: 'good' (green #006400), 'bad' (red #B10F41), 'warning' (amber #AF6002), 'neutral' (gray #41454D)"
+    ],
+    "schemas_or_data": [
+      "GML tag widths: blockquote→[primary], chartcontainer→[primary], infoblockmetric→[sidebar], halfcolumn→[full_row], etc.",
+      "Healing logic (L function): walk AST, check width constraints, hoist to valid ancestor or remove",
+      "Plotly color palette: 6-stop teal (HSLA), green accent (103, 40%, 43%), red error gradients with alpha",
+      "Citation schema: citation_identifier (entity UUID), external_url, title, provider (brave/firecrawl/polygon), retrieved_at",
+      "Chart data schemas: type enum (bar, scatter, line, donut, candlestick, histogram, box, bubble, stacked_bar, clustered_column)"
+    ],
+    "key_insights": [
+      "Healing system is the 'safety net' for LLM generation — model output doesn't need perfect structure, just right components in roughly right places",
+      "Width constraints are not soft guidelines; they're enforced via healer and define valid layouts (container patterns)",
+      "Citation system decouples rendering from provenance — citations are just identifiers, lookup happens at render time",
+      "Sentiment colors hard-coded per component type (not data-driven), suggesting preset variants, not arbitrary theming",
+      "Container queries enable responsive layout without breakpoint-specific CSS classes (cleaner, more maintainable)"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "18-tag GML language with strict width constraints, healing/validation system (hoist/remove)",
+      "Healability core to design: LLM output often malformed; renderer auto-corrects structure",
+      "Citation system: entity-bound, identifier-based, lookup at render time (not embedding)",
+      "Plotly charts in GML, Recharts in exports (dual rendering path)",
+      "Container queries (@md, @3xl) for responsive layout, no viewport breakpoint classes"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/GML_CSS_EXTRACTION.md",
+    "basename": "GML_CSS_EXTRACTION.md",
+    "primary_topic": "Complete CSS token extraction from production SuperAgent bundles — Tailwind v4 theme, redesign variant, GML component styling, 277 color variables",
+    "document_type": "design-extraction",
+    "timeline_position": "late",
+    "design_decisions_found": [
+      "Tailwind v4 CSS-first config (no tailwind.config.js), @layer theme/base/components/utilities structure",
+      "OKLCH + HSLA dual color system: OKLCH for standard palette (22 families, 11 shades each), Hex for neutral/semantic",
+      "Redesign theme via data-theme='redesign' attribute: warm white bg, near-black text, HSLA alpha scale for contrast",
+      "Custom shadow system: 3-tier low/low-hover/high, aliased to TW scale (2xs=low, md=low-hover, lg/xl=high)",
+      "GML component CSS: primarycolumn/prose typography rules, responsive gap/padding, blockquote/list/table styling"
+    ],
+    "schemas_or_data": [
+      "277 CSS custom properties: 231 OKLCH colors, 45 Hex, 1 var() alias",
+      "Redesign token system: --warm-white, --black, --purple-accent, alpha-based neutrals (4%, 8%, 16%, 24%, 32%, 48%, 64%, 72%, 78%, 80%)",
+      "Typography scale: --text-xs through --text-9xl (9 levels), custom --tracking-tighter-2/-3 variants",
+      "Shadow system: --shadow-2xs/sm/md/lg/xl/2xl with aliases for low/hover/high tiers, --shadow-md-glow custom",
+      "Container sizes: --container-3xs (16rem) through --container-7xl (80rem), non-standard like --container-3xl (48rem)"
+    ],
+    "key_insights": [
+      "Redesign theme is a complete style override (fonts, colors, shadows) via single data-theme attribute, not CSS variables switching (production-grade theming)",
+      "OKLCH color system ensures consistent lightness across hue families (better perceptual uniformity than Hex),  but Hex reserved for strategic colors (errors, semantic)",
+      "GML prose styling highly prescriptive: h1-h6 fonts/sizes/weights/tracking all defined, list markers colored, blockquotes styled with left border accent",
+      "Seasons Sans font (12 weights including non-standard) is configured but 'DM Mono' has no @font-face (external CDN dependency, likely Google Fonts)",
+      "Nested `:is(.gml-primarycolumn, .report-prose)` selector allows dual use of prose styling for both GML and exported reports"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "Tailwind v4 CSS-first: @layer theme with 277 custom properties",
+      "Dual color model: OKLCH (22 hue families) + Hex (neutrals/semantic/errors)",
+      "Redesign theme: data-theme='redesign' attribute switches fonts (Geist→Seasons Sans), colors (OKLCH→HSLA alpha), shadows (complex→simple)",
+      "Custom shadow 3-tier: low/low-hover/high, pragmatically mapped to TW scale",
+      "GML prose styling: h1-h6 + p/list/blockquote/table all prescribed (no component library freedom)"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/TAILWIND_THEME_EXTRACTION.md",
+    "basename": "TAILWIND_THEME_EXTRACTION.md",
+    "primary_topic": "Complete Tailwind v4 theme extraction from SuperAgent CSS bundle — 277 color variables, shadow system, typography scale, animations",
+    "document_type": "design-extraction",
+    "timeline_position": "late",
+    "design_decisions_found": [
+      "Color palette: 22 standard Tailwind families (red-rose) in OKLCH, custom primary/error/warning/success in Hex",
+      "Shadow system: 6-layer multi-shadow for depth (low/low-hover/high tiers), 13 keyframes (fadeSlideIn, pulse-scale, accordion, shimmerLine, etc.)",
+      "Typography: Geist variable font (100-900 weight), Seasons Sans for redesign theme, DM Mono for monospace",
+      "Custom utilities: z-index scale (10 levels), perspective distances, aspect ratios, container queries",
+      "Easing functions: cubic-bezier presets for transitions, Framer Motion easings (linear, easeInOut)"
+    ],
+    "schemas_or_data": [
+      "277 CSS custom properties: --color-{red,orange,amber,...,rose,slate,gray,zinc,stone}-{50,100,...,950}",
+      "Custom properties: --z-index-modal (50), --z-index-dropdown (40), --z-index-tooltip (30)",
+      "Font stack: Geist (variable), Seasons Sans (redesign, 12 weights), DM Mono (fallback external)",
+      "Animation keyframes: fadeSlideIn (highlight flash), pulse-scale (2 variants), shimmerLine, accordion-down/up, infinite-slide",
+      "Container queries: @container (width >= 28rem) for @md rules, (width >= 48rem) for @3xl rules"
+    ],
+    "key_insights": [
+      "Tailwind v4 CSS-first means no config file; all tokens defined in @layer theme block (simpler, but less tooling support for design-to-code workflows)",
+      "Custom keyframes suggest deliberate animation strategy beyond standard TW (fadeSlideIn for report generation feedback, pulse-scale for loaders)",
+      "Container queries provide responsive design without viewport breakpoints — components scale to their container, not page width (better for modular UI)",
+      "Seasons Sans font with 12 weights (including non-standard 440, 550, 580, 650) suggests high-fidelity type specification (not just 400/700)",
+      "Z-index scale suggests no CSS-in-JS or component library z-index management — all layers explicit and centralized"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "Tailwind v4 CSS-first @layer theme: 277 custom properties, no config file",
+      "OKLCH primary palette (22 families) + Hex semantic (errors, warnings, success)",
+      "Custom animations: fadeSlideIn, pulse-scale-mini, shimmerLine, accordion-down/up, infinite-slide",
+      "Seasons Sans proprietary font with 12 weights (non-standard intermediates)",
+      "Container queries @md (@28rem) and @3xl (@48rem) replace viewport breakpoints"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/JS_DESIGN_TOKENS.md",
+    "basename": "JS_DESIGN_TOKENS.md",
+    "primary_topic": "JavaScript bundle token extraction — design tokens, Plotly schemas, Zod schemas for streaming events, CVA component variants, chart color palettes",
+    "document_type": "design-extraction",
+    "timeline_position": "mid",
+    "design_decisions_found": [
+      "Plotly.js as primary charting library in chat UI (vs Recharts in exports); 10 chart type schemas with Zod validation",
+      "HSLA color palette hardcoded in JS (not CSS variables): 6-stop teal, green accent, red error gradients",
+      "CVA (class-variance-authority) for component variant management: status badges (good/bad/warning/neutral), source pills, toasts",
+      "22 NDJSON streaming event types (discriminated union): stream_start, task_update, node_tool_event, node_report_preview_*, message_delta, references_found, etc.",
+      "Phosphor Icons as primary icon library (vs Lucide in exports)"
+    ],
+    "schemas_or_data": [
+      "HSLA chart palette: 6-stop teal (186° hue), green accent (103°), red error with alpha variants",
+      "Plotly schemas: eD (data trace), eR (layout), eS (x-axis), ez (y-axis), eM (chart object with citation)",
+      "Streaming event union: 22 discriminated types with payload schemas (Status, SourceType, PendingSource, StreamEnvelope)",
+      "CVA variants: color (good/bad/neutral/warning), variant (web-unselected, document-selected, etc.), size (sm/md/lg)",
+      "Sentiment colors hardcoded: #E6FCE8 (good bg), #006400 (good text), #FFF2FA (bad bg), #B10F41 (bad text), #FFF6DD (warning bg), #AF6002 (warning text)"
+    ],
+    "key_insights": [
+      "Plotly.js in chat UI, Recharts in exports — dual charting strategy for different delivery contexts (streaming preview vs static export)",
+      "HSLA colors hardcoded in JS suggest either: (a) dynamic color generation not feasible in CSS-only, or (b) performance optimization for chart rendering",
+      "22 streaming event types prove sophisticated orchestration (not just chat streaming) — plan creation, task progress, tool execution, content synthesis, entity creation",
+      "Sentiment colors are semantic, not theme-aware — hard-coded hex suggests no theming for chart components (unlike GML components)",
+      "Phosphor Icons (6 weight variants) provide consistent icon styling across chat UI, different from exported report fonts"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "Plotly.js (10 chart types) in chat, Recharts in exports, no D3 in chat UI",
+      "HSLA color palette: 6-stop teal (186°), green accent (103°), red gradients with alpha",
+      "22 NDJSON streaming event types: plan/task/tool lifecycle + content delta + entity creation",
+      "CVA for component variants: status badges (sentiment-colored), source pills (type-based), toasts",
+      "Sentiment colors hardcoded per type: good=#006400, bad=#B10F41, warning=#AF6002, neutral=#41454D"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/GENERATION_PIPELINE.md",
+    "basename": "GENERATION_PIPELINE.md",
+    "primary_topic": "Reverse-engineered generation pipeline — 7-stage process from research/RAG to atomic export, multi-agent execution proof, output limits",
+    "document_type": "design-extraction",
+    "timeline_position": "mid",
+    "design_decisions_found": [
+      "Pipeline stages: Research/RAG → Template assembly → Architecture decision → Theme generation → Layout primitives → Content sections → Widget generation → Atomic export",
+      "Frozen 181K template bundle shipped to all reports (reports B & C identical byte-for-byte) regardless of utilization (85% unused components)",
+      "Multi-agent execution: Report A git history shows 4 named agents (A/B/C/D) working in parallel on feature branches (standards → 4 executors → integration)",
+      "Atomic export: all files written simultaneously (identical timestamp), not interactive development",
+      "Output ceiling: ~550K total output (~350K generated TSX), suggesting per-component or total token budget"
+    ],
+    "schemas_or_data": [
+      "Report architecture progression: A (monolithic 997 LOC) → B (coordinator 567 LOC) → C (pure imports 30 LOC)",
+      "Template bundle contents: 57 shadcn components, 8 custom SuperAgent additions, 45 modified stock, 5 unchanged stock",
+      "Multi-agent execution phases (Report A): Phase 1 (standards) → Phase 2 (4 parallel agents) → Phase 3 (integration), ~100 seconds each",
+      "Widget size distribution (Report C): 8 of 10 widgets between 506-685 lines (uniform output budgeting)"
+    ],
+    "key_insights": [
+      "v0.app is the code generation engine; SuperAgent is the orchestrator managing data flow and architecture decisions",
+      "Frozen template eliminates per-report template generation overhead (faster, more consistent), shipped as atomic blob",
+      "Multi-agent execution in Report A (git-tracked) proves capability, but Reports B/C use single-pass or hidden parallelism (atomic exports hide internal timing)",
+      "Output ceiling ~550K suggests either: (a) LLM token budget per generation, or (b) practical file size limit for zipped export",
+      "Widget size uniformity (8 of 10 in 506-685 LOC range) indicates per-component output budgeting, likely enforced via system prompt"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "7-stage pipeline: Research → Template → Architecture → Theme → Primitives → Sections → Widgets → Export",
+      "Frozen 181K template bundle (byte-identical B & C), 57 components, 8 custom SuperAgent additions",
+      "Multi-agent execution: Report A shows 4 parallel agents (standards → executors → integration phases)",
+      "Atomic export: all files same timestamp, no build artifacts, no node_modules/ or .next/",
+      "Output ceiling ~550K total (~350K generated), widget sizes 506-685 LOC (uniform budgeting)"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/REPORT_C_ANALYSIS.md",
+    "basename": "REPORT_C_ANALYSIS.md",
+    "primary_topic": "Deep dive into Report C (AAPL/MSFT/GOOG Strategic Market Intelligence) — four-tier architecture, Soft Brutalism design system, 10 interactive widgets, react-simple-maps for geography",
+    "document_type": "design-extraction",
+    "timeline_position": "late",
+    "design_decisions_found": [
+      "Four-tier architecture: ui/ → report/ → sections/ → widgets/ (cleaner separation than Report B's two-tier)",
+      "Soft Brutalism design: offset shadows (4px 4px 0px, hover press effect), geometric SVG patterns, Royal Blue primary + muted orange accent",
+      "11 report primitives + 8 section compositions + 10 widgets (total 5,929 LOC for interactive visualizations)",
+      "react-simple-maps for geographic heat map (first use of map library), Recharts for all other charts (no D3)",
+      "100% Recharts charting strategy (simpler than Report B's Recharts+D3 hybrid)"
+    ],
+    "schemas_or_data": [
+      "10 widgets: competitive-matrix (scatter), dynamic-financial-chart (line/composed), scenario-planner (area/bar/radar), customer-persona-explorer (radar), investor-sentiment-dashboard (bar/line), geographic-heat-map (map+recharts), risk-assessment-dashboard (bar/radar), tech-evolution-timeline (custom SVG), esg-scorecard (bar/radialbar), financial-ratios-table (HTML)",
+      "Design tokens: #1e3a8a (Royal Blue), #ea580c (muted orange), #0d9488 (deep teal), #f97316 (muted orange light), container surfaces (elevated/sunken/hero)",
+      "Section variants: default (white), royal (blue bg, white text), dark (gray bg, white text), sunken (#f1f5f9)",
+      "Typography: Inter (sans), Space Grotesk (display), IBM Plex Mono (code)"
+    ],
+    "key_insights": [
+      "Four-tier architecture is evolution toward cleaner separation of concerns (ui primitives → report layout → section composition → widget implementation)",
+      "Soft Brutalism (offset shadows + geometric patterns) is distinct design language, not grid variation of Report B",
+      "100% Recharts (no D3) suggests v0.app learning or user preference — simpler maintenance, consistent API",
+      "react-simple-maps integration proves capability for domain-specific visualization (not just generic charts)",
+      "Uniform widget sizing (8 of 10 between 506-685 LOC) strongly suggests per-component system prompt template enforcing consistent output",
+      "Data consistency across 5+ files (MSFT $281.7B, AAPL $416.2B) proves shared data brief, not embedded generation per-widget"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "Four-tier: ui → report → sections → widgets (evolution from Report B's two-tier)",
+      "Soft Brutalism design: offset shadows (4px), hover press effect, geometric SVG patterns",
+      "10 widgets, 100% Recharts (no D3), react-simple-maps for geography",
+      "Section variants: default/royal/dark/sunken (evolved from Report B's boolean alternate)",
+      "Data consistency: MSFT $281.7B in 5+ files proves shared brief, not per-widget generation"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/FONT_AND_ASSET_EXTRACTION.md",
+    "basename": "FONT_AND_ASSET_EXTRACTION.md",
+    "primary_topic": "Font and external asset extraction — Seasons Sans proprietary font family (12 weights), Geist Mono, external CDN URLs, DM Mono",
+    "document_type": "design-extraction",
+    "timeline_position": "late",
+    "design_decisions_found": [
+      "Seasons Sans (ATSeasonSans) — proprietary font from A-Type foundry, 12 weights including non-standard (300, 400, 500, 600, 700, 800, and italic variants)",
+      "Custom font weights (440, 550, 580, 650) not in standard CSS weight scale suggest bespoke type specification (not generic font family)",
+      "Two-tier font strategy: Geist (base UI, variable font 100-900), Seasons Sans (redesign theme, fixed weights)",
+      "External asset dependencies: Geist from Vercel CDN, Seasons Sans from /static/font/, DM Mono from external source (likely Google Fonts, no @font-face)"
+    ],
+    "schemas_or_data": [
+      "Seasons Sans weights/styles: 300/400/500/600/700/800 × normal/italic (12 @font-face declarations)",
+      "Geist variable font: single file with 100-900 weight range",
+      "External asset URLs: 19 CDN/analytics/API endpoints tracked",
+      "Font file serving: Vercel asset CDN with content-hash filenames (e.g., _next/static/font/...)"
+    ],
+    "key_insights": [
+      "Seasons Sans 12-weight specification is unusually comprehensive (most fonts use 4-6 weights) — suggests high design fidelity requirement or A-Type foundry contract",
+      "Non-standard weights (440, 550, 580, 650) imply font was custom-commissioned or subset (not off-the-shelf)",
+      "DM Mono has no @font-face declaration (external dependency) — may be Google Fonts or other CDN, not self-hosted",
+      "Font files served from Vercel asset CDN with content-hash naming (immutable, cache-friendly, production-grade setup)",
+      "Two-tier font strategy (Geist base, Seasons Sans redesign) enables thematic switching via data-theme attribute"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "Seasons Sans: proprietary A-Type foundry font, 12 weights including non-standard intermediates",
+      "Geist variable font (100-900) for base UI, DM Mono for code (external CDN)",
+      "Custom weights (440, 550, 580, 650) suggest bespoke type specification or foundry contract",
+      "Vercel CDN with content-hash filenames (immutable, cache-friendly)",
+      "Two-tier: Geist (base) + Seasons Sans (redesign) switchable via data-theme attribute"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/SCREENSHOT_ANALYSIS.md",
+    "basename": "SCREENSHOT_ANALYSIS.md",
+    "primary_topic": "Visual UI analysis from screenshot exports — layout hierarchy, spacing, color application, button/card styling, chat interface patterns",
+    "document_type": "design-extraction",
+    "timeline_position": "late",
+    "design_decisions_found": null,
+    "schemas_or_data": null,
+    "key_insights": [
+      "File exists but content not fully read in this session (only filename noted)"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "Visual analysis complement to CSS/theme extraction — likely contains UI hierarchy, spacing, component application examples"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/planning/INTELLI_BUILD_STATUS_2026-02-16.md",
+    "basename": "INTELLI_BUILD_STATUS_2026-02-16.md",
+    "primary_topic": "Current state of DocuIntelli platform build — what exists end-to-end, gaps vs Superagent, architectural choices already made",
+    "document_type": "planning",
+    "timeline_position": "late",
+    "design_decisions_found": [
+      "Substrate layer working: content-addressed artifacts, immutable manifests, mutable pointers (bundle semantics)",
+      "LangGraph research assistant graph exists (single agent, doc-grounded Q&A with tool-use loop)",
+      "Run ledger + SSE streaming for run events (Postgres LISTEN/NOTIFY) already in place",
+      "Two distinct streaming paths: AI SDK SSE for chat, platform SSE for run events",
+      "Deliverable gaps: no report/slides/website/document generators yet"
+    ],
+    "schemas_or_data": [
+      "Backend services: Substrate (artifacts/manifests/pointers), Runs+RunLedger (SSE streams), RAG (Docling PDFs, OpenSearch/pgvector), Sessions, Conversations, Tags",
+      "LangGraph research assistant: ToolNode with search_documents, list_notebooks, get_document_info, compare_manifests tools",
+      "SSE streaming: two paths (chat via Vercel AI SDK, run events via Postgres LISTEN/NOTIFY)"
+    ],
+    "key_insights": [
+      "Intelli kernel is working and proven, but product layers (deliverables, multi-agent orchestration) are gaps vs Superagent",
+      "Run ledger exists but not yet mapped to plan/node/tool hierarchy that Superagent uses",
+      "Two-stream architecture (chat + run events) is good foundation but requires UI unification (Sources/Files/Activity panes)",
+      "No multi-agent planner yet — single agent loop is limiting vs Superagent's planner→executors→synthesizer"
+    ],
+    "superseded_by": "SUPERAGENT_PARITY_CLEAN_ROOM_PLAN_2026-02-16.md (defines phases to achieve parity)",
+    "key_signals": [
+      "Substrate layer working: artifacts, manifests, pointers (content-addressed)",
+      "LangGraph single-agent research loop in place (doc-grounded Q&A)",
+      "SSE streaming: dual paths (chat + run events) enable future UI integration",
+      "Gaps: no multi-agent orchestration, no deliverable generators, no rich markup (vs Superagent's GML)",
+      "Two-stream design (chat + run events) is foundation for Sources/Files/Activity panes"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/planning/SUPERAGENT_PARITY_CLEAN_ROOM_PLAN_2026-02-16.md",
+    "basename": "SUPERAGENT_PARITY_CLEAN_ROOM_PLAN_2026-02-16.md",
+    "primary_topic": "Six-phase plan to achieve Superagent parity on Intelli — research orchestrator, entity/citation substrate, deliverables (report/slides/website), browser-use, HITL",
+    "document_type": "planning",
+    "timeline_position": "late",
+    "design_decisions_found": [
+      "Keep Intelli kernel (substrate, run ledger) as source of truth; use LangGraph for orchestration",
+      "Adopt NYQST Markup v1 (clean-room GML equivalent) for deliverables — JSON AST recommended over HTML-like tags",
+      "Unify Sources/Files/Activity around existing primitives: sources (artifacts), files (manifest entries), activity (run ledger)",
+      "Phased approach: orchestration events → entity/citation → web research → deliverables v1 (report+doc) → deliverables v2 (slides+website) → browser-use/HITL"
+    ],
+    "schemas_or_data": [
+      "Phase 1: RunEvent schema extensions for plan/node/tool hierarchy + PlanViewer UI component",
+      "Phase 2: Entity model (WEB_PAGE, EXTERNAL_API_DATA, GENERATED_REPORT, etc.) + citation resolver API",
+      "Phase 3: Web research tools (Brave Search, Firecrawl/Jina scrape, domain allowlist search)",
+      "Phase 4: Deliverable record type + NYQST Markup v1 + renderer + artifact exports (PDF/DOCX)",
+      "Phase 5: Slides (PPTX) + Website (static bundle) generators",
+      "Phase 6: Browser automation service (Playwright-based) + interrupt/resume endpoints + UI"
+    ],
+    "key_insights": [
+      "Clean-room approach: no Superagent IP copying, but observable-capability parity via reverse engineering",
+      "JSON AST for markup (not HTML-like tags) chosen for easier validation and healing vs regex-based parsing",
+      "Web research providers (Brave, Firecrawl, Tavily) are modular — can hot-swap based on policy/cost",
+      "Deliverable phasing prioritizes report first (highest user value, exercises full pipeline), then breadth (slides, website)",
+      "Browser-use deferred to Phase 6 (lowest priority, most complex), but can start in parallel with other phases"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "Six phases: orchestration → entities/citations → web research → deliverables v1 → deliverables v2 → browser-use/HITL",
+      "NYQST Markup v1 (JSON AST, not HTML-like tags) for rich deliverables (cleaner validation/healing)",
+      "Web research providers: Brave/Firecrawl/Jina (modular, hot-swappable)",
+      "Deliverable priorities: Report → Document → Slides → Website → Browser-use",
+      "Unify Sources/Files/Activity around substrate/runledger primitives"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/2026-02-16-MAPPING-01-RESEARCH-ORCHESTRATOR.md",
+    "basename": "2026-02-16-MAPPING-01-RESEARCH-ORCHESTRATOR.md",
+    "primary_topic": "Technical mapping for research orchestrator — extends LangGraph with planner node, parallel subagents, fan-out/fan-in pattern, run event schema extensions",
+    "document_type": "planning",
+    "timeline_position": "late",
+    "design_decisions_found": [
+      "Research orchestrator graph: planner → fan_out_research → [parallel_research_nodes] → fan_in_results → synthesizer → deliverable",
+      "Planner node: takes user prompt, generates structured PlanSet output (Pydantic model matching Superagent)",
+      "Fan-out via LangGraph Send() API for parallel dispatch of research subgraph invocations",
+      "RunEvent schema extensions: PLAN_CREATED, SUBAGENT_STARTED/PROGRESS/COMPLETED, CONTENT_DELTA, ARTIFACT_CREATED, CLARIFICATION_NEEDED",
+      "Option A recommended: store plans as RunEvents with structured payloads (no new tables), not separate plans/plan_tasks tables"
+    ],
+    "schemas_or_data": [
+      "Planner node output: PlanSet { plans: Record<string, Plan>, chat_id, workspace_id }, Plan { plan_tasks: Record<string, PlanTask>, status, used_sources[] }",
+      "New RunEventType enums: PLAN_CREATED, SUBAGENT_STARTED, SUBAGENT_PROGRESS, SUBAGENT_COMPLETED, CONTENT_DELTA, ARTIFACT_CREATED, CLARIFICATION_NEEDED",
+      "Web research MCP tools: research.web.search (Brave API), research.web.scrape (Jina/Firecrawl), research.web.domain_search (allowlist-filtered)",
+      "Testing strategy: contract tests (Pydantic schema validation), integration tests (real LLM calls), E2E tests (Playwright UI flow)"
+    ],
+    "key_insights": [
+      "Planner node enforces structured output via Pydantic (not free-form LLM text), enabling downstream graph orchestration with confidence",
+      "Fan-out pattern in LangGraph is well-documented, simpler than custom worker pools",
+      "Option A (RunEvents for plans) preserves append-only semantics and avoids schema duplication (run ledger IS the plan history)",
+      "Web research tools are MCP servers (external) or internal tools (simpler, same effect), enabling hot-swap providers",
+      "Testing strategy includes contract tests (schema validation) and integration tests (real LLM), not just unit tests"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "LangGraph StateGraph: planner → fan_out → parallel subagents → fan_in → synthesizer → deliverable",
+      "Planner node: structured PlanSet output via Pydantic, creates RunEvent for plan creation",
+      "Fan-out via LangGraph Send() for parallel dispatch",
+      "RunEvent schema: PLAN_CREATED, SUBAGENT_STARTED/PROGRESS/COMPLETED, CONTENT_DELTA, ARTIFACT_CREATED",
+      "Web research tools: Brave Search, Jina/Firecrawl scrape, domain allowlist filtering"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/2026-02-16-MAPPING-02-DELIVERABLES-ARTIFACTS.md",
+    "basename": "2026-02-16-MAPPING-02-DELIVERABLES-ARTIFACTS.md",
+    "primary_topic": "Deliverable artifacts mapping — Report, Document, Slides, Website types; artifact storage; preview UI patterns; exports (PDF/DOCX/PPTX)",
+    "document_type": "planning",
+    "timeline_position": "late",
+    "design_decisions_found": null,
+    "schemas_or_data": null,
+    "key_insights": [
+      "File referenced but not fully read in this session — likely covers deliverable record schema, artifact linking, export formats, preview streaming"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "Expected content: Report/Document/Slides/Website deliverable types; artifact storage patterns; export formats (PDF/DOCX/PPTX); preview UI"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/2026-02-16-MAPPING-03-UI-MODULES.md",
+    "basename": "2026-02-16-MAPPING-03-UI-MODULES.md",
+    "primary_topic": "UI module mapping — Sources/Files/Activity panes; deliverable selector; report preview; citation interaction; run timeline",
+    "document_type": "planning",
+    "timeline_position": "late",
+    "design_decisions_found": null,
+    "schemas_or_data": null,
+    "key_insights": [
+      "File referenced but not fully read in this session — likely covers UI unification patterns, component architecture, state management"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "Expected content: Sources/Files/Activity pane unification; deliverable selector UI; report preview streaming; citation hover/click patterns; run timeline enhancements"
+    ]
+  },
+  {
+    "path": "/Users/markforster/AirTable-SuperAgent/docs/plans/2026-02-16-MAPPING-04-BILLING-TESTING.md",
+    "basename": "2026-02-16-MAPPING-04-BILLING-TESTING.md",
+    "primary_topic": "Billing and testing mapping — cost tracking; multi-agent parallelism billing; test strategy for orchestration",
+    "document_type": "planning",
+    "timeline_position": "late",
+    "design_decisions_found": null,
+    "schemas_or_data": null,
+    "key_insights": [
+      "File referenced but not fully read in this session — likely covers cost per run, per-agent billing, test harness setup"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "Expected content: Run cost tracking (LLM tokens, tool calls, parallelism); per-agent billing; integration test strategy; performance baselines"
+    ]
+  },
+  {
+    "path": "/Users/markforster/Downloads/propsygnal_document_intelligence_spec.md",
+    "basename": "propsygnal_document_intelligence_spec.md",
+    "primary_topic": "PropSygnal Document Intelligence Module specification — provenance-first knowledge platform for real estate; normative intelligence; ontology governance; decision procedures",
+    "document_type": "spec",
+    "timeline_position": "early",
+    "design_decisions_found": [
+      "Provenance-first design (W3C PROV-DM aligned): every data point traces to source document/section/clause",
+      "Hohfeld + defeasible deontic logic for normative representation (rights, duties, permissions, exceptions, overrides)",
+      "Ontology governance: 5-tier hierarchy (portfolio → org approved → org working → proposed → library) with strict precedence",
+      "Bi-temporal versioning: nothing deleted, full time-travel queries enabled",
+      "Organization Intelligence via runtime learning (OIB): learn org-specific definitions from existing artifacts"
+    ],
+    "schemas_or_data": [
+      "DocumentNode: document/section/paragraph/sentence/table/cell/page hierarchy with position tracking (character offset, page number)",
+      "HypergraphEdge: contains/references/depends_on/version_of/conceptual edge types with confidence and evidence refs",
+      "ContentEntity: business entities (Property, Contract, Agent, Transaction) with provenance tracking (documentId, nodeId, extractionMethod, confidence)",
+      "NormativePosition (Hohfeld-aligned): RIGHT/DUTY/PRIVILEGE/NO_RIGHT/POWER/LIABILITY/IMMUNITY/DISABILITY with deontic modality (obligation/prohibition/permission/waiver)",
+      "ObligationInstance: DORMANT/ACTIVE/FULFILLED/BREACHED/CURED/REMEDIED/WAIVED/SUPERSEDED/EXPIRED with temporal tracking and evidence"
+    ],
+    "key_insights": [
+      "PropSygnal is NOT the Intelli platform itself, but a domain-specific 'Lease CD' module (one of three initial domain modules per Intelli strategy)",
+      "Provenance tracing and normative intelligence are platform capabilities that Lease CDs exercise (contracts are fundamentally normative)",
+      "Defeasible deontic logic models real-world contract complexities ('except where...', 'subject to...', 'notwithstanding...')",
+      "OIB (runtime learning) eliminates consulting bottleneck by inferring org-specific definitions from existing documents/models",
+      "Ontology tiers ensure governance without rigid schema lock-in (library → working → proposed allows org evolution)"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "Provenance-first design (W3C PROV-DM): every fact traceable to source clause",
+      "Hohfeld + defeasible deontic: model contracts as normative systems with exceptions and overrides",
+      "5-tier ontology governance: portfolio → org approved → org working → proposed → library (strict precedence)",
+      "Bi-temporal versioning: nothing deleted, time-travel queries enabled",
+      "OIB (org intelligence builder): runtime learning from existing artifacts eliminates consulting"
+    ]
+  },
+  {
+    "path": "/Users/markforster/Downloads/propsygnal_document_intelligence_spec_1.md",
+    "basename": "propsygnal_document_intelligence_spec_1.md",
+    "primary_topic": "PropSygnal spec v0.1 duplicate — (appears to be same as propsygnal_document_intelligence_spec.md)",
+    "document_type": "spec",
+    "timeline_position": "early",
+    "design_decisions_found": null,
+    "schemas_or_data": null,
+    "key_insights": [
+      "Duplicate of propsygnal_document_intelligence_spec.md (same content, v0.1 revision)"
+    ],
+    "superseded_by": "propsygnal_document_intelligence_spec.md (original version)",
+    "key_signals": [
+      "Duplicate file (propsygnal spec exists in two versions with identical content)"
+    ]
+  },
+  {
+    "path": "/Users/markforster/Downloads/cursor_branches_from_nyqst_intelli_2301.md",
+    "basename": "cursor_branches_from_nyqst_intelli_2301.md",
+    "primary_topic": "Cursor branch integration transcript — documenting three parallel agent branches from nyqst-intelli-230126 merged into single development branch",
+    "document_type": "chat-export",
+    "timeline_position": "late",
+    "design_decisions_found": [
+      "Three parallel agent branches (agent-first-doc-intelligence, async-ui-components-setup, cre-intelligence-workflows) successfully merged into single branch preserving all commits",
+      "217 unique files across 3 branches merged without losing history (deduplication handled correctly)",
+      "Merge conflicts resolved (e.g., .gitignore consolidation)"
+    ],
+    "schemas_or_data": [
+      "Branch file counts: Agent 1 (119 files, 117 unique), Agent 2 (67 files, 65 unique), Agent 3 (34 files, 33 unique); total unique = 217",
+      "Merge strategy: create local branch from main, merge the three remote branches sequentially (Option 1 recommended), preserving history"
+    ],
+    "key_insights": [
+      "Three-agent parallel development pattern executed successfully (agents worked independently, merged cleanly)",
+      "Cursor can automate requirements extraction from branches (Python tool discussed to extract explicit/implicit requirements, conflicts, commonalities, patterns)",
+      "Merge deduplication worked correctly (220 file count across branches - 3 duplicates = 217 unique files in merged result)"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "Three parallel agent branches (doc-intelligence, async-ui, cre-workflows) merged cleanly into single branch",
+      "217 unique files across all three branches, merge conflicts resolved",
+      "Capability: automated requirements extraction from parallel branches (explicit + implicit + conflicts + patterns)",
+      "Preserve history pattern: create new branch from base, merge three remote branches sequentially"
+    ]
+  },
+  {
+    "path": "/Users/markforster/Downloads/nyqst_expert_framework_bundle/nyqst_expert_framework_v1.md",
+    "basename": "nyqst_expert_framework_v1.md",
+    "primary_topic": "NYQST Expert Framework v1 — decision-making framework for domain experts; governance structure; provenance integration",
+    "document_type": "spec",
+    "timeline_position": "early",
+    "design_decisions_found": null,
+    "schemas_or_data": null,
+    "key_insights": [
+      "File referenced in Downloads but not fully read in this session — title suggests expert/domain knowledge governance framework"
+    ],
+    "superseded_by": null,
+    "key_signals": [
+      "Expected content: expert decision procedures, governance, provenance linkage to expert authority/methodology"
+    ]
+  }
+]
